@@ -79,7 +79,7 @@ jboss-eap-*-maven-repository/org/jboss/spec/jboss-javaee-6.0
 						<version>2.1.1</version>
 						<configuration>
 							<outputDirectory>deployments</outputDirectory>
-							<warName>ROOT</warName>
+							<warName>myhanzi</warName>
 						</configuration>
 					</plugin>
 				</plugins>
