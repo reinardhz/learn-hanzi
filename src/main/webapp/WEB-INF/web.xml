@@ -10,9 +10,10 @@
                   <servlet-name>health</servlet-name>
                   <jsp-file>/health.jsp</jsp-file>
          </servlet>
+		 
          <servlet-mapping>
                   <servlet-name>health</servlet-name>
-                  <url-pattern>/healths</url-pattern>
+                  <url-pattern>/checkhealth</url-pattern>
          </servlet-mapping>
          
 </web-app>
