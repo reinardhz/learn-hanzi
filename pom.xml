@@ -34,6 +34,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>
 		<maven.compiler.target>1.6</maven.compiler.target>
+		<org.springframework-version>3.2.18.RELEASE</org.springframework-version>
 	</properties>
 	<dependencies>
 <!--
@@ -60,6 +61,14 @@ jboss-eap-*-maven-repository/org/jboss/spec/jboss-javaee-6.0
 			<type>pom</type>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- To use Spring MVC -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework-version}</version>
+		</dependency>
+	
 	</dependencies>
 	<profiles>
 		<profile>
