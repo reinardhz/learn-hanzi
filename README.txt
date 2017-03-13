@@ -13,7 +13,7 @@ Technology:
 Spring MVC
 Hibernate
 SQL
-Javascript
+Javascript.
 
 
 
