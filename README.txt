@@ -13,7 +13,11 @@ Technology:
 Spring MVC
 Hibernate
 SQL
+HTML
 Javascript.
+
+Database Design:
+CREATE TABLE 
 
 
 
