@@ -10,61 +10,36 @@ The General Requirements:
 
 
 Technology:
-Red Hat JBoss Enterprise Application Platform 6.2.0 Server
+Apache TomEE plume 7.0.3
+
 Spring MVC
 Hibernate
-SQL
+PostgreSQL
 HTML
 Javascript.
 
-Database Design:
-CREATE TABLE 
+
+This project use "Apache TomEE plume 7.0.3"
+
+Everything else is adjusted, so the version is compatible with "Apache TomEE plume 7.0.3"
+note: See the compability at (http://tomee.apache.org/documentation.html)
+
+List of library included in tomee:
 
 
-This project use "Red Hat JBoss Enterprise Application Platform 6.2.0 Server"
-
-Everything else is adjusted, so the version is compatible with "Red Hat JBoss Enterprise Application Platform 6.2.0 Server"
-note: See the compability at:
-https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/6.2/html-single/Development_Guide/index.html#Java_Enterprise_Edition_6_Web_Profile
-https://access.redhat.com/articles/111663
-
-List of library included in Red Hat JBoss Enterprise Application Platform 6.2.0 Server:
-https://access.redhat.com/articles/112673#EAP_6
-
-Red Hat JBoss Enterprise Application Platform 6.2.0 Server is compatible with:
-* Java Enterprise Edition 6 
-* Java SE 7 (installer: jdk-7u79-windows-x64.exe)
-* Servlet 3.0
-* JSP 2.2 and Expression Language (EL) 1.2
-* Java Standard Tag Library (JSTL) for JSP 1.2
-* Oracle 12c (installer: "fmw_12.2.1.2.0_wls_Disk1_1of1.zip")
-* Oracle JDBC Driver v12
-* Debugging Support for Other Languages 1.0 (JSR 45)
-* Contexts and Dependency Injection (CDI) (JSR 299)
-* Dependency Injection for Java (JSR 330)
-* Java Persistence API 2.0 (JSR 317)
-* Java Transaction API (JTA) 1.1 (JSR 907)
-* Hibernate 4.2.7.SP1.Final
-
-Java SE 7 is compatible with:
-* Spring 3.2.18.RELEASE
-* ojdbc7.jar (oracle jdbc)
-* SQL Developer (\app\OracleHomeUser1\product\12.1.0\dbhome_1\sqldeveloper\sqldeveloper.exe)
-
+tomee Server is compatible with:
+* Java ?
+Java ? is compatible with:
+*
 
 This is the important step, to develop this application:
 
-1. Download and install JBOSS EAP 6.2.0 Server
-https://access.redhat.com/documentation/en-US/JBoss_Enterprise_Application_Platform/6.2/html-single/Getting_Started_Guide/index.html#Run_the_JBoss_Enterprise_Application_Platform_Installer1
+1. Download and install Apache TomEE plume 7.0.3
+(http://tomee.apache.org/download-ng.html)
 
-2. Install JBoss Server Tools:
-a. Open Eclipse Neon.
-b. Window->Preference->Server->Runtime Environments -> Add..
-c. Choose: Red Hat JBoss Middleware -> JBossAS, Wildfly & EAP Server Tools, then click "next" button.
-d. Wait, and let the eclipse download the jar it needs.
-e. Click "I accept", click "finish"
-f. Let Eclipse install JBOSS
-g. After installed, restart the eclipse.
+2. Install Tomee in the Eclipse:
+(http://tomee.apache.org/tomee-and-eclipse.html)
+
 
 3. Install Java Development Kit 7 (filename: jdk-7u79-windows-x64.exe)
 
