@@ -1,4 +1,5 @@
-﻿This is a project that primary function is to monitor the progress of the learned Chinese characters.
+﻿<encoding>UTF-8 BOM</encodin>
+This is a project that primary function is to monitor the progress of the learned Chinese characters.
 There are only 1 actor in this system, which is Admin.
 
 The General Requirements:
@@ -10,13 +11,22 @@ The General Requirements:
 
 
 Technology:
-Apache TomEE plume 7.0.3
+* Apache TomEE plume 7.0.3
+* Spring MVC
+* Hibernate
+* PostgreSQL
+* HTML
+* Javascript.
+* Bootstrap (make it mobilesafe)
 
-Spring MVC
-Hibernate
-PostgreSQL
-HTML
-Javascript.
+Note: 
+1. Client request all hanzi data.
+2. Convert All Java entity into JSON, put it into JSON Array.
+3. Send data back to client.
+4. Read the json, convert into table.
+5. Add input box down the page.
+6. If user input, then click add button, then use ajax to check whether the inputted data is already exist?
+If exist, show warning, if not, add to database.
 
 
 This project use "Apache TomEE plume 7.0.3"
