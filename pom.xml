@@ -22,25 +22,22 @@
 		<hibernate.version></hibernate.version>
 	</properties>
 
-	
+
 	<build>
 		<plugins>
-			<!-- http://tomee.apache.org/maven/index.html -->
-			<!-- to run, deploy and undeploy the embedded tomee server -->
+			<!-- http://tomcat.apache.org/maven-plugin-2.2/ -->
+			<!-- http://tomcat.apache.org/maven-plugin-trunk/context-goals.html -->
+			<!-- to run, deploy and undeploy the embedded tomcat server -->
 			<plugin>
-				<groupId>org.apache.openejb.maven</groupId>
-				<artifactId>tomee-maven-plugin</artifactId>
-				<version>1.7.4</version>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>2.2</version>
 				<configuration>
-					<tomeeVersion>1.7.4</tomeeVersion>
-					<tomeeClassifier>plus</tomeeClassifier>
-					<tomeeHttpPort>8321</tomeeHttpPort>
 				</configuration>
 			</plugin>
+
 		</plugins>
 	</build>
-
-
 
 	<dependencies>
 

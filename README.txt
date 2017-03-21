@@ -11,9 +11,9 @@ The General Requirements:
 
 
 Technology:
-* Apache TomEE plume 7.0.3
+* tomcat7-maven-plugin
 * Spring MVC
-* Hibernate
+* Hibernate 
 * PostgreSQL
 * HTML
 * Javascript.
@@ -29,18 +29,19 @@ Note:
 If exist, show warning, if not, add to database.
 
 
-This project use "Apache TomEE plume 7.0.3"
-
-Everything else is adjusted, so the version is compatible with "Apache TomEE plume 7.0.3"
-note: See the compability at (http://tomee.apache.org/documentation.html)
-
-List of library included in tomee:
+This project use "tomcat7-maven-plugin":
+<groupId>org.apache.tomcat.maven</groupId>
+<artifactId>tomcat7-maven-plugin</artifactId>
+<version>2.2</version>
 
 
-tomee Server is compatible with:
-* Java ?
-Java ? is compatible with:
-*
+tomcat7-maven-plugin Server is compatible with:
+* Java 6 and later (7 and later for WebSocket).
+* Servlet 3.0
+* JSP 2.2
+* Expression Language 2.2
+
+source: (http://tomcat.apache.org/whichversion.html)
 
 This is the important step, to develop this application:
 
