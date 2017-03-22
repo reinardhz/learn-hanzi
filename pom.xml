@@ -5,34 +5,62 @@
 	<artifactId>learn-hanzi</artifactId>
 	<packaging>war</packaging>
 	<version>1.0</version>
-	<name>myhanzi</name>
+	<name>learn-hanzi</name>
 	<url>ssh://reinardhz@git.code.sf.net/p/learn-hanzi/git</url>
 	<description>A project to help me learn Chinese characters at faster pace</description>
 
 	<properties>
-		
+
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-		<!-- Compatible with Java 1.7 -->
-		<tomcat.version>7</tomcat.version>
+		<!-- Compatible with Jetty 9.2 -->
+		<jetty.version>9.2</jetty.version>
 		<java.version>1.7</java.version>
-		<org.springframework-version>3.2.18.RELEASE</org.springframework-version>
-		<hibernate.version>4.2.21.Final</hibernate.version>
-		<servlet.version>3.0.0</servlet.version>
-		<jsp.version>2.2</jsp.version>
+		<jsp.version>2.3</jsp.version>
 		<jstl.version>2.2</jstl.version>
 		
+		<org.springframework-version>3.2.18.RELEASE</org.springframework-version>
+		<hibernate.version>4.2.21.Final</hibernate.version>
+		<servlet.version>3.1</servlet.version>
+		
+
 	</properties>
 
 
 	<build>
+		<finalName>learn-hanzi</finalName>
 		<plugins>
-		
+
+			<plugin>
+				<!-- https://mvnrepository.com/artifact/org.eclipse.jetty/jetty-maven-plugin -->
+				<!-- http://www.eclipse.org/jetty/documentation/9.2.21.v20170120/ -->
+				<!-- http://www.eclipse.org/jetty/documentation/9.2.21.v20170120/jetty-maven-plugin.html -->
+				<groupId>org.eclipse.jetty</groupId>
+				<artifactId>jetty-maven-plugin</artifactId>
+				<version>9.2.21.v20170120</version>
+				<configuration>
+					<webApp>
+      					<contextPath>/learn-hanzi</contextPath>
+      					<descriptor>${project.basedir}/src/main/webapp/WEB-INF/web.xml</descriptor>
+      					<!-- <classesDirectory>${project.basedir}/target/learn-hanzi/WEB-INF/classes</classesDirectory>-->
+    					<!-- <webAppSourceDirectory>${project.basedir}/src/main/webapp</webAppSourceDirectory> -->
+    					<war>${project.basedir}/target/${project.build.finalName}.war</war>
+    				</webApp>
+				</configuration>
+
+			</plugin>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<version>2.6</version>
 				<configuration>
+					<failOnMissingWebXml>true</failOnMissingWebXml>
+					<webResources>
+						<resource>
+							<directory>src/main/webapp/</directory>
+						</resource>
+					</webResources>
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
@@ -41,7 +69,7 @@
 					</archive>
 				</configuration>
 			</plugin>
-		
+
 			<!-- http://tomcat.apache.org/maven-plugin-2.2/ -->
 			<!-- http://tomcat.apache.org/maven-plugin-trunk/context-goals.html -->
 			<!-- http://tomcat.apache.org/maven-plugin-trunk/run-mojo-features.html -->
@@ -51,13 +79,13 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.2</version>
 				<configuration>
-					<!-- setting http port listening-->
-      				<port>9091</port>
-      				<!-- setting application context path -->
-					<path>/learnhanzi</path>
+					<!-- setting http port listening -->
+					<port>9091</port>
+					<!-- setting application context path -->
+					<!-- <path>/learnhanzi</path> -->
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -97,7 +125,7 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
-		
+
 		<!-- Provide Complete Servlet Class -->
 		<!-- JBoss EAP 6.2.0 use Servlet 3.0 -->
 		<dependency>
@@ -105,14 +133,14 @@
 			<artifactId>geronimo-servlet_3.0_spec</artifactId>
 			<version>1.0</version>
 		</dependency>
-		
+
 		<!-- Integrate Spring with Hibernate -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>3.2.18.RELEASE</version>
 		</dependency>
-		
+
 		<!-- Hibernate core library -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -120,14 +148,14 @@
 			<version>4.2.7.SP1</version>
 			<scope>compile</scope>
 		</dependency>
-		
+
 		<!-- lib to create connection to Database, including: "org.springframework.jdbc.datasource.DriverManagerDataSource" -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>3.2.18.RELEASE</version>
 		</dependency>
-		
+
 		<!-- For parsing JSON -->
 		<!-- Could cause compatibility issue, because this lib compatible with 
 			java SE 8 and java EE 8 -->
@@ -137,14 +165,14 @@
 			<artifactId>javax.json</artifactId>
 			<version>1.0.4</version>
 		</dependency>
-		
+
 		<!-- To Convert java object to json -->
 		<dependency>
-    		<groupId>com.fasterxml.jackson.core</groupId>
-   			<artifactId>jackson-databind</artifactId>
-    		<version>2.7.9</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.7.9</version>
 		</dependency>
-		
+
 
 	</dependencies>
 

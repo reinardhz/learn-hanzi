@@ -5,3 +5,5 @@ add many dependencies in pom.xml.
 ===22 March 2017===
 1. Add dependency, add servlet-context, add controller.
 2. Test controller.
+3. Add jetty server
+4.

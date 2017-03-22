@@ -15,7 +15,7 @@ xsi:schemaLocation="
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<mvc:annotation-driven />
-	<context:component-scan base-package="com.pji" />
+	<context:component-scan base-package="com.reinard.*" />
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<!-- JavaScript, CSS file -->
@@ -34,7 +34,7 @@ xsi:schemaLocation="
 	<bean id= "hibernateSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" scope="singleton">
 		<!-- Equivalent in java: -->
 		<!-- localSessionFactoryBean.setDatasource(oracleDataSource) -->
-		<property name="dataSource" ref="??"/>
+		<!--  <property name="dataSource" ref="??"/> -->
 		
 		<!-- Equivalent in java: -->
 		<!-- Properties hibernateProperties = new Properties(); -->
@@ -57,7 +57,7 @@ xsi:schemaLocation="
     	<!-- localSessionFactoryBean.setPackagesToScan("com.pji.astralife.*"); -->
     	<property name="packagesToScan">
     		<list>
-    			<value>com.reinard.???</value>
+    			<value>com.reinard.*</value>
     		</list>
     	</property>
     </bean>
