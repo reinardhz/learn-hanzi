@@ -28,5 +28,15 @@ public class HomeController {
 	public String testHtml(){
 		return "test";
 	}
+	
+	/**
+	 * Convert Java Object to Json.
+	 * @return json
+	 */
+	@RequestMapping(value = "/parseJson", method = RequestMethod.GET)
+	@ResponseBody
+	public String parseJson(){
+		return "test";
+	}
 
 }
