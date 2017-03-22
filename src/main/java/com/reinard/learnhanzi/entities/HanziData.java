@@ -2,8 +2,9 @@ package com.reinard.learnhanzi.entities;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.io.Serializable;
 
-public class HanziData {
+public class HanziData implements Serializable{
 	
 	private BigDecimal id;
 	private String hanzi;
