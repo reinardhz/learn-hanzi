@@ -7,7 +7,7 @@
 	<version>1.0</version>
 	<name>myhanzi</name>
 	<url>ssh://reinardhz@git.code.sf.net/p/learn-hanzi/git</url>
-	<description>A project to make me faster to learn Chinese characters</description>
+	<description>A project to help me learn Chinese characters at faster pace</description>
 
 	<properties>
 		
@@ -137,6 +137,14 @@
 			<artifactId>javax.json</artifactId>
 			<version>1.0.4</version>
 		</dependency>
+		
+		<!-- To Convert java object to json -->
+		<dependency>
+    		<groupId>com.fasterxml.jackson.core</groupId>
+   			<artifactId>jackson-databind</artifactId>
+    		<version>2.7.9</version>
+		</dependency>
+		
 
 	</dependencies>
 
