@@ -65,16 +65,40 @@ public class HomeController {
 		return json;
 	}
 	
-	public static void main(String[] args) throws Exception{
-		String hanzi = "\u6211";
-		//An ObjectOutputStream writes primitive data types and graphs of Java objects to an OutputStream
+	/**
+	 * Use this code, it is the fastest to parse big json data.
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	@RequestMapping(value = "/parseBigJson", method = RequestMethod.GET, produces={"application/json;charset=UTF-8"})
+	@ResponseBody
+	public String parseBigJson() throws Exception{
+		
+		StringBuilder stringbuilder = new StringBuilder();
 		OutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-				
 		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.writeValue(byteArrayOutputStream, hanzi);
-		byte[] data = ((ByteArrayOutputStream) byteArrayOutputStream).toByteArray();
-		String json = new String(data, "UTF-8");
-		System.out.println(json);
+		for(int i=0; i<=3000; i++){
+			HanziData hanziData = new HanziData();
+			hanziData.setId(new BigDecimal(i));
+			hanziData.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+			hanziData.setHanzi("\u6211");
+			
+			byteArrayOutputStream = new ByteArrayOutputStream();
+			
+			objectMapper.writeValue(byteArrayOutputStream, hanziData);
+			
+			byte[] data = ((ByteArrayOutputStream) byteArrayOutputStream).toByteArray();
+			
+			String json = new String(data, "UTF-8");
+			
+			stringbuilder.append(json + "\n");
+			//faster that calling byteArrayOutputStream.close();
+			byteArrayOutputStream = null;
+			
+		}
+		
+		return stringbuilder.toString();
 	}
 
 }
