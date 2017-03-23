@@ -7,3 +7,11 @@ add many dependencies in pom.xml.
 2. Test controller.
 3. Add jetty server
 4.
+
+
+todo:
+create user
+create tablespace
+create database
+create schema
+create table
