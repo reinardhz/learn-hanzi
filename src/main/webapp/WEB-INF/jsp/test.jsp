@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="en">
 <body>
-<h1>Hello World!</h1>
+<h1>test.jsp inside WEB-INF</h1>
 </body>
 </html>

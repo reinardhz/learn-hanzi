@@ -23,6 +23,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.web.servlet.view.RedirectView;;
 
 /**
  * A controller to provide experiment.
@@ -34,10 +35,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
 public class HomeController {
 	
-	@RequestMapping(value = "/testHtml", method = RequestMethod.GET)
-	public String testHtml(){
-		return "test";
-	}
 	
 	/**
 	 * Convert Java Object to Json.
