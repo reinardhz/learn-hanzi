@@ -10,3 +10,4 @@ CREATE SEQUENCE learnhanzi_schema.sequence_group_data INCREMENT BY 1 CACHE 1 NO 
 
 
 
+
