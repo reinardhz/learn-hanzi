@@ -87,7 +87,7 @@ CREATE SEQUENCE learnhanzi_schema.sequence_hanzi_data INCREMENT BY 1 CACHE 1 NO 
 
 CREATE TABLE learnhanzi_schema.hanzi_data(
 hanzi_id BIGINT PRIMARY KEY DEFAULT  nextval('learnhanzi_schema.sequence_hanzi_data'),
-hanzi TEXT,
+hanzi TEXT UNIQUE,
 created_date TIMESTAMP WITH TIME ZONE
 ) TABLESPACE learnhanzi_tablespace;
 
@@ -98,7 +98,29 @@ INSERT INTO learnhanzi_schema.hanzi_data(hanzi, created_date) VALUES ('我','201
 COMMIT;
 
 
+---user_and_hanzi table---
+BEGIN;
+--Remove sequence user_and_hanzi in schema learnhanzi_schema, only if exist.
+DROP SEQUENCE IF EXISTS learnhanzi_schema.sequence_user_and_hanzi CASCADE;
 
+--Remove table user_and_hanzi in schema learnhanzi_schema, only if exist.
+DROP TABLE IF EXISTS learnhanzi_schema.user_and_hanzi CASCADE;
+
+CREATE SEQUENCE learnhanzi_schema.sequence_user_and_hanzi INCREMENT BY 1 CACHE 1 NO CYCLE;
+
+CREATE TABLE learnhanzi_schema.user_and_hanzi(
+user_and_hanzi_id BIGINT PRIMARY KEY DEFAULT  nextval('learnhanzi_schema.sequence_user_and_hanzi'),
+user_id BIGINT NOT NULL,
+hanzi_id BIGINT NOT NULL,
+CONSTRAINT fk_user_and_hanzi_user_data FOREIGN KEY(user_id) REFERENCES learnhanzi_schema.user_data(user_id) MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_user_and_hanzi_hanzi_data FOREIGN KEY(hanzi_id) REFERENCES learnhanzi_schema.hanzi_data(hanzi_id) MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE
+) TABLESPACE learnhanzi_tablespace;
+
+ALTER SEQUENCE learnhanzi_schema.sequence_user_and_hanzi OWNED BY learnhanzi_schema.user_and_hanzi.user_and_hanzi_id;
+
+INSERT INTO learnhanzi_schema.user_and_hanzi(user_id, hanzi_id) VALUES (1,1);
+
+COMMIT;
 
 
 
