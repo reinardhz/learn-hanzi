@@ -125,5 +125,25 @@ b. Execute "mvn install:install-file -Dfile=E:\app\OracleHomeUser1\product\12.1.
 13. Use PostMan to test the web service.
 
 
+===This are steps to backup the database===
+1. Open cmd, and go to the directory that contains file "pg_dump.exe".
+
+2. Type: "pg_dump -h [hostname] -p [listening port number] -U [username] -d [database name] > [filename]"
+Example: "pg_dump -h localhost -p 5432 -U learnhanzi -d learnhanzi_database > E:\backup.sql"
+
+3. Press enter, then type the password, then press enter again.
+
+4. System will create new file name "backup.sql" in E drive, that contains backup in learnhanzi_database.
 
 
+===This are steps to restore the database from backup file===
+1. Create username and database name that same as the previous backup file from.
+
+2. Open cmd, and go to the directory that contains file "psql.exe".
+
+3. Type: "psql -h [hostname] -p [listening port number] -U [username] -d [database name] < [backup filename]"
+Example: "psql -h localhost -p 5432 -U learnhanzi - d learnhanzi_database < E:\backup.sql"
+
+4. Press enter, then type the password, then press enter again.
+
+5. System will execute the backup file to create all database object for backup file.
