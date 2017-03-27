@@ -147,3 +147,4 @@ Example: "psql -h localhost -p 5432 -U learnhanzi - d learnhanzi_database < E:\b
 4. Press enter, then type the password, then press enter again.
 
 5. System will execute the backup file to create all database object for backup file.
+
