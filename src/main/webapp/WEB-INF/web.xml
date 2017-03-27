@@ -35,7 +35,7 @@
 	then, all http request starting with url: http://127.0.98:90/learn-hanzi/ is handled by Spring's DispatcherServlet. -->
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<url-pattern>/asdd/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 </web-app>

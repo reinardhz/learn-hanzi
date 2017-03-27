@@ -6,12 +6,11 @@ add many dependencies in pom.xml.
 1. Add dependency, add servlet-context, add controller.
 2. Test controller.
 3. Add jetty server
-4.
 
+===27 March 2017===
+1. add all dependencies in pom.xml
+2. want to setting connect to hibernate postgre 9.5
+3. Test connection to postgre = succeed
 
 todo:
-create user
-create tablespace
-create database
-create schema
-create table
+create entity mapping

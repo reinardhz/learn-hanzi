@@ -211,6 +211,7 @@ INSERT INTO learnhanzi_schema.hanzi_and_pinyin(hanzi_id, pinyin_id) VALUES (1,1)
 
 COMMIT;
 
+
 ---pronunciation_data table---
 
 ---pronunciation_and_definition table---

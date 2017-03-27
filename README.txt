@@ -11,13 +11,13 @@ The General Requirements:
 
 
 Technology:
-* tomcat7-maven-plugin
-* Spring MVC
-* Hibernate 
-* PostgreSQL
-* HTML
-* Javascript.
-* Bootstrap (make it mobilesafe)
+* Embedded Jetty Server 9.3.17.v20170317
+* Spring MVC 4.3.7.RELEASE
+* Hibernate 5.2.9.Final
+* PostgreSQL 9.5.1
+* HTML 5
+* Javascript
+* Bootstrap (make it mobile safe)
 
 Note: 
 1. Client request all hanzi data.
@@ -29,100 +29,29 @@ Note:
 If exist, show warning, if not, add to database.
 
 
-This project use "tomcat7-maven-plugin":
-<groupId>org.apache.tomcat.maven</groupId>
-<artifactId>tomcat7-maven-plugin</artifactId>
-<version>2.2</version>
 
+These are the important steps, to develop this application:
 
-tomcat7-maven-plugin Server is compatible with:
-* Java 6 and later (7 and later for WebSocket).
-* Servlet 3.0
-* JSP 2.2
-* Expression Language 2.2
+1. Install Java 8
 
-source: (http://tomcat.apache.org/whichversion.html)
-
-This is the important step, to develop this application:
-
-1. Download and install Apache TomEE plume 7.0.3
-(http://tomee.apache.org/download-ng.html)
-
-2. Install Tomee in the Eclipse:
-(http://tomee.apache.org/tomee-and-eclipse.html)
-
-
-3. Install Java Development Kit 7 (filename: jdk-7u79-windows-x64.exe)
-
-4. Edit Installed JRE in Eclipse to use java 1.7:
+2. Edit Installed JRE in Eclipse to use java 1.8:
 a. Navigate to Windows-> Preference->Java->Installed JRE
-b. Edit the current jdk to jdk version 1.7 (path of the jdk home)
+b. Edit the current jdk to jdk version 1.8 (path of the jdk home)
 
-c. Navigate to Windows-> Preference->Java->Installed JRE
-d. click JavaSE-1.7, then tick on the installed JDK
+c. Navigate to Windows-> Preference->Java->Installed JRE -> Executions Environtment
+d. click JavaSE-1.8, then tick on the "JDK 1.8", on the "Compatible JRE" Section.
 
 e. Navigate to Windows-> Preference->Java->Compiler->
-f. Change the Compile Compliance Level to 1.7, then click ok.
+f. Change the Compile Compliance Level to 1.8, then click ok.
 
+3. Copy the maven war plugin dependency in the pom.xml
 
-5. Add JBOSS EAP 6.2.0 Server Runtime to Eclipse Neon:
-a. Open Eclipse Neon.
-b. Window->Preference->Server->Runtime Environments -> Add..
-c. Choose: Red Hat JBoss Middleware->Red Hat JBoss Enterprise Application Platform 6.1+ Runtime
-e. Input the Home Directory, to the directory of JBOSS EAP 6.2.0 Server
-Example: E:\Program Files\EAP-6.2.0\jboss-eap-6.2
-Execution Environtment: Java SE 1.7
-Server Base Directory: standalone
-Configuration File: standalone.xml
-f. Click "Finish" button.
+4. Copy the jetty maven plugin dependency in the pom.xml.
 
-6. Add new server in the Eclipse
-a.Window->Show View->Other...->Server->Servers, click "Ok" button.
-b. On the servers tab, right click, and choose New->Server
-c. Choose "Red Hat JBoss Middleware->Red Hat JBoss Enterprise Application Platform 6.1+ Runtime"
-Fill in the Server's host name with: "localhost" and fill in the server name.
-Note: It's up to you to input the server name.
+5. To package the web app as .war file and run the war:
+run maven with command: "mvn clean org.eclipse.jetty:jetty-maven-plugin:9.2.21.v20170120:run-war -Djetty.port=9097"
 
-d. Click on "local" radio button. (The server is local)
-e. Click on "Filesystem and shell operations" radio button. (Controlled by Filesystem and shell operations)
-f. Choose the previously add runtime.
-g. Click "finish" button.
-
-7. Now you could start and stop the server.
-
-8. To deploy the web application:
-a. Start the JBOSS EAP-6.2 server.
-b. Copy .war file to deployments folder (Example: "E:\Program Files\EAP-6.2.0\jboss-eap-6.2\standalone\deployments")
-c. wait until there is new file with name ending with ".deployed" is appear.
-
-9. To undeploy the already deployed web application:
-a. Start the JBOSS EAP-6.2 server.
-b. delete the file with name ending with ".deployed"
-c. then server will undeploy and create file with name ending with ".undeployed"
-
-10. To replace currently deployed zipped content with a new version and deploy it:
-a. Start the JBOSS EAP-6.2 server.
-b. Copy the same name .war file to deployments folder.
-
-11. Install JDBC Oracle Driver in maven local repository.
-a. Open command line.
-b. Execute "mvn install:install-file -Dfile=E:\app\OracleHomeUser1\product\12.1.0\dbhome_1\jdbc\lib\ojdbc7.jar -DgroupId=com.oracle -DartifactId=ojdbc -Dversion=7.0 -Dpackaging=jar"
-
-12. Add to pom.xml these code:
-<dependency>
-	<groupId>com.oracle</groupId>
-  	<artifactId>ojdbc</artifactId>
-  	<version>7.0</version>
-	<scope>compile</scope>
-</dependency>
-
-<dependency>
-	<groupId>org.springframework</groupId>
-	<artifactId>spring-jdbc</artifactId>
-	<version>3.2.18.RELEASE</version>
-</dependency>
-
-13. Use PostMan to test the web service.
+6. Use PostMan to test the web service.
 
 
 ===This are steps to backup the database===

@@ -2,8 +2,7 @@ package com.reinard.learnhanzi.controllers;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
-import javax.json.stream.JsonParsingException;
+import java.util.Properties;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -16,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
+
 import com.reinard.learnhanzi.entities.HanziData;
 
 import java.io.ByteArrayOutputStream;
@@ -23,7 +25,14 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.web.servlet.view.RedirectView;;
+
+import org.hibernate.Session;
+import java.sql.Connection;
+import java.sql.DatabaseMetaData;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
+import org.hibernate.SessionFactory;
 
 /**
  * A controller to provide experiment.
@@ -35,6 +44,28 @@ import org.springframework.web.servlet.view.RedirectView;;
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
 public class HomeController {
 	
+	@Autowired
+	DriverManagerDataSource postgreDataSource;
+	
+	@Autowired
+	SessionFactory hibernateSessionFactory;
+	
+	@RequestMapping(value = "/test", method = RequestMethod.GET)
+	@ResponseBody
+	public String test() throws Exception{
+		//hibernateSessionFactory.
+		Connection connection = postgreDataSource.getConnection();
+		
+		Statement statement = connection.createStatement();
+		String sql = "SELECT * FROM learnhanzi_schema.hanzi_data";
+		ResultSet resultSet = statement.executeQuery(sql);
+		
+		resultSet.next();
+		String hanzi = resultSet.getString(3);
+		System.out.println(hanzi);
+		
+		return "look at console";
+	}
 	
 	/**
 	 * Convert Java Object to Json.
