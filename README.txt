@@ -90,3 +90,8 @@ Example: "psql -h localhost -p 5432 -U learnhanzi - d learnhanzi_database < E:\b
 
 5. System will execute the backup file to create all database object for backup file.
 
+
+Note:
+* PostgreSql data type mapping to JDBC type, read: https://documentation.progress.com/output/DataDirect/DataDirectCloud/index.html#page/queries/postgresql-data-types.html
+* JDBC data type mapping to Java data type, read: https://www.cis.upenn.edu/~bcpierce/courses/629/jdkdocs/guide/jdbc/getstart/mapping.doc.html
+
