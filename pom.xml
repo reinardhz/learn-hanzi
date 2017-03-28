@@ -145,6 +145,12 @@
     		<version>9.1-901-1.jdbc4</version>
 		</dependency>
 		
+		
+		<dependency>
+  			<groupId>com.github.sarxos</groupId>
+  			<artifactId>webcam-capture</artifactId>
+  			<version>0.3.10</version>
+		</dependency>
 
 	</dependencies>
 

@@ -1,4 +1,4 @@
-package com.reinard.learnhanzi.entities;
+package com.reinard.learnhanzi.models;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;

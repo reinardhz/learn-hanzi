@@ -18,13 +18,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
 
-import com.reinard.learnhanzi.entities.HanziData;
-
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.reinard.learnhanzi.models.HanziData;
 
 import org.hibernate.Session;
 import java.sql.Connection;
