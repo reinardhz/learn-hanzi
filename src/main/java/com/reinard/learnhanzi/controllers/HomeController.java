@@ -106,7 +106,7 @@ public class HomeController {
 	@ResponseBody
 	public String parseJson() throws Exception{
 		HanziData hanziData = new HanziData();
-		hanziData.setHanzi_id(new BigDecimal(1));
+		hanziData.setHanzi_id(1L);
 		hanziData.setCreated_date(new Timestamp(System.currentTimeMillis()));
 		hanziData.setHanzi("\u6211");
 		
@@ -139,7 +139,7 @@ public class HomeController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		for(int i=0; i<=3000; i++){
 			HanziData hanziData = new HanziData();
-			hanziData.setHanzi_id(new BigDecimal(i));
+			hanziData.setHanzi_id(1L);
 			hanziData.setCreated_date(new Timestamp(System.currentTimeMillis()));
 			hanziData.setHanzi("\u6211");
 			

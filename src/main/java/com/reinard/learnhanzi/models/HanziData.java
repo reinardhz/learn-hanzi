@@ -1,23 +1,16 @@
 package com.reinard.learnhanzi.models;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
-import javax.persistence.Entity;
-import javax.persistence.Table;
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.CascadeType;
+import java.sql.Timestamp;
+
 import javax.persistence.Column;
-import java.sql.Timestamp;
-import java.math.BigDecimal;
-import java.io.Serializable;
-import javax.persistence.FetchType;
-import java.util.Set;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 /**
  * Entity class related with hanzi_data table.
@@ -26,12 +19,16 @@ import java.util.Set;
  *
  */
 @Entity
-@Table(name="hanzi_data", schema="learnhanzi_schema")
+@Table(name="hanzi_data", schema="learnhanzi_schema", uniqueConstraints= {@UniqueConstraint(columnNames={"hanzi"})} )
 public class HanziData implements Serializable{
 	
+	private static final long serialVersionUID = 5350642211551400788L;
+
 	@Id
+	@SequenceGenerator(name="hanzi_sequence", schema ="learnhanzi_schema", sequenceName="sequence_hanzi_data", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="hanzi_sequence")
 	@Column(name = "hanzi_id", nullable=false)
-	private BigDecimal hanzi_id;
+	private long hanzi_id;
 	
 	@Column(name = "hanzi")
 	private String hanzi;
@@ -39,15 +36,20 @@ public class HanziData implements Serializable{
 	@Column(name = "created_date")
 	private Timestamp created_date;
 	
+	//TODO create "one to many" relatioship with entity that represent:
+	//* user_and_hanzi table
+	//* group_and_hanzi table
+	//* hanzi_and_pinyin table
+	
 	public HanziData(){
 		super();
 	}
 
-	public BigDecimal getHanzi_id() {
+	public long getHanzi_id() {
 		return hanzi_id;
 	}
 
-	public void setHanzi_id(BigDecimal hanzi_id) {
+	public void setHanzi_id(long hanzi_id) {
 		this.hanzi_id = hanzi_id;
 	}
 
@@ -71,7 +73,7 @@ public class HanziData implements Serializable{
 	public String toString(){
 		StringBuilder resultString = new StringBuilder();
 		
-		resultString.append("hanzi_id: " + this.getHanzi_id().toPlainString() + "\n");
+		resultString.append("hanzi_id: " + this.getHanzi_id() + "\n");
 		resultString.append("hanzi: " + this.getHanzi() + "\n");
 		resultString.append("created_date: " + this.getCreated_date() + "\n\n");
 		return resultString.toString();
