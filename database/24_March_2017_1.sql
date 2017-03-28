@@ -158,7 +158,6 @@ INSERT INTO learnhanzi_schema.group_and_hanzi(group_id, hanzi_id) VALUES (1,1);
 COMMIT;
 
 
-
 ---pinyin_data table---
 BEGIN;
 

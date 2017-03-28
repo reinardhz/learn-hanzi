@@ -11,6 +11,7 @@ The General Requirements:
 
 
 Technology:
+* Eclipse Neon.
 * Embedded Jetty Server 9.3.17.v20170317
 * Spring MVC 4.3.7.RELEASE
 * Hibernate 5.2.9.Final
@@ -29,10 +30,9 @@ Note:
 If exist, show warning, if not, add to database.
 
 
-
 These are the important steps, to develop this application:
 
-1. Install Java 8
+1. Install Java 8.
 
 2. Edit Installed JRE in Eclipse to use java 1.8:
 a. Navigate to Windows-> Preference->Java->Installed JRE
@@ -44,14 +44,27 @@ d. click JavaSE-1.8, then tick on the "JDK 1.8", on the "Compatible JRE" Section
 e. Navigate to Windows-> Preference->Java->Compiler->
 f. Change the Compile Compliance Level to 1.8, then click ok.
 
-3. Copy the maven war plugin dependency in the pom.xml
+3. Set the project encoding to UTF-8
+a. Right click on the project root -> Click "properties" -> Choose Resources, Choose "Other" radio button -> Choose "UTF-8" from drop down list -> Click "OK" button.
 
-4. Copy the jetty maven plugin dependency in the pom.xml.
+4. Copy the maven war plugin dependency in the pom.xml.
 
-5. To package the web app as .war file and run the war:
-run maven with command: "mvn clean org.eclipse.jetty:jetty-maven-plugin:9.2.21.v20170120:run-war -Djetty.port=9097"
+5. Copy the jetty maven plugin dependency in the pom.xml.
 
-6. Use PostMan to test the web service.
+6. To package the web app as .war file and run the war:
+a. Right click on the project root -> Run as -> Maven build...
+b. On the main tab, input:
+Name: clean jetty run
+Base directory: [your current project directory]
+Goals: mvn clean org.eclipse.jetty:jetty-maven-plugin:9.2.21.v20170120:run-war -Djetty.port=9097
+
+c. Click the "Common" tab
+d. On the encoding section, click "Other" radio button -> Choose "UTF-8" from drop-down list.
+e. Click "Apply" button to save the changes
+
+7. Now you can use "clean jetty run" to clean, package then run the war file of your web application.
+
+8. Use PostMan to test the web service.
 
 
 ===This are steps to backup the database===

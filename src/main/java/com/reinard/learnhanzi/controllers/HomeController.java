@@ -2,7 +2,10 @@ package com.reinard.learnhanzi.controllers;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Properties;
+
+import javax.persistence.criteria.CriteriaBuilder;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -32,6 +35,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 
 /**
  * A controller to provide experiment.
@@ -49,6 +53,32 @@ public class HomeController {
 	@Autowired
 	SessionFactory hibernateSessionFactory;
 	
+	@RequestMapping(value = "/test2", method = RequestMethod.GET)
+	@ResponseBody
+	public String test2() throws Exception{
+		
+		Session sess = hibernateSessionFactory.openSession();
+		Transaction tx = null;
+		 try {
+		     tx = sess.beginTransaction();
+		     List<HanziData> results = sess.createCriteria(HanziData.class).list();
+		     tx.commit();
+		     for(HanziData curr : results){
+		    	 System.out.println(curr.toString());
+		     }
+		 }
+		 catch (Exception e) {
+		     if (tx!=null) tx.rollback();
+		     
+		     return e.toString();
+		 }
+		 finally {
+			 sess.close();
+			 return "success";
+		 }
+		
+	}
+	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
 	@ResponseBody
 	public String test() throws Exception{
@@ -64,6 +94,8 @@ public class HomeController {
 		System.out.println(hanzi);
 		
 		return "look at console";
+		
+		
 	}
 	
 	/**
@@ -74,8 +106,8 @@ public class HomeController {
 	@ResponseBody
 	public String parseJson() throws Exception{
 		HanziData hanziData = new HanziData();
-		hanziData.setId(new BigDecimal(1));
-		hanziData.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+		hanziData.setHanzi_id(new BigDecimal(1));
+		hanziData.setCreated_date(new Timestamp(System.currentTimeMillis()));
 		hanziData.setHanzi("\u6211");
 		
 		//An ObjectOutputStream writes primitive data types and graphs of Java objects to an OutputStream
@@ -107,8 +139,8 @@ public class HomeController {
 		ObjectMapper objectMapper = new ObjectMapper();
 		for(int i=0; i<=3000; i++){
 			HanziData hanziData = new HanziData();
-			hanziData.setId(new BigDecimal(i));
-			hanziData.setCreatedDate(new Timestamp(System.currentTimeMillis()));
+			hanziData.setHanzi_id(new BigDecimal(i));
+			hanziData.setCreated_date(new Timestamp(System.currentTimeMillis()));
 			hanziData.setHanzi("\u6211");
 			
 			byteArrayOutputStream = new ByteArrayOutputStream();
