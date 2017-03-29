@@ -12,5 +12,7 @@ add many dependencies in pom.xml.
 2. want to setting connect to hibernate postgre 9.5
 3. Test connection to postgre = succeed
 
+===29 March 2017===
+
 todo:
 create entity mapping
