@@ -16,8 +16,8 @@ import javax.persistence.Table;
  * @author Reinard Hizkia Santosa
  *
  */
-@Entity
-@Table(name="pinyin_data", schema="learnhanzi_schema")
+//@Entity
+//@Table(name="pinyin_data", schema="learnhanzi_schema")
 public class PinyinData implements Serializable{
 	
 	private static final long serialVersionUID = 4846985275732124920L;
