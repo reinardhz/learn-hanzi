@@ -1,43 +1,29 @@
 package com.reinard.learnhanzi.controllers;
 
-import java.math.BigDecimal;
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import javax.persistence.criteria.CriteriaBuilder;
-
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.bind.annotation.RequestBody;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
-
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reinard.learnhanzi.json.HanziJson;
 import com.reinard.learnhanzi.models.HanziData;
-
-import org.hibernate.Session;
-import java.sql.Connection;
-import java.sql.DatabaseMetaData;
-import java.sql.ResultSet;
-import java.sql.Statement;
-
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 
 /**
  * A controller to provide experiment.
@@ -45,127 +31,128 @@ import org.hibernate.Transaction;
  * @author reinard.santosa
  *
  */
-@Controller
-@Scope(value = WebApplicationContext.SCOPE_REQUEST)
+//@Controller
+//@Scope(value = WebApplicationContext.SCOPE_REQUEST)
 public class HomeController {
-	
-	@Autowired
+
+	//@Autowired
 	DriverManagerDataSource postgreDataSource;
-	
-	@Autowired
+
+	//@Autowired
 	SessionFactory hibernateSessionFactory;
-	
-	@RequestMapping(value = "/getAllHanzi", method = RequestMethod.GET)
-	@ResponseBody
-	public String test2() throws Exception{
-		
-		//TODO test this http response json
+
+	//@RequestMapping(value = "/getAllHanzi", method = RequestMethod.GET)
+	//@ResponseBody
+	public String test2() throws Exception {
+
+		// TODO test this http response json
 		Session newSession = hibernateSessionFactory.openSession();
 		Transaction tx = null;
-		 try {
-		     tx = newSession.beginTransaction();
-		     List<HanziData> results = newSession.createCriteria(HanziData.class).list();
-		     tx.commit();
-		     List<HanziJson> hanziJsons = new ArrayList<>();
-		     HanziJson hanziJson = new HanziJson();
-		     for(HanziData curr : results){
-		    	 hanziJson.setHanzi_id(String.valueOf(curr.getHanzi_id()));
-		    	 hanziJson.setHanzi(curr.getHanzi());
-		    	 hanziJsons.add(hanziJson);
-		     }
-		     
-		     HanziJson[] resultHanziJson = hanziJsons.<HanziJson>toArray(new HanziJson[0]);
-		     ObjectMapper mapper = new ObjectMapper();
-		     String resultJson = mapper.writeValueAsString(resultHanziJson);
-		     return resultJson;
-		 }
-		 catch (Exception e) {
-		     if (tx!=null) tx.rollback();
-		     return e.toString();
-		 }
-		 finally {
-			 if(newSession.isOpen()) newSession.close();
-		 }
+		try {
+			tx = newSession.beginTransaction();
+			List<HanziData> results = newSession.createCriteria(HanziData.class).list();
+			tx.commit();
+			List<HanziJson> hanziJsons = new ArrayList<>();
+			HanziJson hanziJson = new HanziJson();
+			for (HanziData curr : results) {
+				hanziJson.setHanzi_id(String.valueOf(curr.getHanzi_id()));
+				hanziJson.setHanzi(curr.getHanzi());
+				hanziJsons.add(hanziJson);
+			}
+
+			HanziJson[] resultHanziJson = hanziJsons.<HanziJson>toArray(new HanziJson[0]);
+			ObjectMapper mapper = new ObjectMapper();
+			String resultJson = mapper.writeValueAsString(resultHanziJson);
+			System.out.println(resultJson);
+			return resultJson;
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			return e.toString();
+		} finally {
+			if (newSession.isOpen())
+				newSession.close();
+		}
 	}
-	
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	@ResponseBody
-	public String test() throws Exception{
-		//hibernateSessionFactory.
+
+	//@RequestMapping(value = "/test", method = RequestMethod.GET)
+	//@ResponseBody
+	public String test() throws Exception {
+		// hibernateSessionFactory.
 		Connection connection = postgreDataSource.getConnection();
-		
+
 		Statement statement = connection.createStatement();
 		String sql = "SELECT * FROM learnhanzi_schema.hanzi_data";
 		ResultSet resultSet = statement.executeQuery(sql);
-		
+
 		resultSet.next();
 		String hanzi = resultSet.getString(3);
 		System.out.println(hanzi);
-		
+
 		return "look at console";
-		
-		
 	}
-	
+
 	/**
 	 * Convert Java Object to Json.
+	 * 
 	 * @return json
 	 */
-	@RequestMapping(value = "/parseJson", method = RequestMethod.GET, produces={"application/json;charset=UTF-8"})
-	@ResponseBody
-	public String parseJson() throws Exception{
+	//@RequestMapping(value = "/parseJson", method = RequestMethod.GET, produces = { "application/json;charset=UTF-8" })
+	//@ResponseBody
+	public String parseJson() throws Exception {
 		HanziData hanziData = new HanziData();
 		hanziData.setHanzi_id(1L);
 		hanziData.setCreated_date(new Timestamp(System.currentTimeMillis()));
 		hanziData.setHanzi("\u6211");
-		
-		//An ObjectOutputStream writes primitive data types and graphs of Java objects to an OutputStream
+
+		// An ObjectOutputStream writes primitive data types and graphs of Java
+		// objects to an OutputStream
 		OutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
-		
-		//write the hanziData as Json in byteArrayOutputStream
+
+		// write the hanziData as Json in byteArrayOutputStream
 		objectMapper.writeValue(byteArrayOutputStream, hanziData);
-		
+
 		byte[] data = ((ByteArrayOutputStream) byteArrayOutputStream).toByteArray();
 		String json = new String(data, "UTF-8");
 		System.out.println(json);
 		return json;
 	}
-	
+
 	/**
 	 * Use this code, it is the fastest to parse big json data.
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping(value = "/parseBigJson", method = RequestMethod.GET, produces={"application/json;charset=UTF-8"})
-	@ResponseBody
-	public String parseBigJson() throws Exception{
-		
+	//@RequestMapping(value = "/parseBigJson", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8" })
+	//@ResponseBody
+	public String parseBigJson() throws Exception {
+
 		StringBuilder stringbuilder = new StringBuilder();
 		OutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		ObjectMapper objectMapper = new ObjectMapper();
-		for(int i=0; i<=3000; i++){
+		for (int i = 0; i <= 3000; i++) {
 			HanziData hanziData = new HanziData();
 			hanziData.setHanzi_id(1L);
 			hanziData.setCreated_date(new Timestamp(System.currentTimeMillis()));
 			hanziData.setHanzi("\u6211");
-			
+
 			byteArrayOutputStream = new ByteArrayOutputStream();
-			
+
 			objectMapper.writeValue(byteArrayOutputStream, hanziData);
-			
+
 			byte[] data = ((ByteArrayOutputStream) byteArrayOutputStream).toByteArray();
-			
+
 			String json = new String(data, "UTF-8");
-			
+
 			stringbuilder.append(json + "\n");
-			//faster that calling byteArrayOutputStream.close();
+			// faster that calling byteArrayOutputStream.close();
 			byteArrayOutputStream = null;
-			
+
 		}
-		
+
 		return stringbuilder.toString();
 	}
 

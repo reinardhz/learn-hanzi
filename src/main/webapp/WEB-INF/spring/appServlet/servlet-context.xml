@@ -28,11 +28,11 @@ xsi:schemaLocation="
 	
 	<!-- Driver to connect to Oracle database-->
 	<!-- Equivalent in java: -->
-	<!-- org.springframework.jdbc.datasource.DriverManagerDataSource oracleDataSource = new org.springframework.jdbc.datasource.DriverManagerDataSource();-->
+	<!-- org.springframework.jdbc.datasource.DriverManagerDataSource oracleDataSource = new org.springframework.jdbc.datasource.DriverManagerDataSource(); -->
 	<!-- oracleDataSource.setDriverClassName("org.springframework.jdbc.datasource.DriverManagerDataSource") -->
 	<!-- oracleDataSource.setUrl("jdbc:postgresql://localhost:5432/learnhanzi_database") -->
 	<!-- oracleDataSource.setUsername("learnhanzi") -->
-	<!-- oracleDataSource.setPassword("xuehanzi")-->
+	<!-- oracleDataSource.setPassword("xuehanzi") -->
 	<bean id="postgreDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" scope="singleton">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url" value="jdbc:postgresql://localhost:5432/learnhanzi_database" />
