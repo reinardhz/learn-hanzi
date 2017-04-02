@@ -2,6 +2,7 @@ package com.reinard.learnhanzi.controllers;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -26,6 +27,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.reinard.learnhanzi.json.HanziJson;
 import com.reinard.learnhanzi.models.HanziData;
 
 import org.hibernate.Session;
@@ -53,30 +55,37 @@ public class HomeController {
 	@Autowired
 	SessionFactory hibernateSessionFactory;
 	
-	@RequestMapping(value = "/test2", method = RequestMethod.GET)
+	@RequestMapping(value = "/getAllHanzi", method = RequestMethod.GET)
 	@ResponseBody
 	public String test2() throws Exception{
 		
-		Session sess = hibernateSessionFactory.openSession();
+		//TODO test this http response json
+		Session newSession = hibernateSessionFactory.openSession();
 		Transaction tx = null;
 		 try {
-		     tx = sess.beginTransaction();
-		     List<HanziData> results = sess.createCriteria(HanziData.class).list();
+		     tx = newSession.beginTransaction();
+		     List<HanziData> results = newSession.createCriteria(HanziData.class).list();
 		     tx.commit();
+		     List<HanziJson> hanziJsons = new ArrayList<>();
+		     HanziJson hanziJson = new HanziJson();
 		     for(HanziData curr : results){
-		    	 System.out.println(curr.toString());
+		    	 hanziJson.setHanzi_id(String.valueOf(curr.getHanzi_id()));
+		    	 hanziJson.setHanzi(curr.getHanzi());
+		    	 hanziJsons.add(hanziJson);
 		     }
+		     
+		     HanziJson[] resultHanziJson = hanziJsons.<HanziJson>toArray(new HanziJson[0]);
+		     ObjectMapper mapper = new ObjectMapper();
+		     String resultJson = mapper.writeValueAsString(resultHanziJson);
+		     return resultJson;
 		 }
 		 catch (Exception e) {
 		     if (tx!=null) tx.rollback();
-		     
 		     return e.toString();
 		 }
 		 finally {
-			 sess.close();
-			 return "success";
+			 if(newSession.isOpen()) newSession.close();
 		 }
-		
 	}
 	
 	@RequestMapping(value = "/test", method = RequestMethod.GET)
