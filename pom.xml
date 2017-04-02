@@ -53,8 +53,20 @@
     					<war>${project.basedir}/target/${project.build.finalName}.war</war>
     				</webApp>
 				</configuration>
-
 			</plugin>
+			
+			<!-- To copy file, Execute this plugin using command: mvn org.apache.maven.plugins:maven-antrun-plugin:1.7:run -->
+			<!--
+			<plugin>
+    			<groupId>org.apache.maven.plugins</groupId>
+    			<artifactId>maven-antrun-plugin</artifactId>
+    			<version>1.7</version>
+                <configuration>
+                   <target name="deploy to jboss server">
+                       <copy file="${project.basedir}\target\learn-hanzi.war" toDir="E:\Program Files\EAP-6.2.0\jboss-eap-6.2\standalone\deployments" overwrite="true"/>
+                    </target>
+                 </configuration>                       
+     		</plugin> -->
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
