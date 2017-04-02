@@ -7,7 +7,7 @@
 	<version>1.0</version>
 	<name>learn-hanzi</name>
 	<url>ssh://reinardhz@git.code.sf.net/p/learn-hanzi/git</url>
-	<description>A project to help me learn Chinese characters at faster pace</description>
+	<description>A project to help me learn Chinese characters at faster pace.</description>
 
 	<properties>
 
@@ -30,9 +30,11 @@
 		<jstl.version>1.2.1</jstl.version>
 		<jsp-api>2.2.1</jsp-api>
     	<jackson-databind.version>2.8.7</jackson-databind.version>
+    	
     	<!-- hibernate 5.2.9.Final is an implementation of Java Persistance API 2.1 (Java EE 7) -->
 		<hibernate.version>5.2.9.Final</hibernate.version>
 		
+		<log4j.version>1.2.17</log4j.version>
 	</properties>
 
 
@@ -158,7 +160,15 @@
     		<artifactId>postgresql</artifactId>
     		<version>9.1-901-1.jdbc4</version>
 		</dependency>
-
+		
+		<!-- To use log4j (logger) -->
+		<!-- Please configure this, in file "src/main/resources/log4j.properties"-->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		
 	</dependencies>
 
 </project>
