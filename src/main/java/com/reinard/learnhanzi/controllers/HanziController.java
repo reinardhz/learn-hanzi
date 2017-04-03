@@ -53,13 +53,17 @@ public class HanziController{
 			//Convert to json
 			ObjectMapper mapper = new ObjectMapper();
 			String resultJson = mapper.writeValueAsString(result);
-			logger.info("Result:");
-			logger.info(resultJson);
 			
-			//enable "same cross origin", to let this controller accessed by ajax.
+			//enable "same cross origin", so this controller could response data to ajax
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Access-Control-Allow-Origin", "*");
 			
+			//Set encoding to UTF-8, to let the browser display it correctly
+			headers.add("Content-Type", "application/json;charset=UTF-8");
+			
+			
+			logger.info("Response result:");
+			logger.info(resultJson);
 			return new ResponseEntity<String>(resultJson,headers,HttpStatus.OK);
 		}catch(Exception e){
 			logger.error("Error when getting all hanzi data", e);

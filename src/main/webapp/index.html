@@ -5,12 +5,52 @@
 </head>
 <!-- Execute a "displayTime()" method immediately after a page has been loaded: -->
 <body onLoad="displayTime()">
+//TODO how to request more than 1 method, in atribut "onLoad" ?
+<body onLoad="getAllHanzi()">
 
-<div id="time"></div>
+<center><div id="time"></div></center>
 
 <center><h1 id="title">All Hanzi</h1></center>
+<center><div id="search">search:</div></center>
+//TODO add input box here
 <center><div id="data"></div></center>
+<center><button type="button" onclick="getAllHanzi()">get data</button></center>
+<script>
 
-<script src="js/script.js"></script>
+function displayTime() {
+    var date = new Date();
+    document.getElementById("time").innerHTML = date;
+	timer = setTimeout("displayTime()",1001)
+}
+
+function getAllHanzi(){
+	//make request to HanziController
+	
+	//ajax programming use XMLHttpRequest()
+	var ajax = new XMLHttpRequest();
+	
+	//must use this block code, to read the http response body:
+	ajax.onreadystatechange = function() {
+		var response = ajax.responseText;
+		
+		if(response == null){
+			//cannot get the data
+		}
+		//TODO parse the json 
+		//TODO fix, so browser can display the chinese character
+		document.getElementById("data").innerHTML = response;
+		console.log(response);
+	}
+	
+	//setting the http request
+	ajax.open("POST","http://localhost:9097/learn-hanzi/api/hanzi/getAllHanzi",true);
+	
+	//send the http request
+	ajax.send();
+	
+}
+
+
+</script>
 </body>
 </html>

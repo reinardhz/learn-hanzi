@@ -30,9 +30,11 @@ public class HanziServiceImpl {
 			List<Hanzi_data> hanziJsonList = new ArrayList<>();
 			for(HanziData hanzi : allHanzi){
 				Hanzi_data hanziJson = new Hanzi_data();
-				hanziJson.setHanzi_id(String.valueOf(hanzi.getHanzi_id()));
+				//hanziJson.setHanzi_id(String.valueOf(hanzi.getHanzi_id()));
 				hanziJson.setHanzi(hanzi.getHanzi());
+				hanziJson.setCreated_date(hanzi.getCreated_date().toLocaleString());
 				hanziJsonList.add(hanziJson);
+				
 			}
 			Hanzi_data[] result = hanziJsonList.<Hanzi_data>toArray(new Hanzi_data[0]);
 			return result;

@@ -54,7 +54,7 @@ public class TestController {
 				List<Hanzi_data> hanzi_datas = new ArrayList<>();
 				Hanzi_data hanzi_data = new Hanzi_data();
 				for (HanziData curr : results) {
-					hanzi_data.setHanzi_id(String.valueOf(curr.getHanzi_id()));
+					//hanzi_data.setHanzi_id(String.valueOf(curr.getHanzi_id()));
 					hanzi_data.setHanzi(curr.getHanzi());
 					hanzi_datas.add(hanzi_data);
 				}
