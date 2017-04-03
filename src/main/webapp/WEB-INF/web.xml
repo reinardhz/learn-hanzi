@@ -30,12 +30,13 @@
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<!-- Indicate that, all http request that start with '/' (after context path), will be handle by org.springframework.web.servlet.DispatcherServlet.
+	<!-- Indicate that, all http request that start with '/api' (after context path), will be handle by org.springframework.web.servlet.DispatcherServlet.
 	Example: your web application is running in server that is listening in ip 127.0.98, on port 90, and your Application Context path is "learn-hanzi",
-	then, all http request starting with url: http://127.0.98:90/learn-hanzi/ is handled by Spring's DispatcherServlet. -->
+	then, all http request starting with url: "http://127.0.98:90/learn-hanzi/api" is handled by Spring's DispatcherServlet. -->
+	<!-- Other request that is not start with /api, is not handle by spring's dispatcher servlet. Example: "http://127.0.98:90/learn-hanzi/index.html" is not handle by spring-->
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
-		<url-pattern>/</url-pattern>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 
 </web-app>

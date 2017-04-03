@@ -14,9 +14,16 @@ import com.reinard.learnhanzi.json.Hanzi_data;
 import com.reinard.learnhanzi.json.Hanzi_data;
 import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+/**
+ * Controller to handle http request that related with "hanzi_data table
+ * 
+ * @author reinard.santosa
+ *
+ */
 @Controller
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
 @RequestMapping(value = "/hanzi")
@@ -27,8 +34,15 @@ public class HanziController{
 	@Autowired
 	private HanziServiceImpl hanziService;
 	
-	@RequestMapping(value = "/getAllHanzi", method = RequestMethod.GET)
-	public ResponseEntity<String> getAllHanzi() throws Exception {
+	
+	
+	/**
+	 * Response http request with all hanzi data (using json format).
+	 * 
+	 */
+	//TODO enable "same cross origin", to let this controller accessed by ajax.
+	@RequestMapping(value = "/getAllHanzi", method = RequestMethod.POST)
+	public ResponseEntity<String> getAllHanzi(){
 		try{
 			logger.info("Get all hanzi data...");
 			Hanzi_data[] allHanzi = hanziService.selectAll();
@@ -42,11 +56,33 @@ public class HanziController{
 			logger.info("Result:");
 			logger.info(resultJson);
 			
-			return new ResponseEntity<String>(resultJson,HttpStatus.OK);
+			//enable "same cross origin", to let this controller accessed by ajax.
+			HttpHeaders headers = new HttpHeaders();
+			headers.add("Access-Control-Allow-Origin", "*");
+			
+			return new ResponseEntity<String>(resultJson,headers,HttpStatus.OK);
 		}catch(Exception e){
 			logger.error("Error when getting all hanzi data", e);
 			return new ResponseEntity<String>("Error when getting all hanzi data", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	/**
+	 * This is a controller to handle http request to save data hanzi to database.  <br/>
+	 * 
+	 * Save the hanzi to database.Json http request example: {"hanzi":"他"} <br/><br/>
+	 * 
+	 * This controller will: <br/>
+	 * 1. Get the hanzi data from json. <br/>
+	 * 2. Create the timestamp, from current timestamp
+	 * 3. Insert the data to database.
+	 * 4. If the data cannot inserted, response to server with error json.
+	 */
+	//TODO enable "same cross origin", to let this controller accessed by ajax.
+	@RequestMapping(value = "/saveHanzi", method = RequestMethod.POST)
+	public ResponseEntity<String> savehanzi(){
+		//TODO finish this method
+		return null;
 	}
 	
 }
