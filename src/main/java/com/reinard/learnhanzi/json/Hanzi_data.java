@@ -1,12 +1,17 @@
 package com.reinard.learnhanzi.json;
 
-public class HanziJson {
+/**
+ * Part of HanziDataJson class.
+ * 
+ * @author reinard.santosa
+ */
+public class Hanzi_data {
 	
 	private String hanzi_id;
 	
 	private String hanzi;
 	
-	public HanziJson(){
+	public Hanzi_data(){
 		super();
 	}
 

@@ -9,7 +9,9 @@ import org.springframework.web.context.WebApplicationContext;
 import org.apache.log4j.Logger;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.reinard.learnhanzi.json.HanziJson;
+import com.reinard.learnhanzi.json.HanziDataJson;
+import com.reinard.learnhanzi.json.Hanzi_data;
+import com.reinard.learnhanzi.json.Hanzi_data;
 import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 
 import org.springframework.http.HttpStatus;
@@ -29,16 +31,21 @@ public class HanziController{
 	public ResponseEntity<String> getAllHanzi() throws Exception {
 		try{
 			logger.info("Get all hanzi data...");
-			HanziJson[] allHanzi = hanziService.selectAll();
+			Hanzi_data[] allHanzi = hanziService.selectAll();
+			
+			HanziDataJson result = new HanziDataJson();
+			result.setHanzi_data(allHanzi);
+			
+			//Convert to json
 			ObjectMapper mapper = new ObjectMapper();
-			String resultJson = mapper.writeValueAsString(allHanzi);
+			String resultJson = mapper.writeValueAsString(result);
 			logger.info("Result:");
 			logger.info(resultJson);
-			logger.info(HttpStatus.OK);
+			
 			return new ResponseEntity<String>(resultJson,HttpStatus.OK);
 		}catch(Exception e){
 			logger.error("Error when getting all hanzi data", e);
-			return new ResponseEntity<String>("Error when getting all hanzi data",HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Error when getting all hanzi data", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

@@ -29,6 +29,8 @@ Note:
 6. If user input, then click add button, then use ajax to check whether the inputted data is already exist?
 If exist, show warning, if not, add to database.
 
+UI:
+* show the current time and the time zone, to make sure, javascript insert hanzi with the right timestamp
 
 These are the important steps, to develop this application:
 

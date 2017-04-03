@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.reinard.learnhanzi.json.HanziJson;
+import com.reinard.learnhanzi.json.Hanzi_data;
 import com.reinard.learnhanzi.models.HanziData;
 
 /**
@@ -52,15 +52,15 @@ public class HomeController {
 			tx = newSession.beginTransaction();
 			List<HanziData> results = newSession.createCriteria(HanziData.class).list();
 			tx.commit();
-			List<HanziJson> hanziJsons = new ArrayList<>();
-			HanziJson hanziJson = new HanziJson();
+			List<Hanzi_data> hanzi_datas = new ArrayList<>();
+			Hanzi_data hanzi_data = new Hanzi_data();
 			for (HanziData curr : results) {
-				hanziJson.setHanzi_id(String.valueOf(curr.getHanzi_id()));
-				hanziJson.setHanzi(curr.getHanzi());
-				hanziJsons.add(hanziJson);
+				hanzi_data.setHanzi_id(String.valueOf(curr.getHanzi_id()));
+				hanzi_data.setHanzi(curr.getHanzi());
+				hanzi_datas.add(hanzi_data);
 			}
 
-			HanziJson[] resultHanziJson = hanziJsons.<HanziJson>toArray(new HanziJson[0]);
+			Hanzi_data[] resultHanziJson = hanzi_datas.<Hanzi_data>toArray(new Hanzi_data[0]);
 			ObjectMapper mapper = new ObjectMapper();
 			String resultJson = mapper.writeValueAsString(resultHanziJson);
 			System.out.println(resultJson);

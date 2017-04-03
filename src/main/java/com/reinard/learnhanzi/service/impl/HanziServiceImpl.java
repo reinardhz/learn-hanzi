@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.reinard.learnhanzi.dao.impl.HanziDaoImpl;
-import com.reinard.learnhanzi.json.HanziJson;
+import com.reinard.learnhanzi.json.Hanzi_data;
 import com.reinard.learnhanzi.models.HanziData;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,19 +22,19 @@ public class HanziServiceImpl {
 	@Autowired
 	private HanziDaoImpl hanziDaoImpl;
 	
-	public HanziJson[] selectAll() throws Exception{
+	public Hanzi_data[] selectAll() throws Exception{
 		try{
 			List<HanziData> allHanzi = hanziDaoImpl.selectAll();
 			
 			//convert result to json array:
-			List<HanziJson> hanziJsonList = new ArrayList<>();
+			List<Hanzi_data> hanziJsonList = new ArrayList<>();
 			for(HanziData hanzi : allHanzi){
-				HanziJson hanziJson = new HanziJson();
+				Hanzi_data hanziJson = new Hanzi_data();
 				hanziJson.setHanzi_id(String.valueOf(hanzi.getHanzi_id()));
 				hanziJson.setHanzi(hanzi.getHanzi());
 				hanziJsonList.add(hanziJson);
 			}
-			HanziJson[] result = hanziJsonList.<HanziJson>toArray(new HanziJson[0]);
+			Hanzi_data[] result = hanziJsonList.<Hanzi_data>toArray(new Hanzi_data[0]);
 			return result;
 			
 		}catch(Exception e){
