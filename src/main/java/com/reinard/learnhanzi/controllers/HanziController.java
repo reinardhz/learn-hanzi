@@ -1,5 +1,7 @@
 package com.reinard.learnhanzi.controllers;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.WebApplicationContext;
+import java.io.BufferedReader;
 
 import com.reinard.learnhanzi.json.SearchHanziJsonRequestObject;
 import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
@@ -66,21 +69,52 @@ public class HanziController{
 	/**
 	 * This is a controller to to handle http request to search the inputted hanzi from database. <br/><br/>
 	 * 
-	 * Request json example: {"search_hanzi":"愛"}
+	 * Request body example: 愛
 	 * Response json example: {"hanzi_data":[{"hanzi":"我", "created_date":"2017-04-04 09:15"}]} or 
 	 * {"errors": [{"error_code": "704","error_message": "The requested hanzi is not found."}]}
 	 * 
 	 * This controller will: <br/>
-	 * 1. Get the hanzi from json http request. <br/>
+	 * 1. Get the hanzi http request. <br/>
 	 * 2. Search from the table \"hanzi_data\" that match the inputted hanzi, then convert to json.
 	 * 3. Response the json data to client if the data found, or error json if the data is not found.
 	 */
 	@RequestMapping(value = "/searchHanzi", method = RequestMethod.POST, consumes = {"application/json"})
-	public ResponseEntity<String> searchHanzi(@RequestBody SearchHanziJsonRequestObject input){
+	public ResponseEntity<String> searchHanzi(HttpServletRequest httpServletRequest){
 		//TODO finish this method
 		
 		try {
-			String resultJson = hanziService.selectBy(input.getSearch_hanzi());
+			System.out.println("searching hanzi...");
+			
+			//read the request body (because jetty server could not use @RequestBody):
+			BufferedReader bufferedReader = httpServletRequest.getReader();
+			
+			int resultInt = 0;
+			char resultChar = (char)0;
+			
+			StringBuilder resultString = new StringBuilder();
+			
+			while ((resultInt = bufferedReader.read()) != -1) {
+				// read the characters:
+				// the resultInt, is a decimal number that point to the Unicode Character, using UTF-16 Big Endian. 
+				// Example: int = 24859 point to the chinese traditional character for love.
+				
+				//Cannot cast to char if the int is not in the char data type range.
+				if((resultInt<0) || resultInt>65535){
+					return new ResponseEntity<String>("The request cannot be read.", HttpStatus.INTERNAL_SERVER_ERROR);
+				}
+				
+				//Add only the character needed (do not add TAB, CR, LF character):
+				if(resultInt>31){
+					resultChar = (char)resultInt;
+					resultString.append(resultChar);
+				}
+				
+			}
+			
+			System.out.println(resultString.toString());
+			String hanzi = resultString.toString();
+			
+			String resultJson = hanziService.selectBy(hanzi);
 			
 			//enable "same cross origin", so this controller could response data to ajax
 			HttpHeaders headers = new HttpHeaders();
@@ -92,6 +126,8 @@ public class HanziController{
 			logger.info("Response result:");
 			logger.info(resultJson);
 			return new ResponseEntity<String>(resultJson,headers,HttpStatus.OK);
+			
+			//return new ResponseEntity<String>("...",headers,HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("Error when searching hanzi data", e);
 			return new ResponseEntity<String>("Error when searching hanzi data", HttpStatus.INTERNAL_SERVER_ERROR);

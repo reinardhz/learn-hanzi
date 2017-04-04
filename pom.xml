@@ -125,7 +125,7 @@
     		<artifactId>javax.servlet.jsp.jstl-api</artifactId>
     		<version>${jstl.version}</version>
 		</dependency>
-		<!-- To bind json http request with controller's method parameter-->
+		<!-- To bind json http request with controller's method parameter (@RequestBody)-->
 		<dependency>
     		<groupId>com.fasterxml.jackson.core</groupId>
     		<artifactId>jackson-databind</artifactId>
