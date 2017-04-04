@@ -5,11 +5,11 @@ package com.reinard.learnhanzi.json;
  * 
  * @author reinard.santosa
  */
-public class HanziDataJson {
+public class HanziDataJsonResponseObject {
 	
 	private Hanzi_data[] hanzi_data;
 	
-	public HanziDataJson(){
+	public HanziDataJsonResponseObject(){
 		super();
 	}
 

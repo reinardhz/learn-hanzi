@@ -5,6 +5,7 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.reinard.learnhanzi.models.HanziData;
@@ -47,6 +48,36 @@ public class HanziDaoImpl {
 		}
 	}
 	
+	/**
+	 * A method to select from "hanzi_data" table, by searching the unique hanzi.
+	 * 
+	 * @param input - Hanzi to search.
+	 * @return HanziData - One record from "hanzi_data" table, that match the inputted hanzi..
+	 */
+	public HanziData selectBy(String hanzi) throws Exception{
+		Session newSession = hibernateSessionFactory.openSession();
+		Transaction transaction = null;
+		
+		try{
+			logger.info("Selecting hanzi_data from inputted hanzi...");
+			transaction = newSession.beginTransaction();
+			//SELECT * FROM hanzi_data WHERE hanzi = "[inputted hanzi]"
+			 Object resultObject = (newSession.createCriteria(HanziData.class).add(Restrictions.eq("hanzi", hanzi)).uniqueResult());
+			 HanziData result = (HanziData)resultObject;
+			 logger.info("Data HanziData is found");
+			 return result;
+		}catch(Exception e){
+			logger.error("Exception when trying to select \"hanzi_data\" by inputted hanzi", e);
+			if (transaction != null) {
+				transaction.rollback();
+			}
+			throw e;
+		}finally{
+			if(newSession.isOpen()){
+				newSession.close();
+			}
+		}
+	}
 	
 	/**
 	 *  A method to insert data to "hanzi_data" table.

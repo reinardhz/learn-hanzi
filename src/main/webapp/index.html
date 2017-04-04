@@ -12,60 +12,75 @@
 	<center>
 		<h1 id="title">All Hanzi</h1>
 	</center>
+
 	<center>
 		<div id="search">
 			Search: <input id="search" type="text" />
-			<button type="button" onclick="">Search</button>
+			<button type="button" onclick="searchHanzi()">Search</button>
 		</div>
 	</center>
-	<br/>
+
+	<center>
+		<div id="found"></div>
+	</center>
+	<br />
+
 	<center>
 		<div id="data"></div>
 	</center>
-	<br/>
+	<br />
+
 	<center>
-		<button type="button" onclick="getAllHanzi()">get data</button>
+		<button type="button" onclick="getAllHanzi()">Get all data</button>
 	</center>
+
+
 	<script>
+		//Execute a "displayTime()" and "getAllHanzi()" method immediately after a page has been loaded:
+		document.body.onload = function() {
+			displayTime();
+			getAllHanzi();
+		}
+
 		function displayTime() {
 			var date = new Date();
 			document.getElementById("time").innerHTML = date;
 			timer = setTimeout("displayTime()", 1001)
 		}
-		
+
 		function getAllHanzi() {
 			//make request to HanziController
 
 			//ajax programming use XMLHttpRequest()
 			var ajax = new XMLHttpRequest();
-			ajax.responseType = 'text';
-			
+
 			//must use this block code, to read the http response body:
 			ajax.onreadystatechange = function() {
-				var responseString = ajax.responseText;
-				console.log(responseString);
-
-				//if the json is null, or the json is empty, then print error message
-				if (responseString == null) {
+				//When readyState property is 4 and the status property is 200, the response is ready:
+				if (this.readyState == 4 && this.status == 200) {
+					console.log("responseText: " + ajax.responseText);
+					var responseString = ajax.responseText;
 					
-					document.getElementById("data").innerHTML = "Cannot get the data !";
-					return;
-				} else {
-					var responseJson = JSON.parse(responseString);
-					//get the "hanzi" and "created_date" from json 
-					var result = "";
-					for (i in responseJson.hanzi_data) {
-						console.log(i);
-						var hanzi = responseJson.hanzi_data[i].hanzi;
-						var created_date = responseJson.hanzi_data[i].created_date;
-						result = result + hanzi + " " + created_date + "<br/>";
-						document.getElementById("data").innerHTML = result;
+					//if the json is null, or the json is empty, then print error message
+					if (responseString == null) {
+
+						document.getElementById("data").innerHTML = "Cannot get the data !";
+						return;
+					} else {
+						var responseJson = JSON.parse(responseString);
+						//var responseJson = responseString;
+						//get the "hanzi" and "created_date" from json 
+						var result = "";
+						for (i in responseJson.hanzi_data) {
+							console.log(i);
+							var hanzi = responseJson.hanzi_data[i].hanzi;
+							var created_date = responseJson.hanzi_data[i].created_date;
+							result = result + hanzi + " " + created_date
+									+ "<br/>";
+							document.getElementById("data").innerHTML = result;
+						}
 					}
 				}
-				
-				
-				
-				
 			}
 
 			//setting the http request
@@ -73,15 +88,15 @@
 					"http://localhost:9097/learn-hanzi/api/hanzi/getAllHanzi",
 					true);
 
+			//ajax.responseType = 'json';
+
 			//send the http request
 			ajax.send();
 
 		}
 
-		//Execute a "displayTime()" and "getAllHanzi()" method immediately after a page has been loaded:
-		document.body.onload = function() {
-			displayTime();
-			getAllHanzi();
+		function searchHanzi() {
+
 		}
 	</script>
 </body>
