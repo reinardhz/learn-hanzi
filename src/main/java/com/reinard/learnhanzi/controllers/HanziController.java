@@ -37,10 +37,13 @@ public class HanziController{
 	
 	
 	/**
-	 * Response http request with all hanzi data (using json format).
+	 * Response http request with all hanzi data (using json format). <br/><br/>
+	 * 
+	 * Http response json example: <br/>
+	 * 
+	 * {"hanzi_data":[{"hanzi":"我", "created_date":"2017-04-04 09:15"}]}
 	 * 
 	 */
-	//TODO enable "same cross origin", to let this controller accessed by ajax.
 	@RequestMapping(value = "/getAllHanzi", method = RequestMethod.POST)
 	public ResponseEntity<String> getAllHanzi(){
 		try{

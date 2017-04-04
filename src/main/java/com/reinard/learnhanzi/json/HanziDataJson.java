@@ -1,7 +1,7 @@
 package com.reinard.learnhanzi.json;
 
 /**
- * A class to convert all data from "hanzi_data" table into json.
+ * A class to save data from "hanzi_data" table, then will be converted into json.
  * 
  * @author reinard.santosa
  */

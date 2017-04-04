@@ -1,5 +1,6 @@
 package com.reinard.learnhanzi.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +37,15 @@ public class HanziServiceImpl {
 				hanziJsonList.add(hanziJson);
 				
 			}
+			
+			/* //insert data to 2000 (delete this after testing)
+			for(int i=1; i<3000; ++i){
+				Hanzi_data hanziJson = new Hanzi_data();
+				hanziJson.setHanzi("愛");
+				hanziJson.setCreated_date(new Timestamp(System.currentTimeMillis()).toLocaleString());
+				hanziJsonList.add(hanziJson);
+			}*/
+			
 			Hanzi_data[] result = hanziJsonList.<Hanzi_data>toArray(new Hanzi_data[0]);
 			return result;
 			

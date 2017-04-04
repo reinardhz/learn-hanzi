@@ -43,12 +43,13 @@ public class Hanzi_data {
 		this.created_date = created_date;
 	}
 
-	/*
+	
 	@Override
 	public String toString(){
 		//Example: {"hanzi_id":"1","hanzi":"我"}
 		//return "{\"hanzi_id\":\"+1+\",\"+hanzi+\":\"+我+\"}";
-		return "{\"+hanzi+\":\""+this.getHanzi()+"\"}";
-	}*/
+		//Example: {"hanzi_data":[{"hanzi":"wo", "created_date":"2017-04-04 09:15"}]}
+		return "{\"+hanzi+\":\""+this.getHanzi()+"\", \"created_date\":\"" +this.getCreated_date()+ "\"}";
+	}
 	
 }
