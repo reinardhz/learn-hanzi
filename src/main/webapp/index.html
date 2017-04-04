@@ -21,7 +21,7 @@
 	</center>
 
 	<center>
-		<div id="found"></div>
+		Result: <div id="found"></div>
 	</center>
 	<br />
 
@@ -113,7 +113,7 @@
 					//if the json is null, or the json is empty, then print error message
 					if (responseString == null) {
 
-						document.getElementById("search").innerHTML = "Not Found !";
+						document.getElementById("found").innerHTML = "Not Found !";
 						return;
 					} else {
 						//convert from string into javasript object:
@@ -127,7 +127,7 @@
 							var created_date = responseObject.hanzi_data[i].created_date;
 							result = result + hanzi + " " + created_date
 									+ "<br/>";
-							document.getElementById("search").innerHTML = result;
+							document.getElementById("found").innerHTML = result;
 						}
 					}
 				}
@@ -139,10 +139,12 @@
 					true);
 
 			//You must call setRequestHeader()after open(), but before send().
-			ajax.setRequestHeader("Content-type","application/json;charset=UTF-8");
+			ajax.setRequestHeader("Content-type","text/plain;charset=UTF-8");
 			
 			//send the http request, with request body, json from input text box
-			ajax.send({"search_hanzi":"你"});
+			//TODO get the value from inputBox
+			//var inputBox = "我";
+			ajax.send("我");
 
 		}
 	</script>

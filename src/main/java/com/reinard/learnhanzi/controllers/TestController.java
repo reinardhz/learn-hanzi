@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.reinard.learnhanzi.dao.impl.HanziDaoImpl;
 import com.reinard.learnhanzi.json.Hanzi_data;
 import com.reinard.learnhanzi.models.HanziData;
 
@@ -31,15 +32,31 @@ import com.reinard.learnhanzi.models.HanziData;
  * @author reinard.santosa
  *
  */
-
+@Controller
+@Scope(value = WebApplicationContext.SCOPE_REQUEST)
+@RequestMapping(value = "/test")
 public class TestController {
 
-	//@Autowired
-		DriverManagerDataSource postgreDataSource;
+		//@Autowired
+		private DriverManagerDataSource postgreDataSource;
 
 		//@Autowired
-		SessionFactory hibernateSessionFactory;
-
+		private SessionFactory hibernateSessionFactory;
+		
+		@Autowired
+		private HanziDaoImpl hanziDaoImpl;
+		
+		
+		/**
+		 * Test for method HanziDaoImpl.selectBy();
+		 */
+		@RequestMapping(value="/testSelectBy", method = RequestMethod.GET)
+		@ResponseBody
+		public String testSelectBy() throws Exception{
+			HanziData result = hanziDaoImpl.selectBy("我");
+			return result.toString();
+		}
+		
 		//@RequestMapping(value = "/getAllHanzi", method = RequestMethod.GET)
 		//@ResponseBody
 		public String test2() throws Exception {

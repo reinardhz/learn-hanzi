@@ -65,6 +65,7 @@ public class HanziDaoImpl {
 			 Object resultObject = (newSession.createCriteria(HanziData.class).add(Restrictions.eq("hanzi", hanzi)).uniqueResult());
 			 HanziData result = (HanziData)resultObject;
 			 logger.info("Data HanziData is found");
+			 logger.info(result.toString());
 			 return result;
 		}catch(Exception e){
 			logger.error("Exception when trying to select \"hanzi_data\" by inputted hanzi", e);

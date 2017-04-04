@@ -38,7 +38,10 @@ public class HanziServiceImpl {
 			//Convert to json object:
 			Hanzi_data hanziJson = new Hanzi_data();
 			hanziJson.setHanzi(hanziData.getHanzi());
+			hanziJson.setCreated_date(hanziData.getCreated_date().toLocaleString());
+			
 			List<Hanzi_data> hanziJsonList = new ArrayList<>();
+			hanziJsonList.add(hanziJson);
 			
 			Hanzi_data[] resultArray = hanziJsonList.<Hanzi_data>toArray(new Hanzi_data[0]);
 			
@@ -47,6 +50,7 @@ public class HanziServiceImpl {
 			
 			//Convert to json
 			ObjectMapper mapper = new ObjectMapper();
+			
 			String resultJson = mapper.writeValueAsString(resultJsonObject);
 			return resultJson;
 		} catch (Exception e) {

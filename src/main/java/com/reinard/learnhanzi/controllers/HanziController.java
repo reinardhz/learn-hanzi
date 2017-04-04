@@ -78,7 +78,7 @@ public class HanziController{
 	 * 2. Search from the table \"hanzi_data\" that match the inputted hanzi, then convert to json.
 	 * 3. Response the json data to client if the data found, or error json if the data is not found.
 	 */
-	@RequestMapping(value = "/searchHanzi", method = RequestMethod.POST, consumes = {"application/json"})
+	@RequestMapping(value = "/searchHanzi", method = RequestMethod.POST, consumes = {"text/plain"})
 	public ResponseEntity<String> searchHanzi(HttpServletRequest httpServletRequest){
 		//TODO finish this method
 		

@@ -40,7 +40,7 @@ public class UserData implements Serializable{
 	//A variable to store Entity UserAndHanzi.
 	//One object of "UserData" (one row of table "user_data"), exist in many "UserAndHanzi" object.
 	//This is mapped by the variable "private UserData userData;", that exist in class "UserAndHanzi".
-	@OneToMany(mappedBy="userData", fetch=FetchType.LAZY, cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="userData", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
 	private Set<UserAndHanzi> userAndHanzi;
 
 	public UserData() {
@@ -90,7 +90,7 @@ public class UserData implements Serializable{
 		resultString.append("user_id: " + this.getUser_id() + "\n");
 		resultString.append("username: " + this.getUsername() + "\n");
 		resultString.append("passcode: " + this.getPasscode() + "\n");
-		resultString.append("Set<UserAndHanzi>: " + this.getUserAndHanzi() + "\n\n");
+		//resultString.append("Set<UserAndHanzi>: " + this.getUserAndHanzi() + "\n\n");
 		return resultString.toString();
 	}
 	
