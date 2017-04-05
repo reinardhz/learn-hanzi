@@ -26,7 +26,7 @@ public class HanziDaoImpl {
 	 * @return List&lt;HanziData&gt; All record from "hanzi_data" table.
 	 */
 	public List<HanziData> selectAll() throws Exception{
-		
+		logger.info("Selecting all hanzi_data...");
 		Session newSession = hibernateSessionFactory.openSession();
 		Transaction transaction = null;
 		
@@ -34,12 +34,14 @@ public class HanziDaoImpl {
 			transaction = newSession.beginTransaction();
 			List<HanziData> result = newSession.createCriteria(HanziData.class).list();
 			transaction.commit();
+			logger.info("Select all hanzi_data succeed.");
+			logger.info(result.toString());
 			return result;
 		}catch(Exception e){
-			logger.error("Exception when trying to select all from \"hanzi_data\" table", e);
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			logger.error("Exception when trying to select all from \"hanzi_data\" table, rollback succeed", e);
 			throw e;
 		}finally{
 			if(newSession.isOpen()){
@@ -55,23 +57,28 @@ public class HanziDaoImpl {
 	 * @return HanziData - One record from "hanzi_data" table, that match the inputted hanzi..
 	 */
 	public HanziData selectBy(String hanzi) throws Exception{
+		logger.info("Searching hanzi_data from inputted hanzi...");
 		Session newSession = hibernateSessionFactory.openSession();
 		Transaction transaction = null;
 		
 		try{
-			logger.info("Selecting hanzi_data from inputted hanzi...");
 			transaction = newSession.beginTransaction();
 			//SELECT * FROM hanzi_data WHERE hanzi = "[inputted hanzi]"
 			 Object resultObject = (newSession.createCriteria(HanziData.class).add(Restrictions.eq("hanzi", hanzi)).uniqueResult());
+			 if(resultObject == null){
+				 logger.info("HanziData not found.");
+				 return null;
+			 }else{
 			 HanziData result = (HanziData)resultObject;
-			 logger.info("Data HanziData is found");
+			 logger.info("HanziData found.");
 			 logger.info(result.toString());
 			 return result;
+			 }
 		}catch(Exception e){
-			logger.error("Exception when trying to select \"hanzi_data\" by inputted hanzi", e);
 			if (transaction != null) {
 				transaction.rollback();
 			}
+			logger.error("Error when trying to select \"hanzi_data\" by inputted hanzi, rollback complete", e);
 			throw e;
 		}finally{
 			if(newSession.isOpen()){
@@ -87,7 +94,7 @@ public class HanziDaoImpl {
 	 * @return HanziData - the successfull inserted HanziData.
 	 */
 	public HanziData insert(HanziData input) throws Exception{
-		logger.info("Trying to insert Hanzidata...");
+		logger.info("Inserting Hanzidata...");
 		Session newSession = hibernateSessionFactory.openSession();
 		Transaction transaction = null;
 		
@@ -95,12 +102,13 @@ public class HanziDaoImpl {
 			transaction = newSession.beginTransaction();
 			newSession.save(input);
 			transaction.commit();
+			logger.info("Insert Hanzidata succeed.");
 			return input;
 		}catch(Exception e){
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			logger.error("Error when insert HanziData",e);
+			logger.error("Error when insert HanziData, rollback succeed",e);
 			throw e;
 		}finally{
 			if(newSession.isOpen()){

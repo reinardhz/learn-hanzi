@@ -70,15 +70,14 @@ public class HanziController{
 	 * This is a controller to to handle http request to search the inputted hanzi from database. <br/><br/>
 	 * 
 	 * Request body example: 愛
-	 * Response json example: {"hanzi_data":[{"hanzi":"我", "created_date":"2017-04-04 09:15"}]} or 
-	 * {"errors": [{"error_code": "704","error_message": "The requested hanzi is not found."}]}
+	 * Response json string example: {"hanzi_data":[{"hanzi":"我", "created_date":"2017-04-04 09:15"}]} or "not found"
 	 * 
 	 * This controller will: <br/>
 	 * 1. Get the hanzi http request. <br/>
 	 * 2. Search from the table \"hanzi_data\" that match the inputted hanzi, then convert to json.
-	 * 3. Response the json data to client if the data found, or error json if the data is not found.
+	 * 3. Response the json data to client if the data found, or string "not found", if the data is not found.
 	 */
-	@RequestMapping(value = "/searchHanzi", method = RequestMethod.POST, consumes = {"text/plain"})
+	@RequestMapping(value = "/searchHanzi", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> searchHanzi(HttpServletRequest httpServletRequest){
 		//TODO finish this method
 		
@@ -116,12 +115,16 @@ public class HanziController{
 			
 			String resultJson = hanziService.selectBy(hanzi);
 			
+			if(resultJson == null){
+				resultJson="not found";
+			}
+			
 			//enable "same cross origin", so this controller could response data to ajax
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("Access-Control-Allow-Origin", "*");
 			
 			//Set encoding to UTF-8, to let the browser display it correctly
-			headers.add("Content-Type", "application/json;charset=UTF-8");
+			headers.add("Content-Type", "text/plain;charset=UTF-8");
 			
 			logger.info("Response result:");
 			logger.info(resultJson);

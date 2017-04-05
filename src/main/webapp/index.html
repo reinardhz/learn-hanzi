@@ -10,20 +10,42 @@
 	</center>
 
 	<center>
-		<h1 id="title">All Hanzi</h1>
+		<h1 id="title">My Hanzi Web App</h1>
+	</center>
+	
+	<center>
+	<table>
+		<tr>
+			<td>Search:</td>
+			<td><input id="search" type="text" /></td>
+			<td><button id="searchHanziButton" type="button" onclick="searchHanzi()">Search</button></td>
+			
+		</tr>
+		<tr>
+			<td>Result:</td>
+			<td><input id="result" /></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>Add:</td>
+			<td><input id="input" type="text" /></td>
+			<td><button id="addHanziButton" type="button">Add</button></td>
+		</tr>
+
+		<tr>
+			<td>Delete:</td>
+			<td><input id="delete" type="text" /></td>
+			<td><button id="deleteHanziButton" type="button">Delete</button></td>
+		</tr>
+
+	</table>
 	</center>
 
 	<center>
-		<div id="search">
-			Search: <input id="search" type="text" />
-			<button type="button" onclick="searchHanzi()">Search</button>
-		</div>
+		<h2 id="titleData">
+			All Hanzi
+			</h1>
 	</center>
-
-	<center>
-		Result: <div id="found"></div>
-	</center>
-	<br />
 
 	<center>
 		<div id="data"></div>
@@ -41,7 +63,7 @@
 			displayTime();
 			getAllHanzi();
 		}
-		
+
 		//A function to display time
 		function displayTime() {
 			var date = new Date();
@@ -49,7 +71,7 @@
 			//will display time again, every 1001 miliseconds
 			timer = setTimeout("displayTime()", 1001)
 		}
-		
+
 		//A function to get all data from hanzi_data table by requesting to the controller
 		function getAllHanzi() {
 			//make request to HanziController using ajax.
@@ -60,9 +82,10 @@
 			ajax.onreadystatechange = function() {
 				//When readyState property is 4 and the status property is 200, the response is ready:
 				if (this.readyState == 4 && this.status == 200) {
-					console.log("getAllHanzi(), responseText: " + ajax.responseText);
+					console.log("getAllHanzi(), responseText: "
+							+ ajax.responseText);
 					var responseString = ajax.responseText;
-					
+
 					//if the json is null, or the json is empty, then print error message
 					if (responseString == null) {
 
@@ -71,7 +94,7 @@
 					} else {
 						//convert from string into javasript object:
 						var responseObject = JSON.parse(responseString);
-						
+
 						//get the "hanzi" and "created_date" from json 
 						var result = "";
 						for (i in responseObject.hanzi_data) {
@@ -91,34 +114,32 @@
 					"http://localhost:9097/learn-hanzi/api/hanzi/getAllHanzi",
 					true);
 
-
 			//send the http request
 			ajax.send();
 
 		}
-		
+
 		//A function to search the unique hanzi from hanzi_data table by requesting to the controller
 		function searchHanzi() {
 			//make request to HanziController using ajax.
 			//ajax programming use XMLHttpRequest()
 			var ajax = new XMLHttpRequest();
-			
+
 			//must use this block code, to read the http response body:
 			ajax.onreadystatechange = function() {
 				//When readyState property is 4 and the status property is 200, the response is ready:
 				if (this.readyState == 4 && this.status == 200) {
-					console.log("searchHanzi(), responseText: " + ajax.responseText);
+					console.log("searchHanzi(), responseText: "
+							+ ajax.responseText);
 					var responseString = ajax.responseText;
-					
-					//if the json is null, or the json is empty, then print error message
-					if (responseString == null) {
 
-						document.getElementById("found").innerHTML = "Not Found !";
+					if (responseString === "not found") {
+						document.getElementById("result").innerHTML = "Hanzi is not found !";
 						return;
 					} else {
 						//convert from string into javasript object:
 						var responseObject = JSON.parse(responseString);
-						
+
 						//get the "hanzi" and "created_date" from json 
 						var result = "";
 						for (i in responseObject.hanzi_data) {
@@ -127,24 +148,24 @@
 							var created_date = responseObject.hanzi_data[i].created_date;
 							result = result + hanzi + " " + created_date
 									+ "<br/>";
-							document.getElementById("found").innerHTML = result;
+							document.getElementById("result").innerHTML = result;
 						}
 					}
 				}
 			}
-			
+
 			//setting the http request
 			ajax.open("POST",
 					"http://localhost:9097/learn-hanzi/api/hanzi/searchHanzi",
 					true);
 
 			//You must call setRequestHeader()after open(), but before send().
-			ajax.setRequestHeader("Content-type","text/plain;charset=UTF-8");
-			
+			ajax.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
+
 			//send the http request, with request body, json from input text box
 			//TODO get the value from inputBox
-			//var inputBox = "我";
-			ajax.send("我");
+			var inputBox = document.getElementById("search").value;
+			ajax.send(inputBox);
 
 		}
 	</script>

@@ -1,5 +1,6 @@
 package com.reinard.learnhanzi.service.impl;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class HanziServiceImpl {
 	/**
 	 * Search unique hanzi in "hanzi_data" table.
 	 * 
-	 * @param hanzi - String hanzi to search.
-	 * @return String resultUniqueJson - A unique hanzi_data in json format.
+	 * @param hanzi - String hanzi to search, return null if the hanzi is not found.
+	 * @return String resultUniqueJson - A unique hanzi_data in json format, null if the hanzi is not found.
 	 * @throws Exception - If errors occurs when search data from "hanzi_data" table.
 	 */
 	public String selectBy(String hanzi) throws Exception{
@@ -35,23 +36,49 @@ public class HanziServiceImpl {
 		try {
 			HanziData hanziData = hanziDaoImpl.selectBy(hanzi);
 			
-			//Convert to json object:
+			if(hanziData == null){
+				
+				/*
+				//prepare the child in json object:
+				Hanzi_data hanziJson = new Hanzi_data();
+				hanziJson.setHanzi("null");
+				Timestamp currentTime = new Timestamp(System.currentTimeMillis());
+				hanziJson.setCreated_date(currentTime.toLocaleString());
+				
+				//convert child to array
+				List<Hanzi_data> hanziJsonList = new ArrayList<>();
+				hanziJsonList.add(hanziJson);
+				Hanzi_data[] resultArray = hanziJsonList.<Hanzi_data>toArray(new Hanzi_data[0]);
+				
+				//prepare the json object
+				HanziDataJsonResponseObject resultJsonObject = new HanziDataJsonResponseObject();
+				resultJsonObject.setHanzi_data(resultArray);
+				
+				//Convert to json
+				ObjectMapper mapper = new ObjectMapper();
+				String resultJson = mapper.writeValueAsString(resultJsonObject);
+				return resultJson;*/
+				return null;
+			}
+			
+			//prepare the child in json object:
 			Hanzi_data hanziJson = new Hanzi_data();
 			hanziJson.setHanzi(hanziData.getHanzi());
 			hanziJson.setCreated_date(hanziData.getCreated_date().toLocaleString());
 			
+			//convert child to array
 			List<Hanzi_data> hanziJsonList = new ArrayList<>();
 			hanziJsonList.add(hanziJson);
-			
 			Hanzi_data[] resultArray = hanziJsonList.<Hanzi_data>toArray(new Hanzi_data[0]);
 			
+			//prepare the json object
 			HanziDataJsonResponseObject resultJsonObject = new HanziDataJsonResponseObject();
 			resultJsonObject.setHanzi_data(resultArray);
 			
-			//Convert to json
+			//Convert to json text
 			ObjectMapper mapper = new ObjectMapper();
-			
 			String resultJson = mapper.writeValueAsString(resultJsonObject);
+			
 			return resultJson;
 		} catch (Exception e) {
 			logger.error("Exception when trying to select \"hanzi_data\" by inputted hanzi",e);
