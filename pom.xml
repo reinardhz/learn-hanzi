@@ -30,7 +30,7 @@
 		<jstl.version>1.2.1</jstl.version>
 		<jsp-api>2.2.1</jsp-api>
     	<jackson-databind.version>2.8.7</jackson-databind.version>
-    	
+    	<junit.version>4.12</junit.version>
     	<!-- hibernate 5.2.9.Final is an implementation of Java Persistance API 2.1 (Java EE 7) -->
 		<hibernate.version>5.2.9.Final</hibernate.version>
 		
@@ -103,11 +103,19 @@
 
 	<dependencies>
 
-		<!-- ====To use Spring MVC==== -->
+		<!-- ====To use Spring ==== -->
+		<!-- To use Spring MVC -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework-version}</version>
+		</dependency>
+		<!-- To let Spring run test class -->
+		<dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${org.springframework-version}</version>
+            <scope>test</scope>
 		</dependency>
 		<!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
 		<dependency>
@@ -151,6 +159,15 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
+		</dependency>
+		<!-- ================================== -->
+		
+		<!-- ===Integrate Spring with JUnit=== -->
+		
+		<dependency>
+    		<groupId>junit</groupId>
+   			<artifactId>junit</artifactId>
+    		<version>${junit.version}</version>
 		</dependency>
 		<!-- ================================== -->
 		

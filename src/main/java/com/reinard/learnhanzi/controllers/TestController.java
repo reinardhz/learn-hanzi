@@ -32,9 +32,9 @@ import com.reinard.learnhanzi.models.HanziData;
  * @author reinard.santosa
  *
  */
-@Controller
-@Scope(value = WebApplicationContext.SCOPE_REQUEST)
-@RequestMapping(value = "/test")
+//@Controller
+//@Scope(value = WebApplicationContext.SCOPE_REQUEST)
+//@RequestMapping(value = "/test")
 public class TestController {
 
 		//@Autowired
@@ -50,8 +50,8 @@ public class TestController {
 		/**
 		 * Test for method HanziDaoImpl.selectBy();
 		 */
-		@RequestMapping(value="/testSelectBy", method = RequestMethod.GET)
-		@ResponseBody
+		//@RequestMapping(value="/testSelectBy", method = RequestMethod.GET)
+		//@ResponseBody
 		public String testSelectBy() throws Exception{
 			HanziData result = hanziDaoImpl.selectBy("我");
 			return result.toString();
