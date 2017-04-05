@@ -86,26 +86,27 @@ public class HanziDaoImpl {
 	 * @param input - Object HanziData to be inserted.
 	 * @return HanziData - the successfull inserted HanziData.
 	 */
-	/*public HanziData insert(Hanzidata input) throws Exception{
+	public HanziData insert(HanziData input) throws Exception{
+		logger.info("Trying to insert Hanzidata...");
 		Session newSession = hibernateSessionFactory.openSession();
 		Transaction transaction = null;
 		
 		try{
 			transaction = newSession.beginTransaction();
-			//...
+			newSession.save(input);
 			transaction.commit();
-			return result;
+			return input;
 		}catch(Exception e){
 			if (transaction != null) {
 				transaction.rollback();
 			}
-			e.printStackTrace(System.out);
+			logger.error("Error when insert HanziData",e);
 			throw e;
 		}finally{
 			if(newSession.isOpen()){
 				newSession.close();
 			}
 		}
-	}*/
+	}
 	
 }
