@@ -2,6 +2,13 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<style>
+
+.data{
+
+}
+
+</style>
 </head>
 
 <body>
@@ -11,7 +18,10 @@
 
 	<center>
 		<h1 id="title">My Hanzi Web App</h1>
+		<hr/>
 	</center>
+	
+	<br/>
 	
 	<center>
 	<table>
@@ -20,11 +30,6 @@
 			<td><input id="search" type="text" /></td>
 			<td><button id="searchHanziButton" type="button" onclick="searchHanzi()">Search</button></td>
 			
-		</tr>
-		<tr>
-			<td>Result:</td>
-			<td><input id="result" /></td>
-			<td></td>
 		</tr>
 		<tr>
 			<td>Add:</td>
@@ -37,10 +42,13 @@
 			<td><input id="delete" type="text" /></td>
 			<td><button id="deleteHanziButton" type="button">Delete</button></td>
 		</tr>
-
+	
 	</table>
 	</center>
-
+	<br/>
+	<center><b>Result:</b> <div id="result">aaa</div></center>
+	
+	<br/><br/>
 	<center>
 		<h2 id="titleData">
 			All Hanzi
@@ -48,14 +56,17 @@
 	</center>
 
 	<center>
-		<div id="data"></div>
+		<div id="data" class=""></div>
 	</center>
 	<br />
 
 	<center>
 		<button type="button" onclick="getAllHanzi()">Get all data</button>
 	</center>
-
+	
+	<br/>
+	<hr/>
+	Reinard Hizkia Santosa. 2017
 
 	<script>
 		//Execute a "displayTime()" and "getAllHanzi()" method immediately after a page has been loaded:
@@ -63,6 +74,7 @@
 			displayTime();
 			getAllHanzi();
 		}
+
 
 		//A function to display time
 		function displayTime() {
@@ -72,9 +84,10 @@
 			timer = setTimeout("displayTime()", 1001)
 		}
 
-		//A function to get all data from hanzi_data table by requesting to the controller
+
+		//A function to get all data from hanzi_data table by requesting to the server
 		function getAllHanzi() {
-			//make request to HanziController using ajax.
+			//make request to Hanziserver using ajax.
 			//ajax programming use XMLHttpRequest()
 			var ajax = new XMLHttpRequest();
 
@@ -82,7 +95,7 @@
 			ajax.onreadystatechange = function() {
 				//When readyState property is 4 and the status property is 200, the response is ready:
 				if (this.readyState == 4 && this.status == 200) {
-					console.log("getAllHanzi(), responseText: "
+					console.log("on function getAllHanzi(), ajax.responseText: "
 							+ ajax.responseText);
 					var responseString = ajax.responseText;
 
@@ -119,9 +132,10 @@
 
 		}
 
-		//A function to search the unique hanzi from hanzi_data table by requesting to the controller
+
+		//A function to search the unique hanzi from the inputted text box, by requesting to the server
 		function searchHanzi() {
-			//make request to HanziController using ajax.
+			//make request to Hanziserver using ajax.
 			//ajax programming use XMLHttpRequest()
 			var ajax = new XMLHttpRequest();
 
@@ -162,12 +176,45 @@
 			//You must call setRequestHeader()after open(), but before send().
 			ajax.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
 
-			//send the http request, with request body, json from input text box
-			//TODO get the value from inputBox
+			//send the http request to server, with request body, json from input text box
 			var inputBox = document.getElementById("search").value;
 			ajax.send(inputBox);
 
 		}
+		
+		
+		//A function to add the unique hanzi from the inputted text box, by requesting to the server.
+		function addHanzi(){
+			//make request to server using ajax.
+			//ajax programming use XMLHttpRequest()
+			var ajax = new XMLHttpRequest();
+
+			//must use this block code, to read the http response body:
+			ajax.onreadystatechange = function() {
+				//When readyState property is 4 and the status property is 200, the response is ready:
+				if (this.readyState == 4 && this.status == 200) {
+					console.log("searchHanzi(), responseText: "
+							+ ajax.responseText);
+					var responseString = ajax.responseText;
+					//get response from server, add succeed or fail?, then display it.
+					document.getElementById("result").innerHTML = responseString;
+				}			
+			}
+			
+			//setting the http request
+			ajax.open("POST", "http://localhost:9097/learn-hanzi/api/hanzi/searchHanzi",true);
+			
+			//You must call setRequestHeader()after open(), but before send().
+			ajax.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
+			
+			//send the http request to server, with request body, json from input text box
+			//TODO get the value from inputBox
+			var inputBox = document.getElementById("input").value;
+			ajax.send(inputBox);
+			
+			
+		}
+		
 	</script>
 </body>
 </html>
