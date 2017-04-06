@@ -51,6 +51,7 @@ public class HanziDaoImplTest {
 	public void testSelectBy() throws Exception{
 		HanziData result = hanziDaoImpl.selectBy("我");
 		Assert.assertNotNull(result);
+		Assert.assertEquals(result.getHanzi(), "我");
 		System.out.println(result.toString());
 		
 	}

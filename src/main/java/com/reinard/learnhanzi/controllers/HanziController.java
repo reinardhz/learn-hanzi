@@ -156,8 +156,8 @@ public class HanziController{
 	 * 4. If the data cannot inserted, response to server with error json. <br/>
 	 */
 	//TODO test this controller
-	@RequestMapping(value = "/saveHanzi", method = RequestMethod.POST, consumes = {"application/json"})
-	public ResponseEntity<String> savehanzi(){
+	@RequestMapping(value = "/insertHanzi", method = RequestMethod.POST, consumes = {"application/json"})
+	public ResponseEntity<String> insertHanzi(){
 		//TODO finish this method
 		return null;
 	}

@@ -120,5 +120,9 @@ public class HanziServiceImpl {
 	
 	
 	//TODO insert method()
+	/**
+	 * A method to insert inputted hanzi to database.
+	 * 
+	 */
 	
 }
