@@ -15,13 +15,11 @@ add many dependencies in pom.xml.
 ===29 March 2017===
 
 todo:
-change hanzi_table, "created_date" column data type to BIG_INT, that store epoch time or unix time.
+change hanzi_table, "created_date" column data type to BIG_INT, that store epoch time or unix time. (ok)
 change the entity, java mapping bigint to long (ok)
 change the controller. (ok)
 change the service (ok)
 change the dao (ok)
-change the javascript (not yet)
-
 change the javascript (ok)
 
 

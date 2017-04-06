@@ -14,7 +14,7 @@ xsi:schemaLocation="
     http://www.springframework.org/schema/tx 
     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd ">
 
-	<!-- Context Configuration For Dao Test -->
+	<!-- Context Configuration For Dao and Service Test -->
 	
 	<!-- Enables Activate Dao Class and Service Class with @Repository and @Service annotation -->
 	<context:component-scan base-package="com.reinard.learnhanzi.dao.impl" />

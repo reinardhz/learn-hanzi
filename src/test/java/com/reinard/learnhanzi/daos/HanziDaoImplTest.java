@@ -1,4 +1,4 @@
-package com.reinard.learnhanzi.controllers;
+package com.reinard.learnhanzi.daos;
 
 import java.util.HashSet;
 import java.util.List;
@@ -14,6 +14,8 @@ import com.reinard.learnhanzi.dao.impl.HanziDaoImpl;
 import com.reinard.learnhanzi.models.HanziData;
 import com.reinard.learnhanzi.models.UserAndHanzi;
 import com.reinard.learnhanzi.models.UserData;
+
+import junit.framework.Assert;
 
 /**
  * Provide test for "HanziDaoImpl". Run it with JUnit in eclipse
@@ -41,33 +43,62 @@ public class HanziDaoImplTest {
 	@Test
 	public void testSelectAll() throws Exception{
 		List<HanziData> result = hanziDaoImpl.selectAll();
+		Assert.assertNotNull(result);
 		System.out.println(result.toString());
 	}
 	
 	@Test
 	public void testSelectBy() throws Exception{
 		HanziData result = hanziDaoImpl.selectBy("我");
-		
+		Assert.assertNotNull(result);
 		System.out.println(result.toString());
+		
 	}
 	
+	//Case 1 insert new data that is not same as previous data
 	//@Test
-	public void testInsert() throws Exception{
-		HanziData input = new HanziData();
-		input.setHanzi("買");
-		input.setCreated_date(System.currentTimeMillis());
+	public void testInsert1() throws Exception{
+		HanziData hanziData = new HanziData();
+		hanziData.setHanzi("愛");
+		hanziData.setCreated_date(System.currentTimeMillis());
 		
 		Set<UserAndHanzi> childs = new HashSet<UserAndHanzi>();
+		
 		UserAndHanzi child = new UserAndHanzi();
 		UserData userData = new UserData();
 		userData.setUser_id(1L);
+		
 		child.setUserData(userData);
-		child.setHanziData(input);
+		child.setHanziData(hanziData);
+		
 		childs.add(child);
 		
-		input.setUserAndHanzi(childs);
-		hanziDaoImpl.insert(input);
+		hanziData.setUserAndHanzi(childs);
+		
+		hanziDaoImpl.insert(hanziData);
 	}
 	
+	//Case 2 insert existing data
+	@Test(expected=javax.persistence.PersistenceException.class)
+	public void testInsert2() throws Exception{
+		HanziData hanziData = new HanziData();
+		hanziData.setHanzi("愛");
+		hanziData.setCreated_date(System.currentTimeMillis());
+		
+		Set<UserAndHanzi> childs = new HashSet<UserAndHanzi>();
+		
+		UserAndHanzi child = new UserAndHanzi();
+		UserData userData = new UserData();
+		userData.setUser_id(1L);
+		
+		child.setUserData(userData);
+		child.setHanziData(hanziData);
+		
+		childs.add(child);
+		
+		hanziData.setUserAndHanzi(childs);
+		
+		hanziDaoImpl.insert(hanziData);
+	}
 
 }

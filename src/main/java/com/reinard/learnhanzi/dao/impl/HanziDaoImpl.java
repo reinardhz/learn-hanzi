@@ -2,10 +2,13 @@ package com.reinard.learnhanzi.dao.impl;
 
 import java.util.List;
 
+import javax.persistence.PersistenceException;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.reinard.learnhanzi.models.HanziData;
@@ -108,6 +111,10 @@ public class HanziDaoImpl {
 		}catch(Exception e){
 			if (transaction != null) {
 				transaction.rollback();
+			}
+			if(e instanceof PersistenceException){
+				logger.error("Error: cannot insert the same HanziData, rollback succeed",e);
+				throw e;
 			}
 			logger.error("Error when insert HanziData, rollback succeed",e);
 			throw e;

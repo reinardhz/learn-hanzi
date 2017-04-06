@@ -1,4 +1,4 @@
-package com.reinard.learnhanzi.controllers;
+package com.reinard.learnhanzi.daos;
 
 
 /**
