@@ -75,7 +75,7 @@ created_date BIGINT
 
 COMMENT ON TABLE learnhanzi_schema.hanzi_data IS 'This is a table to store data about Chinese characters. Must Use UTF-8 encoding. Every Chinese characters that I have learned must be inserted in this table, input the time when I start learning this character too, to monitor the speed progress of learning Chinese characters.';
 COMMENT ON COLUMN learnhanzi_schema.hanzi_data.hanzi IS 'A column to store the already learned hanzi. This data must be unique.';
-COMMENT ON COLUMN learnhanzi_schema.hanzi_data.created_date IS 'A column to store the created date of this hanzi measured using epoch time or unix time. To make it easier to determine the timezone';
+COMMENT ON COLUMN learnhanzi_schema.hanzi_data.created_date IS 'A column to store the time and date when this record is inserted. This data using epoch time or unix time, to make it easier to determine the timezone and converting this time to another timezone';
 
 
 ALTER SEQUENCE learnhanzi_schema.sequence_hanzi_data OWNED BY learnhanzi_schema.hanzi_data.hanzi_id;
