@@ -38,7 +38,7 @@ public class HanziData implements Serializable{
 	private String hanzi;
 	
 	@Column(name = "created_date")
-	private Timestamp created_date;
+	private long created_date;
 	
 	//A variable to store Entity UserAndHanzi.
 	//One object of "HanziData" (one row of table "hanzi_data"), exist in many "UserAndHanzi" object.
@@ -67,11 +67,11 @@ public class HanziData implements Serializable{
 		this.hanzi = hanzi;
 	}
 
-	public Timestamp getCreated_date() {
+	public long getCreated_date() {
 		return created_date;
 	}
 
-	public void setCreated_date(Timestamp created_date) {
+	public void setCreated_date(long created_date) {
 		this.created_date = created_date;
 	}
 
@@ -95,7 +95,7 @@ public class HanziData implements Serializable{
 		
 		resultString.append("hanzi_id: " + this.getHanzi_id() + "\n");
 		resultString.append("hanzi: " + this.getHanzi() + "\n");
-		resultString.append("created_date: " + this.getCreated_date() + "\n");
+		resultString.append("created_date: " + this.getCreated_date()+ "\n");
 		//resultString.append("Set<UserAndHanzi>: " + this.getUserAndHanzi() + "\n\n");
 		return resultString.toString();
 	}

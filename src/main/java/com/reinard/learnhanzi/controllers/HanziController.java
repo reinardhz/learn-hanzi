@@ -41,10 +41,11 @@ public class HanziController{
 	 * 
 	 * Http response json example: <br/>
 	 * 
-	 * {"hanzi_data":[{"hanzi":"我", "created_date":"2017-04-04 09:15"}]}
+	 * {"hanzi_data":[{"hanzi":"我", "created_date":"1491448282654"},{"hanzi":"你", "created_date":"1491449282654"},{...}]}
+	 * or string "not found", if no data in database.
 	 * 
 	 */
-	@RequestMapping(value = "/getAllHanzi", method = RequestMethod.POST, produces = {"application/json"})
+	@RequestMapping(value = "/getAllHanzi", method = RequestMethod.POST, produces = {"text/plain"})
 	public ResponseEntity<String> getAllHanzi(){
 		try{
 			logger.info("Get all hanzi data...");
@@ -55,7 +56,13 @@ public class HanziController{
 			headers.add("Access-Control-Allow-Origin", "*");
 			
 			//response header: UTF-8 encoding, to tell the browser display it correctly
-			headers.add("Content-Type", "application/json;charset=UTF-8");
+			headers.add("Content-Type", "text/plain;charset=UTF-8");
+			
+			if(resultJson == null){
+				logger.info("Response result:");
+				logger.info("Not found");
+				return new ResponseEntity<String>("not found.",headers,HttpStatus.OK);
+			}
 			
 			logger.info("Response result:");
 			logger.info(resultJson);
@@ -69,8 +76,8 @@ public class HanziController{
 	/**
 	 * This is a controller to to handle http request to search the inputted hanzi from database. <br/><br/>
 	 * 
-	 * Request body example: 愛
-	 * Response json string example: {"hanzi_data":[{"hanzi":"我", "created_date":"2017-04-04 09:15"}]} or "not found"
+	 * Request body example: 我
+	 * Response json string example: {"hanzi_data":[{"hanzi":"我", "created_date":"1491448282654"}]} or "not found"
 	 * 
 	 * This controller will: <br/>
 	 * 1. Get the hanzi http request. <br/>
@@ -130,7 +137,6 @@ public class HanziController{
 			logger.info(resultJson);
 			return new ResponseEntity<String>(resultJson,headers,HttpStatus.OK);
 			
-			//return new ResponseEntity<String>("...",headers,HttpStatus.OK);
 		} catch (Exception e) {
 			logger.error("Error when searching hanzi data", e);
 			return new ResponseEntity<String>("Error when searching hanzi data", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -149,6 +155,7 @@ public class HanziController{
 	 * 3. Insert the data to database. <br/>
 	 * 4. If the data cannot inserted, response to server with error json. <br/>
 	 */
+	//TODO test this controller
 	@RequestMapping(value = "/saveHanzi", method = RequestMethod.POST, consumes = {"application/json"})
 	public ResponseEntity<String> savehanzi(){
 		//TODO finish this method

@@ -28,7 +28,7 @@ public class HanziServiceImpl {
 	 * Search unique hanzi in "hanzi_data" table.
 	 * 
 	 * @param hanzi - String hanzi to search, return null if the hanzi is not found.
-	 * @return String resultUniqueJson - A unique hanzi_data in json format, null if the hanzi is not found.
+	 * @return String resultUniqueJson - A unique hanzi_data in json format, or \"null\" if the hanzi is not found.
 	 * @throws Exception - If errors occurs when search data from "hanzi_data" table.
 	 */
 	public String selectBy(String hanzi) throws Exception{
@@ -37,34 +37,14 @@ public class HanziServiceImpl {
 			HanziData hanziData = hanziDaoImpl.selectBy(hanzi);
 			
 			if(hanziData == null){
-				
-				/*
-				//prepare the child in json object:
-				Hanzi_data hanziJson = new Hanzi_data();
-				hanziJson.setHanzi("null");
-				Timestamp currentTime = new Timestamp(System.currentTimeMillis());
-				hanziJson.setCreated_date(currentTime.toLocaleString());
-				
-				//convert child to array
-				List<Hanzi_data> hanziJsonList = new ArrayList<>();
-				hanziJsonList.add(hanziJson);
-				Hanzi_data[] resultArray = hanziJsonList.<Hanzi_data>toArray(new Hanzi_data[0]);
-				
-				//prepare the json object
-				HanziDataJsonResponseObject resultJsonObject = new HanziDataJsonResponseObject();
-				resultJsonObject.setHanzi_data(resultArray);
-				
-				//Convert to json
-				ObjectMapper mapper = new ObjectMapper();
-				String resultJson = mapper.writeValueAsString(resultJsonObject);
-				return resultJson;*/
 				return null;
 			}
 			
 			//prepare the child in json object:
 			Hanzi_data hanziJson = new Hanzi_data();
 			hanziJson.setHanzi(hanziData.getHanzi());
-			hanziJson.setCreated_date(hanziData.getCreated_date().toLocaleString());
+			//get the time in GMT+0 time (GMT Time) from database.
+			hanziJson.setCreated_date(String.valueOf(hanziData.getCreated_date()));
 			
 			//convert child to array
 			List<Hanzi_data> hanziJsonList = new ArrayList<>();
@@ -88,14 +68,20 @@ public class HanziServiceImpl {
 	}
 	
 	/**
-	 * Select all hanzi from "hanzi_data" table.
+	 * Select all hanzi from "hanzi_data" table. <br/><br/>
+	 * Example of returned json: <br/>
+	 * {"hanzi_data":[{"hanzi":"我","created_date":"1491448282654"},{"hanzi":"你","created_date":"1491451859750"}]} <br/>
 	 * 
-	 * @return String resultJson - All hanzi_data in json format.
+	 * @return String resultJson - All hanzi_data in json format, null if not found.
 	 * @throws Exception - If errors occurs when select all data from "hanzi_data" table.
 	 */
 	public String selectAll() throws Exception{
 		try{
 			List<HanziData> allHanzi = hanziDaoImpl.selectAll();
+			
+			if(allHanzi == null || allHanzi.isEmpty()){
+				return null;
+			}
 			
 			//convert result to json array:
 			List<Hanzi_data> hanziJsonList = new ArrayList<>();
@@ -103,7 +89,7 @@ public class HanziServiceImpl {
 				Hanzi_data hanziJson = new Hanzi_data();
 				//hanziJson.setHanzi_id(String.valueOf(hanzi.getHanzi_id()));
 				hanziJson.setHanzi(hanzi.getHanzi());
-				hanziJson.setCreated_date(hanzi.getCreated_date().toLocaleString());
+				hanziJson.setCreated_date(String.valueOf(hanzi.getCreated_date()));
 				hanziJsonList.add(hanziJson);
 				
 			}
@@ -131,5 +117,8 @@ public class HanziServiceImpl {
 			throw e;
 		}
 	}
+	
+	
+	//TODO insert method()
 	
 }

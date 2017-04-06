@@ -1,23 +1,19 @@
 package com.reinard.learnhanzi.controllers;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.reinard.learnhanzi.dao.impl.HanziDaoImpl;
 import com.reinard.learnhanzi.models.HanziData;
 import com.reinard.learnhanzi.models.UserAndHanzi;
 import com.reinard.learnhanzi.models.UserData;
-
-import java.sql.Timestamp;
-import java.util.HashSet;
-import java.util.Set;
-
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * Provide test for "HanziDaoImpl". Run it with JUnit in eclipse
@@ -36,9 +32,22 @@ public class HanziDaoImplTest {
 	@Autowired
 	private HanziDaoImpl hanziDaoImpl;
 	
+	//@Test
+	public void currentTime(){
+		System.out.println(System.currentTimeMillis());
+		System.out.println(System.currentTimeMillis()/1000L);
+	}
+	
+	@Test
+	public void testSelectAll() throws Exception{
+		List<HanziData> result = hanziDaoImpl.selectAll();
+		System.out.println(result.toString());
+	}
+	
 	@Test
 	public void testSelectBy() throws Exception{
 		HanziData result = hanziDaoImpl.selectBy("我");
+		
 		System.out.println(result.toString());
 	}
 	
@@ -46,7 +55,7 @@ public class HanziDaoImplTest {
 	public void testInsert() throws Exception{
 		HanziData input = new HanziData();
 		input.setHanzi("買");
-		input.setCreated_date(new Timestamp(System.currentTimeMillis()));
+		input.setCreated_date(System.currentTimeMillis());
 		
 		Set<UserAndHanzi> childs = new HashSet<UserAndHanzi>();
 		UserAndHanzi child = new UserAndHanzi();

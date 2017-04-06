@@ -118,7 +118,7 @@ public class TestController {
 		public String parseJson() throws Exception {
 			HanziData hanziData = new HanziData();
 			hanziData.setHanzi_id(1L);
-			hanziData.setCreated_date(new Timestamp(System.currentTimeMillis()));
+			//hanziData.setCreated_date(new Timestamp(System.currentTimeMillis()));
 			hanziData.setHanzi("\u6211");
 
 			// An ObjectOutputStream writes primitive data types and graphs of Java
@@ -142,8 +142,8 @@ public class TestController {
 		 * @return
 		 * @throws Exception
 		 */
-		//@RequestMapping(value = "/parseBigJson", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8" })
-		//@ResponseBody
+		@RequestMapping(value = "/parseBigJson", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8" })
+		@ResponseBody
 		public String parseBigJson() throws Exception {
 
 			StringBuilder stringbuilder = new StringBuilder();
@@ -152,7 +152,7 @@ public class TestController {
 			for (int i = 0; i <= 3000; i++) {
 				HanziData hanziData = new HanziData();
 				hanziData.setHanzi_id(1L);
-				hanziData.setCreated_date(new Timestamp(System.currentTimeMillis()));
+				//hanziData.setCreated_date(new Timestamp(System.currentTimeMillis()));
 				hanziData.setHanzi("\u6211");
 
 				byteArrayOutputStream = new ByteArrayOutputStream();
@@ -166,7 +166,7 @@ public class TestController {
 				stringbuilder.append(json + "\n");
 				// faster that calling byteArrayOutputStream.close();
 				byteArrayOutputStream = null;
-
+				return "";
 			}
 
 			return stringbuilder.toString();

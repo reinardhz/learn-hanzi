@@ -25,6 +25,7 @@ COMMIT;
 BEGIN;
 --Set the timezone to GMT+7, so all value in timestamp column type, is automatically using GMT+7 timezone.
 SET timezone TO 'GMT-7';
+DROP SCHEMA learnhanzi_schema;
 CREATE SCHEMA learnhanzi_schema AUTHORIZATION learnhanzi;
 COMMIT;
 
@@ -69,14 +70,17 @@ CREATE SEQUENCE learnhanzi_schema.sequence_hanzi_data INCREMENT BY 1 CACHE 1 NO 
 CREATE TABLE learnhanzi_schema.hanzi_data(
 hanzi_id BIGINT PRIMARY KEY DEFAULT  nextval('learnhanzi_schema.sequence_hanzi_data'),
 hanzi TEXT UNIQUE,
-created_date TIMESTAMP WITH TIME ZONE
+created_date BIGINT
 ) TABLESPACE learnhanzi_tablespace;
 
 COMMENT ON TABLE learnhanzi_schema.hanzi_data IS 'This is a table to store data about Chinese characters. Must Use UTF-8 encoding. Every Chinese characters that I have learned must be inserted in this table, input the time when I start learning this character too, to monitor the speed progress of learning Chinese characters.';
+COMMENT ON COLUMN learnhanzi_schema.hanzi_data.hanzi IS 'A column to store the already learned hanzi. This data must be unique.';
+COMMENT ON COLUMN learnhanzi_schema.hanzi_data.created_date IS 'A column to store the created date of this hanzi measured using epoch time or unix time. To make it easier to determine the timezone';
+
 
 ALTER SEQUENCE learnhanzi_schema.sequence_hanzi_data OWNED BY learnhanzi_schema.hanzi_data.hanzi_id;
 
-INSERT INTO learnhanzi_schema.hanzi_data(hanzi, created_date) VALUES ('我','2017-03-26 20:00:00');
+INSERT INTO learnhanzi_schema.hanzi_data(hanzi, created_date) VALUES ('我',1491448282654);
 
 COMMIT;
 

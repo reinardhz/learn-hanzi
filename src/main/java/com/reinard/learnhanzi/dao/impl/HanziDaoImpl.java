@@ -25,6 +25,7 @@ public class HanziDaoImpl {
 	 * @param id
 	 * @return List&lt;HanziData&gt; All record from "hanzi_data" table.
 	 */
+	@SuppressWarnings("all")
 	public List<HanziData> selectAll() throws Exception{
 		logger.info("Selecting all hanzi_data...");
 		Session newSession = hibernateSessionFactory.openSession();

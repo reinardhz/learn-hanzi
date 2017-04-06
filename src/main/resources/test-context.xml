@@ -16,8 +16,9 @@ xsi:schemaLocation="
 
 	<!-- Context Configuration For Dao Test -->
 	
-	<!-- Enables Activate Dao Class with @Repository annotation -->
+	<!-- Enables Activate Dao Class and Service Class with @Repository and @Service annotation -->
 	<context:component-scan base-package="com.reinard.learnhanzi.dao.impl" />
+	<context:component-scan base-package="com.reinard.learnhanzi.service.impl" />
 	
 	<!-- Driver to connect to Oracle database-->
 	<!-- Equivalent in java: -->

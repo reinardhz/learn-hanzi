@@ -5,7 +5,7 @@
 <style>
 
 .data{
-
+	font-size: 25px;
 }
 
 </style>
@@ -56,7 +56,7 @@
 	</center>
 
 	<center>
-		<div id="data" class=""></div>
+		<div id="data" class="data">我</div>
 	</center>
 	<br />
 
@@ -100,8 +100,7 @@
 					var responseString = ajax.responseText;
 
 					//if the json is null, or the json is empty, then print error message
-					if (responseString == null) {
-
+					if (responseString==null || responseString==="not found") {
 						document.getElementById("data").innerHTML = "Cannot get the data !";
 						return;
 					} else {
@@ -113,7 +112,12 @@
 						for (i in responseObject.hanzi_data) {
 							console.log(i);
 							var hanzi = responseObject.hanzi_data[i].hanzi;
-							var created_date = responseObject.hanzi_data[i].created_date;
+							var created_date_epoch_string = responseObject.hanzi_data[i].created_date;
+							//console.log("on function getAllHanzi(), created_date_epoch : "+created_date_epoch)
+							//TODO convert the created_date_epoch into javascript date.
+							var created_date_epoch_int = parseInt(created_date_epoch_string);
+							var created_date = new Date(created_date_epoch_int);
+							//console.log("on function getAllHanzi(), created_date_string : "+created_date)
 							result = result + hanzi + " " + created_date
 									+ "<br/>";
 							document.getElementById("data").innerHTML = result;
@@ -159,7 +163,9 @@
 						for (i in responseObject.hanzi_data) {
 							console.log(i);
 							var hanzi = responseObject.hanzi_data[i].hanzi;
-							var created_date = responseObject.hanzi_data[i].created_date;
+							var created_date_epoch_string = responseObject.hanzi_data[i].created_date;
+							var created_date_epoch_int = parseInt(created_date_epoch_string);
+							var created_date = new Date(created_date_epoch_int);
 							result = result + hanzi + " " + created_date
 									+ "<br/>";
 							document.getElementById("result").innerHTML = result;
@@ -215,6 +221,32 @@
 			
 		}
 		
+		
+		//A function to get the local GMT time zone
+		function getLocalTimezone() {
+			//get the hours difference from GMT time and local time.
+			//(GMT time minus local time )
+			//Example:
+			//If GMT time is "13.00" and your local time is "20.00", 
+			//then: "(new Date()).getTimezoneOffset()/60" will produce "-7"
+			var difference = (new Date()).getTimezoneOffset() / 60;
+
+			var timezone = "";
+
+			if (difference < 0) {
+				//If the difference is -7, it is GMT +7 time
+				var absolute = Math.abs(difference);
+				//produce GMT information
+				timezone = "GMT +" + absolute + " Time";
+			} else if (difference == 0) {
+				//If the difference is 0, it is GMT time
+				var timezone = "GMT Time";
+			} else if (difference > 0) {
+				timezone = "GMT -" + difference + " Time";
+			}
+
+			return timezone;
+		}
 	</script>
 </body>
 </html>
