@@ -23,6 +23,8 @@ COMMIT;
 
 --Create new schema for user 'learnhanzi'.
 BEGIN;
+--Set the timezone to GMT+7, so all value in timestamp column type, is automatically using GMT+7 timezone.
+SET timezone TO 'GMT-7';
 CREATE SCHEMA learnhanzi_schema AUTHORIZATION learnhanzi;
 COMMIT;
 
@@ -74,7 +76,7 @@ COMMENT ON TABLE learnhanzi_schema.hanzi_data IS 'This is a table to store data 
 
 ALTER SEQUENCE learnhanzi_schema.sequence_hanzi_data OWNED BY learnhanzi_schema.hanzi_data.hanzi_id;
 
-INSERT INTO learnhanzi_schema.hanzi_data(hanzi, created_date) VALUES ('我','2017-03-26 20:00:00+07');
+INSERT INTO learnhanzi_schema.hanzi_data(hanzi, created_date) VALUES ('我','2017-03-26 20:00:00');
 
 COMMIT;
 
