@@ -46,7 +46,7 @@
 	</table>
 	</center>
 	<br/>
-	<center><b>Result:</b> <div id="result">aaa</div></center>
+	<center><b>Result:</b> <div id="result"></div></center>
 	
 	<br/><br/>
 	<center>
@@ -56,7 +56,7 @@
 	</center>
 
 	<center>
-		<div id="data" class="data">我</div>
+		<div id="data" class="data"></div>
 	</center>
 	<br />
 
@@ -188,14 +188,21 @@
 
 		}
 		
-		
-		//A function to add the unique hanzi from the inputted text box, by requesting to the server.
+		//A function to add the unique hanzi from the inputted text box to database, by requesting to the server.
 		function addHanzi(){
+		
+			//clear error message, if there are error message.
+			document.getElementById("result").innerHTML = "";
 			
-			//if the input box is not filled, then don't process this.
-			if(isValidAdd()){
-			}else{
-				document.getElementById("result").innerHTML = "Please insert hanzi";
+			var input = document.getElementById("input").value;
+			
+			if(input==null){
+				document.getElementById("result").innerHTML = "Please insert Hanzi";
+				return;
+			}
+			
+			if(isEmpty(input)){
+				document.getElementById("result").innerHTML = "Please insert Hanzi";
 				return;
 			}
 			
@@ -207,36 +214,67 @@
 			ajax.onreadystatechange = function() {
 				//When readyState property is 4 and the status property is 200, the response is ready:
 				if (this.readyState == 4 && this.status == 200) {
-					console.log("searchHanzi(), responseText: "
+					console.log("insertHanzi(), responseText: "
 							+ ajax.responseText);
 					var responseString = ajax.responseText;
 					//get response from server, add succeed or fail?, then display it.
-					document.getElementById("result").innerHTML = responseString;
-				}			
+					
+					if(responseString === "The request body cannot be read."){
+						document.getElementById("result").innerHTML = "The request body cannot be read.";
+						return;
+					}
+					if(responseString === "The request body cannot be empty."){
+						document.getElementById("result").innerHTML = "The request body cannot be empty.";
+						return;
+					}
+					if(responseString === "Error when inserting hanzi data."){
+						document.getElementById("result").innerHTML = "Error when inserting hanzi data.";
+						return;
+					}
+					
+					//convert from string into javasript object:
+					var responseObject = JSON.parse(responseString);
+
+					//get the "hanzi" and "created_date" from json 
+					var result = "";
+					for (i in responseObject.hanzi_data) {
+						console.log(i);
+						var hanzi = responseObject.hanzi_data[i].hanzi;
+						var created_date_epoch_string = responseObject.hanzi_data[i].created_date;
+						var created_date_epoch_int = parseInt(created_date_epoch_string);
+						var created_date = new Date(created_date_epoch_int);
+						result = result + hanzi + " " + created_date + " Inserted !" + "<br/>";
+						document.getElementById("result").innerHTML = result;
+					}
+
+				}
 			}
-			
+
 			//setting the http request
-			ajax.open("POST", "http://localhost:9097/learn-hanzi/api/hanzi/searchHanzi",true);
-			
+			ajax.open("POST",
+					"http://localhost:9097/learn-hanzi/api/hanzi/insertHanzi",
+					true);
+
 			//You must call setRequestHeader()after open(), but before send().
 			ajax.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
-			
+
 			//send the http request to server, with request body, json from input text box
-			//TODO get the value from inputBox
-			var inputBox = document.getElementById("input").value;
-			ajax.send(inputBox);
+			ajax.send(input);
 		}
-		
-		//A function to validate the "Add" button.
-		function isValidAdd(){
-			var input = document.getElementById("addHanziButton").value;
-			//if the value of input box is null or empty string, then return false, otherwise return true
-			if(input==null || input.length===0){
+
+		//A function to validate the String.
+		function isEmpty(input) {
+
+			//remove all whitespace from input
+			removedWhiteSpaceInput = input.replace(/\s+/g, "");
+
+			//if input contains no character left, it is then a empty string
+			if (removedWhiteSpaceInput.length === 0) {
+				return true;
+			} else {
 				return false;
 			}
-			return true;
 		}
-		
 	</script>
 </body>
 </html>

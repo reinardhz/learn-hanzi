@@ -158,8 +158,9 @@ public class HanziController{
 	 * 1. Get the hanzi data from json. <br/>
 	 * 2. Create the date, from current date. <br/>
 	 * 3. Insert the data to database. <br/>
+	 * 4. If the data cannot be read, response to server with error String: "The request body cannot be read.".
 	 * 4. If the data cannot be inserted, response to server with error String: "Error: Cannot Insert. Data Already Exist" . 
-	 * 5. If error happened, response to server with error String: "Error: Cannot Insert. Data Already Exist"<br/>
+	 * 5. If error happened, response to server with error String: "Error when inserting hanzi data". <br/>
 	 */
 	//TODO test this controller
 	//TODO add validation string empty in input text box javascript
@@ -198,7 +199,7 @@ public class HanziController{
 			String input = resultString.toString();
 			
 			if(StringUtil.isEmpty(input)){
-				return new ResponseEntity<String>("The request body cannot be empty", HttpStatus.INTERNAL_SERVER_ERROR);
+				return new ResponseEntity<String>("The request body cannot be empty.", HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
 			String resultJson = hanziService.insertHanzi(input);
@@ -215,7 +216,7 @@ public class HanziController{
 			
 		}catch(Exception e){
 			logger.error("Unexpected error when inserting hanzi data", e);
-			return new ResponseEntity<String>("Error when inserting hanzi data", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Error when inserting hanzi data.", HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 		
 	}
