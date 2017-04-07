@@ -1,21 +1,13 @@
 package com.reinard.learnhanzi.services;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import org.apache.log4j.Logger;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.reinard.learnhanzi.dao.impl.HanziDaoImpl;
-import com.reinard.learnhanzi.models.HanziData;
-import com.reinard.learnhanzi.models.UserAndHanzi;
-import com.reinard.learnhanzi.models.UserData;
 import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 
 /**
@@ -32,6 +24,8 @@ import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 @RunWith(SpringJUnit4ClassRunner.class)
 public class HanziServiceImplTest {
 	
+	private final static Logger logger = Logger.getLogger(HanziServiceImplTest.class);
+	
 	@Autowired
 	HanziServiceImpl hanziService;
 	
@@ -43,34 +37,65 @@ public class HanziServiceImplTest {
 	 */
 	@Test
 	public void testSelectAll() throws Exception{
+		logger.debug("Start test");
 		String result = hanziService.selectAll();
-		assertNotNull(result);
-		System.out.println(result);
+		Assert.assertNotNull(result);
+		logger.debug(result);
 	}
 	
 	/**
-	 * Case 1: Search inputted hanzi from table that already had data, the data is found, then return the data.
-	 * Case 2: Search inputted hanzi from table that already had data, the data is not found, then return "null".
-	 * Case 3: Select inputted hanzi from table that has no data, must return ? 
+	 * Case 1: Search inputted hanzi from table that already had data, the data is found, must return the data.
+	 * Case 2: Search inputted hanzi from table that already had data, the data is not found, must return "null".
+	 * Case 3: Select inputted hanzi from table that has no data, must return "null";
 	 * 
 	 * @throws Exception
 	 */
 	@Test
 	public void testSelectBy() throws Exception{
+		logger.debug("Start test");
+		//Case 1: Data found
 		String result1 = hanziService.selectBy("我");
-		assertNotNull(result1);
-		System.out.println(result1);
-		String result2 = hanziService.selectBy("愛");
-		assertNull(result2);
+		Assert.assertNotNull(result1);
+		Assert.assertTrue(result1.contains("我"));
+		logger.debug(result1);
+		
+		//Case 2: Data not found
+		String result2 = hanziService.selectBy("鳱");
+		Assert.assertNull(result2);
+		
+		//Case 3: ?
 	}
 	
 	/**
-	 * Case 1: Insert new data that is not same as previous data, return the successfull hanzi + its created date.
-	 * Response json string example: {"hanzi_data":[{"hanzi":"我", "created_date":"1491448282654"}]}.
+	 * Case 1: Insert new data that is not same as previous data, return the successfull inserted hanzi and its created date.
+	 * Response json string example: {"hanzi_data":[{"hanzi":"會", "created_date":"1491448282654"}]}.
 	 * <br/><br/>
-	 * 
-	 * Case 2: Insert data that is same as previous data. Return error: "Data already exist".
 	 */
-	
+	@Test
+	public void insertHanzi1() throws Exception{
+		logger.debug("Start test");
+		String input = "沙";
+		
+		//Case 1:
+		String insertSucceed = hanziService.insertHanzi(input);
+		Assert.assertNotNull(insertSucceed);
+		Assert.assertTrue(insertSucceed.contains(input));
+		logger.debug(insertSucceed);
+		
+	}
+	/**
+	 * 
+	 * Case 2: Insert data that is same as previous data. Return String: "Error: Cannot Insert. Data Already Exist".
+	 */
+	@Test
+	public void insertHanzi2() throws Exception{
+		logger.debug("Start test");
+		String input = "沙";
+		
+		//Case 2:
+		String insertFailed = hanziService.insertHanzi(input);
+		Assert.assertNotNull(insertFailed);
+		Assert.assertEquals("Error: Cannot Insert. Data Already Exist", insertFailed);
+	}
 
 }

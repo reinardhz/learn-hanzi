@@ -34,7 +34,7 @@
 		<tr>
 			<td>Add:</td>
 			<td><input id="input" type="text" /></td>
-			<td><button id="addHanziButton" type="button">Add</button></td>
+			<td><button id="addHanziButton" type="button" onclick="addHanzi()">Add</button></td>
 		</tr>
 
 		<tr>
@@ -191,6 +191,14 @@
 		
 		//A function to add the unique hanzi from the inputted text box, by requesting to the server.
 		function addHanzi(){
+			
+			//if the input box is not filled, then don't process this.
+			if(isValidAdd()){
+			}else{
+				document.getElementById("result").innerHTML = "Please insert hanzi";
+				return;
+			}
+			
 			//make request to server using ajax.
 			//ajax programming use XMLHttpRequest()
 			var ajax = new XMLHttpRequest();
@@ -217,36 +225,18 @@
 			//TODO get the value from inputBox
 			var inputBox = document.getElementById("input").value;
 			ajax.send(inputBox);
-			
-			
 		}
 		
-		
-		//A function to get the local GMT time zone
-		function getLocalTimezone() {
-			//get the hours difference from GMT time and local time.
-			//(GMT time minus local time )
-			//Example:
-			//If GMT time is "13.00" and your local time is "20.00", 
-			//then: "(new Date()).getTimezoneOffset()/60" will produce "-7"
-			var difference = (new Date()).getTimezoneOffset() / 60;
-
-			var timezone = "";
-
-			if (difference < 0) {
-				//If the difference is -7, it is GMT +7 time
-				var absolute = Math.abs(difference);
-				//produce GMT information
-				timezone = "GMT +" + absolute + " Time";
-			} else if (difference == 0) {
-				//If the difference is 0, it is GMT time
-				var timezone = "GMT Time";
-			} else if (difference > 0) {
-				timezone = "GMT -" + difference + " Time";
+		//A function to validate the "Add" button.
+		function isValidAdd(){
+			var input = document.getElementById("addHanziButton").value;
+			//if the value of input box is null or empty string, then return false, otherwise return true
+			if(input==null || input.length===0){
+				return false;
 			}
-
-			return timezone;
+			return true;
 		}
+		
 	</script>
 </body>
 </html>

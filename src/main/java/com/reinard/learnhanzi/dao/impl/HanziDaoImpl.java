@@ -25,8 +25,8 @@ public class HanziDaoImpl {
 	/**
 	 * A method to select all data from "hanzi_data" table.
 	 * 
-	 * @param id
-	 * @return List&lt;HanziData&gt; All record from "hanzi_data" table.
+	 * @return List&lt;HanziData&gt; All record from "hanzi_data" table. Return <i>null</i> if no data found.
+	 * @throws Exception - If error happen when trying to select all data from database.
 	 */
 	@SuppressWarnings("all")
 	public List<HanziData> selectAll() throws Exception{
@@ -39,26 +39,23 @@ public class HanziDaoImpl {
 			List<HanziData> result = newSession.createCriteria(HanziData.class).list();
 			transaction.commit();
 			logger.info("Select all hanzi_data succeed.");
-			logger.info(result.toString());
+			logger.debug(result.toString());
 			return result;
 		}catch(Exception e){
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			logger.error("Exception when trying to select all from \"hanzi_data\" table, rollback succeed", e);
+			if (transaction != null) transaction.rollback();
+			logger.error("Unexpected error occurred when trying to select all from \"hanzi_data\" table, rollback succeed", e);
 			throw e;
 		}finally{
-			if(newSession.isOpen()){
-				newSession.close();
-			}
+			if(newSession.isOpen()) newSession.close();
 		}
 	}
 	
 	/**
 	 * A method to select from "hanzi_data" table, by searching the unique hanzi.
 	 * 
-	 * @param input - Hanzi to search.
-	 * @return HanziData - One record from "hanzi_data" table, that match the inputted hanzi..
+	 * @param hanzi - A String to search.
+	 * @return HanziData - One record from "hanzi_data" table, that match the inputted hanzi. Return <i>null</i> if the data cannot be found.
+	 * @throws Exception - If error happen when trying to select data from database.
 	 */
 	public HanziData selectBy(String hanzi) throws Exception{
 		logger.info("Searching hanzi_data from inputted hanzi...");
@@ -75,19 +72,16 @@ public class HanziDaoImpl {
 			 }else{
 			 HanziData result = (HanziData)resultObject;
 			 logger.info("HanziData found.");
-			 logger.info(result.toString());
+			 logger.debug(result.toString());
 			 return result;
 			 }
 		}catch(Exception e){
-			if (transaction != null) {
-				transaction.rollback();
-			}
-			logger.error("Error when trying to select \"hanzi_data\" by inputted hanzi, rollback complete", e);
+			if (transaction != null) transaction.rollback();
+			
+			logger.error("Unexpected error occurred when trying to select \"hanzi_data\" by inputted hanzi, rollback complete", e);
 			throw e;
 		}finally{
-			if(newSession.isOpen()){
-				newSession.close();
-			}
+			if(newSession.isOpen()) newSession.close();
 		}
 	}
 	
@@ -96,9 +90,11 @@ public class HanziDaoImpl {
 	 *  
 	 * @param input - Object HanziData to be inserted.
 	 * @return HanziData - the successfull inserted HanziData.
+	 * @throws PersistenceException - If the data cannot inserted to the database, because it already exist.
+	 * @throws Exception - If error happen when trying to insert data to database.
 	 */
 	public HanziData insert(HanziData input) throws Exception{
-		logger.info("Inserting Hanzidata...");
+		logger.info("Inserting HanziData...");
 		Session newSession = hibernateSessionFactory.openSession();
 		Transaction transaction = null;
 		
@@ -106,22 +102,22 @@ public class HanziDaoImpl {
 			transaction = newSession.beginTransaction();
 			newSession.save(input);
 			transaction.commit();
-			logger.info("Insert Hanzidata succeed.");
+			logger.info("Insert HanziData succeed.");
+			logger.debug(input.toString());
 			return input;
 		}catch(Exception e){
-			if (transaction != null) {
-				transaction.rollback();
-			}
+			if (transaction != null) transaction.rollback();
+			
 			if(e instanceof PersistenceException){
-				logger.error("Error: cannot insert the same HanziData, rollback succeed",e);
+				logger.error("Error: cannot insert the same HanziData, rollback succeed", e);
 				throw e;
 			}
-			logger.error("Error when insert HanziData, rollback succeed",e);
+			
+			logger.error("Unexpected error occurred when inserting HanziData, rollback succeed",e);
 			throw e;
 		}finally{
-			if(newSession.isOpen()){
-				newSession.close();
-			}
+			if(newSession.isOpen()) newSession.close();
+			
 		}
 	}
 	
