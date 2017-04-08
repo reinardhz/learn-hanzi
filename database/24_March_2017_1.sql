@@ -23,8 +23,6 @@ COMMIT;
 
 --Create new schema for user 'learnhanzi'.
 BEGIN;
---Set the timezone to GMT+7, so all value in timestamp column type, is automatically using GMT+7 timezone.
-SET timezone TO 'GMT-7';
 DROP SCHEMA learnhanzi_schema;
 CREATE SCHEMA learnhanzi_schema AUTHORIZATION learnhanzi;
 COMMIT;
