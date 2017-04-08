@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+Choose Book: <select id="bookList" onchange="detect()">
+<option value="...">---Choose Book---</option>
+</select>
+
+<button name="a" onclick="getBookList()">Get book list</button>
+
+<br/><br/>
+Result: <div id="result"></div>
+
+<script>
+//function to get book list data
+function getBookList(){
+
+	//get the <select> element DOM object.
+	var bookList = document.getElementById("bookList");
+	
+	//prepare the data.
+	var dataBook = ["Book 1", "Book 2", "Book 3", "Book 4", "Book 5"]; 
+	
+	//Display the dropdown list from array.
+	for(var i = 0; i < dataBook.length; ++i) {
+    	var bookName = dataBook[i];
+        
+        //create new <option> tag.
+    	var newOptionTag = document.createElement("option");
+        
+     	//set the content of the created <option> tag.
+    	newOptionTag.textContent = bookName;
+        
+        //set the attribut "value" in created <option> tag.
+    	newOptionTag.value = bookName;
+        
+        //add the created <option> tag inside <select> element.
+        bookList.add(newOptionTag);
+	}
+}
+
+//this function executed when user select the option from dropdown list.
+function detect(){
+
+//get the value of the selected <option> tag in "bookList" drop-down list.
+var selectedValue = document.getElementById("bookList").value;
+
+document.getElementById("result").innerHTML = selectedValue; 
+
+//put in global variable to be accessed by another function.
+window.selectedOption=selectedValue;  
+}
+</script>
+</body>
+</html>

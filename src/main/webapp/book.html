@@ -22,16 +22,22 @@
 	</center>
 	
 	<center>
-	<span><a href="#"><button>Home</button></a></span>
+	<span><a href="index.html"><button>Home</button></a></span>
 	&nbsp;&nbsp;
-	<span><a href="book.html"><button>Book</button></a></span>
+	<span><a href="#"><button>Book</button></a></span>
 	</center>
 	<br/>
 	
 	<center>
 		<h2 id="titleData">
-			Hanzi
+			Book
 		</h2>
+		<b>Choose Book:</b> &nbsp;<select id="bookList">
+  			<option value="volvo">Volvosdsdsdsdsd</option>
+  			<option value="saab">Saab</option>
+  			<option value="opel">Opel</option>
+  			<option value="audi">Audi</option>
+		</select>
 	</center>
 	
 	<br/>
@@ -49,7 +55,6 @@
 			<td><input id="input" type="text" /></td>
 			<td><button id="addHanziButton" type="button" onclick="addHanzi()">Add</button></td>
 		</tr>
-		
 	
 	</table>
 	</center>
@@ -59,14 +64,14 @@
 	<br/><br/>
 	<center>
 		<h2 id="titleData">
-			All Hanzi
+			All Hanzi Written in Book
 		</h2>
 	</center>
 
 	<center>
 		<div id="data" class="data"></div>
 	</center>
-	<br />
+	<br/>
 
 	<center>
 		<button type="button" onclick="getAllHanzi()">Get all data</button>
