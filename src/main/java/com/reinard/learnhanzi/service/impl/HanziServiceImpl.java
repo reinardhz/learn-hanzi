@@ -135,7 +135,7 @@ public class HanziServiceImpl {
 	 * <br/>
 	 * 
 	 * @param hanzi - String hanzi to insert.
-	 * @return String result - The inserted hanzi data in json format, or String: "Error: Cannot Insert. Data Already Exist", if trying to insert the already inserted data.
+	 * @return String result - The inserted hanzi data in json format, or String: "Error: Cannot Insert. Data Already Exist.", if trying to insert the already inserted data.
 	 * @throws Exception - If errors occurs when inserting data to database
 	 * 
 	 */
@@ -192,7 +192,7 @@ public class HanziServiceImpl {
 			
 		}catch(PersistenceException pe){
 			logger.error("Cannot Insert. Data Already Exist");
-			return "Error: Cannot Insert. Data Already Exist";
+			return "Error: Cannot Insert. Data Already Exist.";
 		}catch(Exception e){
 			logger.error("Unexpected error occurred when inserting hanzi to database.");
 			throw e;

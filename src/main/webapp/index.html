@@ -36,12 +36,13 @@
 			<td><input id="input" type="text" /></td>
 			<td><button id="addHanziButton" type="button" onclick="addHanzi()">Add</button></td>
 		</tr>
-
+		
+		<!--
 		<tr>
 			<td>Delete:</td>
 			<td><input id="delete" type="text" /></td>
 			<td><button id="deleteHanziButton" type="button">Delete</button></td>
-		</tr>
+		</tr> -->
 	
 	</table>
 	</center>
@@ -139,6 +140,22 @@
 
 		//A function to search the unique hanzi from the inputted text box, by requesting to the server
 		function searchHanzi() {
+			
+			//clear error message, if there are error message.
+			document.getElementById("result").innerHTML = "";
+			
+			var search = document.getElementById("search").value;
+			
+			if(search==null){
+				document.getElementById("result").innerHTML = "Please input Hanzi";
+				return;
+			}
+			
+			if(isEmpty(search)){
+				document.getElementById("result").innerHTML = "Please insert Hanzi";
+				return;
+			}
+			
 			//make request to Hanziserver using ajax.
 			//ajax programming use XMLHttpRequest()
 			var ajax = new XMLHttpRequest();
@@ -227,6 +244,10 @@
 						document.getElementById("result").innerHTML = "The request body cannot be empty.";
 						return;
 					}
+					if(responseString === "Error: Cannot Insert. Data Already Exist."){
+						document.getElementById("result").innerHTML = "Error: Cannot Insert. Data Already Exist.";
+						return;
+					}
 					if(responseString === "Error when inserting hanzi data."){
 						document.getElementById("result").innerHTML = "Error when inserting hanzi data.";
 						return;
@@ -268,7 +289,7 @@
 			//remove all whitespace from input
 			removedWhiteSpaceInput = input.replace(/\s+/g, "");
 
-			//if input contains no character left, it is then a empty string
+			//if input contains no character left after the whitespace removed, it is then an empty string
 			if (removedWhiteSpaceInput.length === 0) {
 				return true;
 			} else {
