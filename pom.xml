@@ -6,7 +6,7 @@
 	<packaging>war</packaging>
 	<version>1.0</version>
 	<name>learn-hanzi</name>
-	<url>ssh://reinardhz@git.code.sf.net/p/learn-hanzi/git</url>
+	<url>ssh://reinardhz@git.code.sf.net/p/learn-hanzi/git, https://github.com/reinardhz/learn-hanzi.git</url>
 	<description>A project to help me learn Chinese characters at faster pace.</description>
 
 	<properties>
