@@ -1,6 +1,6 @@
 ﻿<encoding>UTF-8 BOM</encoding>
 This is a project that primary function is to monitor the progress of the learned Chinese characters.
-There are only 1 actor in this system, which is Admin.
+There are only 1 actor in this system, which is Admin. This project is under development.
 
 The General Requirements:
 * Admin can add the category of the chinese characters (hanzi).
