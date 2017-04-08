@@ -43,7 +43,7 @@ public class TestController {
 		//@Autowired
 		private SessionFactory hibernateSessionFactory;
 		
-		@Autowired
+		//@Autowired
 		private HanziDaoImpl hanziDaoImpl;
 		
 		
@@ -61,7 +61,6 @@ public class TestController {
 		//@ResponseBody
 		public String test2() throws Exception {
 
-			// TODO test this http response json
 			Session newSession = hibernateSessionFactory.openSession();
 			Transaction tx = null;
 			try {
@@ -142,8 +141,8 @@ public class TestController {
 		 * @return
 		 * @throws Exception
 		 */
-		@RequestMapping(value = "/parseBigJson", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8" })
-		@ResponseBody
+		//@RequestMapping(value = "/parseBigJson", method = RequestMethod.GET, produces = {"application/json;charset=UTF-8" })
+		//@ResponseBody
 		public String parseBigJson() throws Exception {
 
 			StringBuilder stringbuilder = new StringBuilder();

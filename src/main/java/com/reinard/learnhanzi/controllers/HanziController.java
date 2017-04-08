@@ -15,7 +15,6 @@ import org.springframework.web.context.WebApplicationContext;
 import java.io.BufferedReader;
 
 import com.reinard.learnhanzi.helper.utils.StringUtil;
-import com.reinard.learnhanzi.json.SearchHanziJsonRequestObject;
 import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 
 /**
@@ -163,8 +162,6 @@ public class HanziController{
 	 * 4. If the data cannot be inserted, response to client with error String: "Error: Cannot Insert. Data Already Exist."
 	 * 5. If error happened, response to client with error String: "Error when inserting hanzi data". <br/>
 	 */
-	//TODO test this controller
-	//TODO add validation string empty in input text box javascript
 	@RequestMapping(value = "/insertHanzi", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanzi(HttpServletRequest httpServletRequest){
 		
