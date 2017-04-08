@@ -1,4 +1,4 @@
-﻿<encoding>UTF-8 BOM</encodin>
+﻿<encoding>UTF-8 BOM</encoding>
 This is a project that primary function is to monitor the progress of the learned Chinese characters.
 There are only 1 actor in this system, which is Admin.
 
