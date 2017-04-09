@@ -59,7 +59,7 @@ ALTER TABLE group_and_hanzi OWNER TO learnhanzi;
 -- Name: TABLE group_and_hanzi; Type: COMMENT; Schema: learnhanzi_schema; Owner: learnhanzi
 --
 
-COMMENT ON TABLE group_and_hanzi IS 'This is a table to make a relationship between group_data table and hanzi_data table. 
+COMMENT ON TABLE group_and_hanzi IS 'This is a table to make a relationship between group_data table and hanzi_data table. 
 One record of group_data could relate with many record in hanzi_data table. One record in hanzi_data could relate with many record in group_data table';
 
 
@@ -99,7 +99,7 @@ ALTER TABLE hanzi_and_pinyin OWNER TO learnhanzi;
 -- Name: TABLE hanzi_and_pinyin; Type: COMMENT; Schema: learnhanzi_schema; Owner: learnhanzi
 --
 
-COMMENT ON TABLE hanzi_and_pinyin IS 'This is a table to make a relationship between hanzi_data table and pinyin_data table. 
+COMMENT ON TABLE hanzi_and_pinyin IS 'This is a table to make a relationship between hanzi_data table and pinyin_data table. 
 One record of hanzi_data could relate with many record in pinyin_data table. One record in pinyin_data could relate with many record in hanzi_data table';
 
 
