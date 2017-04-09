@@ -71,9 +71,10 @@ e. Click "Apply" button to save the changes
 
 ===This are steps to backup the database===
 1. Open cmd, and go to the directory that contains file "pg_dump.exe".
+Example syntax: cd "C:\Program Files\PostgreSQL\9.5\bin"
 
 2. Type: "pg_dump -h [hostname] -p [listening port number] -U [username] -d [database name] > [filename]"
-Example: "pg_dump -h localhost -p 5432 -U learnhanzi -d learnhanzi_database > E:\backup.sql"
+Example syntax: "pg_dump -h localhost -p 5432 -U learnhanzi -d learnhanzi_database > E:\backup.sql"
 
 3. Press enter, then type the password, then press enter again.
 
@@ -91,7 +92,7 @@ Example: "psql -h localhost -p 5432 -U learnhanzi - d learnhanzi_database < E:\b
 4. Press enter, then type the password, then press enter again.
 
 5. System will execute the backup file to create all database object for backup file.
-
+===============================================================
 
 Note:
 * PostgreSql data type mapping to JDBC type, read: https://documentation.progress.com/output/DataDirect/DataDirectCloud/index.html#page/queries/postgresql-data-types.html
