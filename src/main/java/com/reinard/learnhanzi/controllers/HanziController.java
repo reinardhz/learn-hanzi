@@ -146,20 +146,20 @@ public class HanziController{
 	}
 	
 	/**
-	 * This is a controller to handle http request to save data hanzi to database.  <br/>
+	 * This is a controller to handle http request to save data hanzi to database.  <br/><br/>
 	 * 
-	 * Request body example: 會
-	 * Response json string example: {"hanzi_data":[{"hanzi":"會", "created_date":"1491448282654"}]}
+	 * Request body example: 會<br/>
+	 * Response json string example: {"hanzi_data":[{"hanzi":"會", "created_date":"1491448282654"}]}<br/><br/>
 	 * 
-	 * If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected.
+	 * If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected.<br/><br/>
 	 * 
 	 * This controller will: <br/>
 	 * 1. Get the hanzi data from json. <br/>
 	 * 2. Create the date, from current date. <br/>
 	 * 3. Insert the data to database. <br/>
-	 * 4. If the data cannot be read, response to client with error String: "The request body cannot be read."
-	 * 5. If the request body is a String empty, response to client with error String: "The request body cannot be empty."
-	 * 4. If the data cannot be inserted, response to client with error String: "Error: Cannot Insert. Data Already Exist."
+	 * 4. If the data cannot be read, response to client with error String: "The request body cannot be read."<br/>
+	 * 5. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
+	 * 4. If the data cannot be inserted, response to client with error String: "Error: Cannot Insert. Data Already Exist."<br/>
 	 * 5. If error happened, response to client with error String: "Error when inserting hanzi data". <br/>
 	 */
 	@RequestMapping(value = "/insertHanzi", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})

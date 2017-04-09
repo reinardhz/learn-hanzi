@@ -26,6 +26,29 @@ import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 public class BookController {
 	
 	/**
+	 *  This is a controller to handle http request to insert new book data in table "book_data". <br/><br/>
+	 *  
+	 * Http Request body example: 第一書
+	 * Http Response body example: Book 第一書  inserted.
+	 * 
+	 * If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected.<br/><br/>
+	 * 
+	 *  This controller will: <br/>
+	 * 1. Get the hanzi data from json. <br/>
+	 * 2. Create the date, from current date. <br/>
+	 * 3. Insert the data to database, and respond to client.<br/>
+	 * 4. If the data cannot be read, response to client with error String: "The request body cannot be read."<br/>
+	 * 5. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
+	 * 4. If the data cannot be inserted, response to client with error String: "Error: Cannot Insert. Data Already Exist."<br/>
+	 * 5. If error happened, response to client with error String: "Error when inserting hanzi data". <br/>
+	 * 
+	 * 
+	 */
+	public ResponseEntity<String> insertBook(){
+		
+	}
+	
+	/**
 	 * A method to response all book data in table "book_data".
 	 * 
 	 * Http Response Json String Example: {"book data":[{"book 1"},{"book 2"},...]}
@@ -42,8 +65,8 @@ public class BookController {
 	/**
 	 * A method to response all hanzi written in specified book.
 	 * 
-	 * Http Request String Example: book 1.
-	 * Http Response Json String Example: {"book 1":[{"營業員"},{"電郵"},{"發音"}...]}
+	 * Http Request String Example: Book 1.
+	 * Http Response Json String Example: {"Book 1":[{"營業員"},{"電郵"},{"發音"}...]}
 	 * 
 	 * Important note: do not remove the 'space' character from http request.
 	 * @return

@@ -28,6 +28,39 @@ CREATE SCHEMA learnhanzi_schema AUTHORIZATION learnhanzi;
 COMMIT;
 
 
+---book_data table---
+BEGIN;
+
+--Remove sequence book_data in schema learnhanzi_schema, only if exist.
+DROP SEQUENCE IF EXISTS learnhanzi_schema.sequence_book_data CASCADE;
+
+--Remove table book_data in schema learnhanzi_schema, only if exist.
+DROP TABLE IF EXISTS learnhanzi_schema.book_data CASCADE;
+
+CREATE SEQUENCE learnhanzi_schema.sequence_book_data INCREMENT BY 1 CACHE 1 NO CYCLE;
+
+CREATE TABLE learnhanzi_schema.book_data(
+book_id BIGINT PRIMARY KEY DEFAULT  nextval('learnhanzi_schema.sequence_book_data'),
+book_name TEXT UNIQUE,
+) TABLESPACE learnhanzi_tablespace;
+
+COMMENT ON TABLE learnhanzi_schema.book_data IS 'This is a table to store information of a book. This book is a book that contains many square box, to let you write Chinese characters by hand. Inside each book has many Chinese character and including its stroke order. You named the book, and put the name in this table';
+COMMENT ON COLUMN learnhanzi_schema.book_data.book_name IS 'To store infomation about book name. Example: 第一書';
+
+ALTER SEQUENCE learnhanzi_schema.sequence_book_data OWNED BY learnhanzi_schema.book_data.book_id;
+
+INSERT INTO learnhanzi_schema.book_data(book_name) VALUES ('第一書');
+
+COMMIT;
+
+
+---hanzi_stroke_data table---
+
+COMMENT ON TABLE learnhanzi_schema.stroke_data IS 'This is a table to store infomation about Chinese character store orders that was written in the square book. All Chinese character that was written, should be put in here.';
+hanzi_stroke TEXT UNIQUE
+
+---book_and_stroke table---
+--A table to store relationship between book_data table and hanzi_stroke_table. Each book could contain many hanzi_stroke. Each hanzi_stroke could inside many book.
 
 
 ---user_data table---

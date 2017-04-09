@@ -25,3 +25,9 @@ change the javascript (ok)
 
 add javascript insert hanzi
 
+===09 April 2017===
+create table query for:
+* book_data table
+* hanzi_stroke_data table
+* book_and_store table
+
