@@ -17,7 +17,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 /**
- * Entity class related with hanzi_data table.
+ * Entity class represents "hanzi_data" table.
  * 
  * @author Reinard Hizkia Santosa
  *

@@ -5,6 +5,8 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.reinard.learnhanzi.models.HanziData;
+
 @Repository(value="bookDaoImpl")
 public class BookDaoImpl {
 	
@@ -14,7 +16,14 @@ public class BookDaoImpl {
 	private SessionFactory hibernateSessionFactory;
 	
 	/**
-	 * A method to insert data to "hanzi_data" table.
+	 * A method to insert data to "book_data" table.
+	 * 
+	 * @param input - Object HanziData to be inserted.
+	 * @return BookData - the successfull inserted BookData.
 	 */
+	public BookData insert(BookData input){
+		//TODO finish this method
+		
+	}
 	
 }

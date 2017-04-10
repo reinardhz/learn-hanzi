@@ -41,7 +41,7 @@ CREATE SEQUENCE learnhanzi_schema.sequence_book_data INCREMENT BY 1 CACHE 1 NO C
 
 CREATE TABLE learnhanzi_schema.book_data(
 book_id BIGINT PRIMARY KEY DEFAULT  nextval('learnhanzi_schema.sequence_book_data'),
-book_name TEXT UNIQUE,
+book_name TEXT UNIQUE
 ) TABLESPACE learnhanzi_tablespace;
 
 COMMENT ON TABLE learnhanzi_schema.book_data IS 'This is a table to store information of a book. This book is a book that contains many square box, to let you write Chinese characters by hand. Inside each book has many Chinese character and including its stroke order. You named the book, and put the name in this table';
