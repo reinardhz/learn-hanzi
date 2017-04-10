@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.reinard.learnhanzi.models.HanziData;
 import org.apache.log4j.Logger;
 
-@Repository("hanziDaoImpl")
+@Repository(value="hanziDaoImpl")
 public class HanziDaoImpl {
 	
 	private static final Logger logger = Logger.getLogger(HanziDaoImpl.class);

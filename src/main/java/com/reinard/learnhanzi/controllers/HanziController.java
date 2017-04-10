@@ -37,15 +37,18 @@ public class HanziController{
 	
 	
 	/**
-	 * Response http request with all hanzi data (using json format). <br/><br/>
+	 * A method to handle http request to get all hanzi data. <br/><br/>
 	 * 
-	 * Http response json example: <br/>
-	 * 
-	 * {"hanzi_data":[{"hanzi":"我", "created_date":"1491448282654"},{"hanzi":"你", "created_date":"1491449282654"},{...}]}
-	 * or string "not found", if no data in database.
+	 * Http Response Example: <br/>
+	 * <b>Response Header:</b> <br/>
+	 * Access-Control-Allow-Origin: * <br/>
+	 * Content-Type: text/plain;charset=UTF-8<br/>
+	 * <b>Response Body:</b> <br/>
+	 * {"hanzi_data":[{"hanzi":"我", "created_date":"1491448282654"},{"hanzi":"你", "created_date":"1491449282654"}]}<br/>
+	 * "not found".
 	 * 
 	 */
-	@RequestMapping(value = "/getAllHanzi", method = RequestMethod.POST, produces = {"text/plain"})
+	@RequestMapping(value = "/getAllHanzi", method = RequestMethod.GET, produces = {"text/plain"})
 	public ResponseEntity<String> getAllHanzi(){
 		try{
 			logger.info("Get all hanzi data...");
@@ -75,9 +78,20 @@ public class HanziController{
 	
 	/**
 	 * This is a controller to to handle http request to search the inputted hanzi from database. <br/><br/>
+	 * Http Request Example: <br/>
+	 * <b>Request Header:</b> <br/>
+	 * Content-Type: text/plain;charset=UTF-8 <br/>
+	 * <b>Request Body:</b> <br/>
+	 * 我 <br/><br/>
 	 * 
-	 * Request body example: 我
-	 * Response json string example: {"hanzi_data":[{"hanzi":"我", "created_date":"1491448282654"}]} or "not found"
+	 * Http Response Example: <br/>
+	 * <b>Response Header:</b> <br/>
+	 * Access-Control-Allow-Origin: * <br/>
+	 * Content-Type: text/plain;charset=UTF-8<br/>
+	 * <b>Response Body:</b> <br/>
+	 * {"hanzi_data":[{"hanzi":"我", "created_date":"1491448282654"}]} <br/>
+	 * not found
+	 * <br/><br/>
 	 * 
 	 * If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected.
 	 * 
@@ -146,10 +160,24 @@ public class HanziController{
 	}
 	
 	/**
-	 * This is a controller to handle http request to save data hanzi to database.  <br/><br/>
+	 * A method to handle http request to save data hanzi to database.  <br/><br/>
+	 *  Http Request Example: <br/>
+	 * <b>Request Header:</b> <br/>
+	 * Content-Type: text/plain;charset=UTF-8 <br/>
+	 * <b>Request Body:</b> <br/>
+	 * 會 <br/><br/>
 	 * 
-	 * Request body example: 會<br/>
-	 * Response json string example: {"hanzi_data":[{"hanzi":"會", "created_date":"1491448282654"}]}<br/><br/>
+	 * Http Response Example: <br/>
+	 * <b>Response Header:</b> <br/>
+	 * Access-Control-Allow-Origin: * <br/>
+	 * Content-Type: text/plain;charset=UTF-8<br/>
+	 * <b>Response Body:</b> <br/>
+	 * {"hanzi_data":[{"hanzi":"會", "created_date":"1491448282654"}]}<br/>
+	 * The request body cannot be read. <br/>
+	 * The request body cannot be empty. <br/>
+	 * Error: Cannot Insert. Data Already Exist. <br/>
+	 * Error when inserting hanzi data. <br/>
+	 * <br/><br/>
 	 * 
 	 * If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected.<br/><br/>
 	 * 
@@ -160,7 +188,7 @@ public class HanziController{
 	 * 4. If the data cannot be read, response to client with error String: "The request body cannot be read."<br/>
 	 * 5. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
 	 * 4. If the data cannot be inserted, response to client with error String: "Error: Cannot Insert. Data Already Exist."<br/>
-	 * 5. If error happened, response to client with error String: "Error when inserting hanzi data". <br/>
+	 * 5. If error happened, response to client with error String: "Error when inserting hanzi data."<br/>
 	 */
 	@RequestMapping(value = "/insertHanzi", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanzi(HttpServletRequest httpServletRequest){

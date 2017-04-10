@@ -33,9 +33,9 @@ create table query for:
 ===================
 
 ===10 April 2017===
+* add "Content-Type:text/plain;charset=UTF-8" in javadoc
 
 todo:
-* add "Content-Type:text/plain;charset=UTF-8" in javadoc
 * create service and dao for insert book
 * create service and dao for select book
 * create service and dao for select book
