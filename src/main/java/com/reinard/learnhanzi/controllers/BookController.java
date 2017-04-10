@@ -19,6 +19,7 @@ import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 
 
 /**
+ * A Controller that handles http request coming from "Book" page.
  * 
  * @author reinard.santosa
  *
@@ -26,7 +27,7 @@ import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 public class BookController {
 	
 	/**
-	 *  This is a controller to handle http request to insert new book data in table "book_data". <br/><br/>
+	 * A method to handle http request to insert new book data in table "book_data". <br/><br/>
 	 *  
 	 * Http Request body example: 第一書
 	 * Http Response body example: Book 第一書  inserted.
@@ -45,7 +46,8 @@ public class BookController {
 	 * 
 	 */
 	public ResponseEntity<String> insertBook(){
-		
+		//TODO finish this controller
+		return null;
 	}
 	
 	/**
@@ -63,7 +65,7 @@ public class BookController {
 	
 	
 	/**
-	 * A method to response all hanzi written in specified book.
+	 * A method to response all hanzi stroke written in specified book.
 	 * 
 	 * Http Request String Example: Book 1.
 	 * Http Response Json String Example: {"Book 1":[{"營業員"},{"電郵"},{"發音"}...]}
@@ -71,7 +73,32 @@ public class BookController {
 	 * Important note: do not remove the 'space' character from http request.
 	 * @return
 	 */
-	public ResponseEntity<String> getAllHanziInBook(){
+	public ResponseEntity<String> getAllHanziStrokeInBook(){
+		//TODO finish this controller
+		return null;
+	}
+	
+	/**
+	 * A method to insert one hanzi stroke in specified book.
+	 * 
+	 * Http Request Body Example: {"Book 1":[{"郵局"}]}
+	 * Http Response Json String Example: 郵局 added.
+	 * 
+	 * @return
+	 */
+	public ResponseEntity<String> insertHanziStrokeInBook(){
+		//TODO finish this controller
+		return null;
+	}
+	
+	/**
+	 * A method to search hanzi stroke in specified book.
+	 * 
+	 * Http Request Body Example (""): {"Book 1":[{""}]}
+	 * Http Response Json String Example： {"hanzi_stroke_data":[{"hanzi_stroke":"郵局","created_date":"1491448282654"}]} or "not found"
+	 * @return
+	 */
+	public ResponseEntity<String> searchHanziStrokeInBook(){
 		//TODO finish this controller
 		return null;
 	}

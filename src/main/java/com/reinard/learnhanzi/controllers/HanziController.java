@@ -18,7 +18,7 @@ import com.reinard.learnhanzi.helper.utils.StringUtil;
 import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 
 /**
- * Controller to handle http request that related with "hanzi_data table
+ * A Controller that handles http request coming from "Hanzi" page.
  * 
  * @author reinard.santosa
  *

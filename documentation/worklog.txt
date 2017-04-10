@@ -25,9 +25,15 @@ change the javascript (ok)
 
 add javascript insert hanzi
 
-===09 April 2017===
+===09 to 10 April 2017===
 create table query for:
 * book_data table
 * hanzi_stroke_data table
 * book_and_store table
+===================
+
+todo:
+* create service and dao for insert book
+* create service and dao for select book
+* create service and dao for select book
 
