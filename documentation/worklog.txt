@@ -32,7 +32,10 @@ create table query for:
 * book_and_store table
 ===================
 
+===10 April 2017===
+
 todo:
+* add "Content-Type:text/plain;charset=UTF-8" in javadoc
 * create service and dao for insert book
 * create service and dao for select book
 * create service and dao for select book
