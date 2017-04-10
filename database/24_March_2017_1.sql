@@ -55,12 +55,54 @@ COMMIT;
 
 
 ---hanzi_stroke_data table---
+BEGIN;
 
-COMMENT ON TABLE learnhanzi_schema.stroke_data IS 'This is a table to store infomation about Chinese character store orders that was written in the square book. All Chinese character that was written, should be put in here.';
-hanzi_stroke TEXT UNIQUE
+DROP SEQUENCE IF EXISTS learnhanzi_schema.sequence_hanzi_stroke_data CASCADE;
+
+DROP TABLE IF EXISTS learnhanzi_schema.hanzi_stroke_data CASCADE;
+
+CREATE SEQUENCE learnhanzi_schema.sequence_hanzi_stroke_data INCREMENT BY 1 CACHE 1 NO CYCLE;
+
+CREATE TABLE learnhanzi_schema.hanzi_stroke_data(
+hanzi_stroke_id BIGINT PRIMARY KEY DEFAULT  nextval('learnhanzi_schema.sequence_hanzi_stroke_data'),
+hanzi_stroke TEXT UNIQUE,
+created_date BIGINT
+) TABLESPACE learnhanzi_tablespace;
+
+COMMENT ON TABLE learnhanzi_schema.hanzi_stroke_data IS 'This is a table to store infomation about Chinese character store orders that was written in the book. All Chinese stroke that was written, should be put in here.';
+COMMENT ON COLUMN learnhanzi_schema.hanzi_stroke_data.hanzi_stroke IS 'A Chinese Character that was written in the book, that has stroke order. Example: 愛';
+COMMENT ON COLUMN learnhanzi_schema.hanzi_stroke_data.created_date IS 'A column to store the time and date when this record is inserted. This data using epoch time or unix time, to make it easier to determine the timezone and converting this time to another timezone.';
+
+ALTER SEQUENCE learnhanzi_schema.sequence_hanzi_stroke_data OWNED BY learnhanzi_schema.hanzi_stroke_data.hanzi_stroke_id;
+
+INSERT INTO learnhanzi_schema.hanzi_stroke_data(hanzi_stroke, created_date) VALUES ('營業員',1491448282654);
+
+COMMIT;
 
 ---book_and_stroke table---
---A table to store relationship between book_data table and hanzi_stroke_table. Each book could contain many hanzi_stroke. Each hanzi_stroke could inside many book.
+BEGIN;
+
+DROP SEQUENCE IF EXISTS learnhanzi_schema.sequence_book_and_stroke CASCADE;
+
+DROP TABLE IF EXISTS learnhanzi_schema.book_and_stroke CASCADE;
+
+CREATE SEQUENCE learnhanzi_schema.sequence_book_and_stroke INCREMENT BY 1 CACHE 1 NO CYCLE;
+
+CREATE TABLE learnhanzi_schema.book_and_stroke(
+book_and_stroke_id BIGINT PRIMARY KEY DEFAULT  nextval('learnhanzi_schema.sequence_book_and_stroke'),
+book_id BIGINT NOT NULL,
+hanzi_stroke_id BIGINT NOT NULL,
+CONSTRAINT fk_book_and_stroke_book_data FOREIGN KEY(book_id) REFERENCES learnhanzi_schema.book_data(book_id) MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE,
+CONSTRAINT fk_book_and_stroke_hanzi_stroke_data FOREIGN KEY(hanzi_stroke_id) REFERENCES learnhanzi_schema.hanzi_stroke_data(hanzi_stroke_id) MATCH FULL ON UPDATE CASCADE ON DELETE CASCADE
+)TABLESPACE learnhanzi_tablespace;
+
+COMMENT ON TABLE learnhanzi_schema.book_and_stroke IS 'A table to store relationship between book_data table and hanzi_stroke_table. On record of book_data table could relate with many record in hanzi_stroke_data table. One record of hanzi_stroke_data table could relate with many record in book_data table.';
+
+ALTER SEQUENCE learnhanzi_schema.sequence_book_and_stroke OWNED BY learnhanzi_schema.book_and_stroke.book_and_stroke_id;
+
+INSERT INTO learnhanzi_schema.book_and_stroke(book_id, hanzi_stroke_id) VALUES (1,1);
+
+COMMIT;
 
 
 ---user_data table---
@@ -107,7 +149,6 @@ created_date BIGINT
 COMMENT ON TABLE learnhanzi_schema.hanzi_data IS 'This is a table to store data about Chinese characters. Must Use UTF-8 encoding. Every Chinese characters that I have learned must be inserted in this table, input the time when I start learning this character too, to monitor the speed progress of learning Chinese characters.';
 COMMENT ON COLUMN learnhanzi_schema.hanzi_data.hanzi IS 'A column to store the already learned hanzi. This data must be unique.';
 COMMENT ON COLUMN learnhanzi_schema.hanzi_data.created_date IS 'A column to store the time and date when this record is inserted. This data using epoch time or unix time, to make it easier to determine the timezone and converting this time to another timezone';
-
 
 ALTER SEQUENCE learnhanzi_schema.sequence_hanzi_data OWNED BY learnhanzi_schema.hanzi_data.hanzi_id;
 
@@ -186,7 +227,7 @@ CONSTRAINT fk_group_and_hanzi_hanzi_data FOREIGN KEY(hanzi_id) REFERENCES learnh
 ) TABLESPACE learnhanzi_tablespace;
 
 COMMENT ON TABLE learnhanzi_schema.group_and_hanzi IS 'This is a table to make a relationship between group_data table and hanzi_data table. 
-One record of group_data could relate with many record in hanzi_data table. One record in hanzi_data could relate with many record in group_data table';
+One record of group_data table could relate with many record in hanzi_data table. One record in hanzi_data could relate with many record in group_data table';
 
 ALTER SEQUENCE learnhanzi_schema.sequence_group_and_hanzi OWNED BY learnhanzi_schema.group_and_hanzi.group_and_hanzi_id;
 
