@@ -117,7 +117,6 @@ public class HanziDaoImpl {
 			throw e;
 		}finally{
 			if(newSession.isOpen()) newSession.close();
-			
 		}
 	}
 	
