@@ -89,7 +89,7 @@ public class HanziStrokeData implements Serializable{
 		resultString.append("hanzi_stroke_id: " + this.getHanzi_stroke_id() + "\n");
 		resultString.append("hanzi_stroke: " + this.getHanzi_stroke() + "\n");
 		resultString.append("created_date: " + this.getCreated_date() + "\n");
-		resultString.toString();
+		return resultString.toString();
 	}
 
 }

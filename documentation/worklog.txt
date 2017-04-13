@@ -37,6 +37,8 @@ create table query for:
 * add table hanzi_stroke_data, book_data, book_and_stroke in database
 ===================
 
+===13 April 2017===
+
 
 todo:
 * create entity mapping for table hanzi_stroke_data, book_data, book_and_stroke
