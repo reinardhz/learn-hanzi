@@ -33,15 +33,17 @@ public class BookData implements Serializable{
 	@Id
 	@SequenceGenerator(name="seqBookData", schema ="learnhanzi_schema", sequenceName="sequence_book_data", allocationSize=1)
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqBookData")
-	@Column(name = "hanzi_id", nullable=false)
+	@Column(name = "book_id", nullable=false)
 	private long book_id;
 	
 	@Column(name = "book_name")
 	private String book_name;
 	
-	//A variable to store Entity BookAndStroke.
-	//One object of "BookData" (one row of table "book_data"), exist in many "BookAndStroke" object.
+	//A variable to store Entity "BookAndStroke".
+	//One instance of this class ("BookData"), that represents one row of table "book_data", exist in many "BookAndStroke" object.
 	//This is mapped by the variable "private BookData bookData;", that exist in class "BookAndStroke".
+	//Note: FetchType.EAGER indicate that, when hibernate select data from "book_data" table that mapped to this "BookData" entity, 
+	//the "Set<BookAndStroke>" instance is always exist in this "BookData" instance, even after the session is closed.
 	@OneToMany(mappedBy="bookAndStroke", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
 	private Set<BookAndStroke> bookAndStroke;
 	
@@ -79,6 +81,9 @@ public class BookData implements Serializable{
 		StringBuilder resultString = new StringBuilder();
 		resultString.append("book_id: " + this.getBook_id() + "\n");
 		resultString.append("book_name: " + this.getBook_name() + "\n\n");
+		
+		//comment this, because it could cause "java.lang.StackOverflowError"
+		//resultString.append("Set<BookAndStroke>: " + this.getBookAndStroke() + "\n\n");
 		return resultString.toString();
 	}
 	

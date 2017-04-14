@@ -22,6 +22,7 @@ import javax.persistence.UniqueConstraint;
  * @author Reinard Hizkia Santosa
  *
  */
+//TODO make doc about fetch type eager
 //TODO test this model
 @Entity
 @Table(name="hanzi_stroke_data", schema="learnhanzi_schema")
@@ -41,8 +42,8 @@ public class HanziStrokeData implements Serializable{
 	@Column(name = "created_date")
 	private long created_date;
 	
-	//A variable to store Entity BookAndStroke.
-	//One object of "HanziStrokeData" (one row of table "hanzi_stroke_data"), exist in many "BookAndStroke" object.
+	//A variable to store Entity "BookAndStroke".
+	//One instance of this class ("HanziStrokeData"), that represents one row of table "hanzi_stroke_data", exist in many "BookAndStroke" instance.
 	//This is mapped by the variable "private HanziStrokeData hanziStrokeData;", that exist in class "BookAndStroke".
 	@OneToMany(mappedBy="hanziStrokeData", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
 	private Set<BookAndStroke> bookAndStroke;
@@ -88,7 +89,10 @@ public class HanziStrokeData implements Serializable{
 		StringBuilder resultString = new StringBuilder();
 		resultString.append("hanzi_stroke_id: " + this.getHanzi_stroke_id() + "\n");
 		resultString.append("hanzi_stroke: " + this.getHanzi_stroke() + "\n");
-		resultString.append("created_date: " + this.getCreated_date() + "\n");
+		resultString.append("created_date: " + this.getCreated_date() + "\n\n");
+		
+		//comment this, because it could cause "java.lang.StackOverflowError"
+		//resultString.append("Set<BookAndStroke>: " + this.getBookAndStroke() + "\n\n");
 		return resultString.toString();
 	}
 

@@ -22,13 +22,13 @@ public class PinyinData implements Serializable{
 	
 	private static final long serialVersionUID = 4846985275732124920L;
 	
-	@Id
-	@SequenceGenerator(name="seqPinyinData", schema ="learnhanzi_schema", sequenceName="sequence_hanzi_data", allocationSize=1)
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqPinyinData")
-	@Column(name = "pinyin_id", nullable=false)
+	//@Id
+	//@SequenceGenerator(name="seqPinyinData", schema ="learnhanzi_schema", sequenceName="sequence_hanzi_data", allocationSize=1)
+	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqPinyinData")
+	//@Column(name = "pinyin_id", nullable=false)
 	private long pinyin_id;
 	
-	@Column(name = "pinyin")
+	//@Column(name = "pinyin")
 	private String pinyin;
 	
 	//TODO create "one to many" relationship with entity that represent:

@@ -22,6 +22,7 @@ import javax.persistence.UniqueConstraint;
  * @author Reinard Hizkia Santosa
  *
  */
+//TODO make doc about fetch type eager
 @Entity
 @Table(name="hanzi_data", schema="learnhanzi_schema", uniqueConstraints= {@UniqueConstraint(columnNames={"hanzi"})} )
 public class HanziData implements Serializable{
@@ -40,16 +41,17 @@ public class HanziData implements Serializable{
 	@Column(name = "created_date")
 	private long created_date;
 	
-	//A variable to store Entity UserAndHanzi.
-	//One object of "HanziData" (one row of table "hanzi_data"), exist in many "UserAndHanzi" object.
+	//A variable to store Entity "UserAndHanzi".
+	//One instance of this class ("HanziData") that represents one row of table "hanzi_data", exist in many "UserAndHanzi" instance.
 	//This is mapped by the variable "private HanziData hanziData;", that exist in class "UserAndHanzi".
-	@OneToMany(mappedBy="hanziData", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+	//Note: "FetchType.LAZY" indicate that, when hibernate select data from "hanzi_data" table that mapped to this "HanziData" entity, 
+	//the "Set<UserAndHanzi>" instance is only available if method getUserAndHanzi() is invoked, and as long as the session is not closed.
+	@OneToMany(mappedBy="hanziData", fetch=FetchType.LAZY, cascade={CascadeType.ALL})
 	private Set<UserAndHanzi> userAndHanzi;
 	
 	public HanziData(){
 		super();
 	}
-
 	
 	public long getHanzi_id() {
 		return hanzi_id;
@@ -88,14 +90,15 @@ public class HanziData implements Serializable{
 	}
 
 
-
 	@Override
 	public String toString(){
 		StringBuilder resultString = new StringBuilder();
 		
 		resultString.append("hanzi_id: " + this.getHanzi_id() + "\n");
 		resultString.append("hanzi: " + this.getHanzi() + "\n");
-		resultString.append("created_date: " + this.getCreated_date()+ "\n");
+		resultString.append("created_date: " + this.getCreated_date()+ "\n\n");
+		
+		//comment this, because it could cause "java.lang.StackOverflowError"
 		//resultString.append("Set<UserAndHanzi>: " + this.getUserAndHanzi() + "\n\n");
 		return resultString.toString();
 	}

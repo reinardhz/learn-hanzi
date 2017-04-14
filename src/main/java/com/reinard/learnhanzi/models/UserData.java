@@ -19,6 +19,7 @@ import javax.persistence.UniqueConstraint;
  * 
  * @author Reinard Hizkia Santosa
  */
+//TODO make doc about fetch type eager
 @Entity
 @Table(name="user_data", schema="learnhanzi_schema", uniqueConstraints= {@UniqueConstraint(columnNames={"username"})} )
 public class UserData implements Serializable{
@@ -37,7 +38,7 @@ public class UserData implements Serializable{
 	@Column(name = "passcode", length=100)
 	private String passcode;
 	
-	//A variable to store Entity UserAndHanzi.
+	//A variable to store Entity "UserAndHanzi".
 	//One object of "UserData" (one row of table "user_data"), exist in many "UserAndHanzi" object.
 	//This is mapped by the variable "private UserData userData;", that exist in class "UserAndHanzi".
 	@OneToMany(mappedBy="userData", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
@@ -90,6 +91,8 @@ public class UserData implements Serializable{
 		resultString.append("user_id: " + this.getUser_id() + "\n");
 		resultString.append("username: " + this.getUsername() + "\n");
 		resultString.append("passcode: " + this.getPasscode() + "\n");
+		
+		//comment this, because it could cause "java.lang.StackOverflowError"
 		//resultString.append("Set<UserAndHanzi>: " + this.getUserAndHanzi() + "\n\n");
 		return resultString.toString();
 	}
