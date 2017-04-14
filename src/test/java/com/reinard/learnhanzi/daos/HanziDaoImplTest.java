@@ -5,15 +5,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.log4j.Level;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.reinard.learnhanzi.controllers.HanziController;
 import com.reinard.learnhanzi.dao.impl.HanziDaoImpl;
 import com.reinard.learnhanzi.models.HanziData;
 import com.reinard.learnhanzi.models.UserAndHanzi;

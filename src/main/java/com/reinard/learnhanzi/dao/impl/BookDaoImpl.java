@@ -14,7 +14,13 @@ import org.springframework.stereotype.Repository;
 import com.reinard.learnhanzi.models.BookData;
 import com.reinard.learnhanzi.models.HanziData;
 
-//TODO Finish this dao
+/**
+ * A class that provides many database operations on "book_data" table.
+ * 
+ * @author reinard.santosa
+ *
+ */
+//TODO Test this dao
 @Repository(value="bookDaoImpl")
 public class BookDaoImpl {
 	
@@ -31,7 +37,7 @@ public class BookDaoImpl {
 	 * @throws Exception - If error happen when trying to insert data to database.
 	 */
 	public BookData insert(BookData input) throws Exception{
-		//TODO test this method
+		//TODO test this method (OK, tested success)
 		logger.info("Inserting data book_data table...");
 		Session newSession = hibernateSessionFactory.openSession();
 		Transaction transaction = null;

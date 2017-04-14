@@ -22,7 +22,6 @@ import javax.persistence.UniqueConstraint;
  * @author Reinard Hizkia Santosa
  *
  */
-//TODO make doc about fetch type eager
 @Entity
 @Table(name="hanzi_data", schema="learnhanzi_schema", uniqueConstraints= {@UniqueConstraint(columnNames={"hanzi"})} )
 public class HanziData implements Serializable{
@@ -48,6 +47,12 @@ public class HanziData implements Serializable{
 	//the "Set<UserAndHanzi>" instance is only available if method getUserAndHanzi() is invoked, and as long as the session is not closed.
 	@OneToMany(mappedBy="hanziData", fetch=FetchType.LAZY, cascade={CascadeType.ALL})
 	private Set<UserAndHanzi> userAndHanzi;
+	
+	//@OneToMany
+	//private Set<GroupAndHanzi> groupAndHanzi;
+	
+	//@OneToMany
+	//private Set<HanziAndPinyin> hanziAndPinyin;
 	
 	public HanziData(){
 		super();

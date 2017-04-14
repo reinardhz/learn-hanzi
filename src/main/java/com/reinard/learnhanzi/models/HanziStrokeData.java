@@ -1,7 +1,6 @@
 package com.reinard.learnhanzi.models;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,7 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /**
  * Entity class represents "hanzi_stroke_data" table.
@@ -22,7 +20,6 @@ import javax.persistence.UniqueConstraint;
  * @author Reinard Hizkia Santosa
  *
  */
-//TODO make doc about fetch type eager
 //TODO test this model
 @Entity
 @Table(name="hanzi_stroke_data", schema="learnhanzi_schema")
@@ -45,6 +42,8 @@ public class HanziStrokeData implements Serializable{
 	//A variable to store Entity "BookAndStroke".
 	//One instance of this class ("HanziStrokeData"), that represents one row of table "hanzi_stroke_data", exist in many "BookAndStroke" instance.
 	//This is mapped by the variable "private HanziStrokeData hanziStrokeData;", that exist in class "BookAndStroke".
+	//Note: FetchType.EAGER indicate that, when hibernate select data from "hanzi_stroke_data" table that mapped to this "HanziStrokeData" entity, 
+	//the "Set<BookAndStroke>" instance is always exist in this "HanziStrokeData" instance, even after the session is closed.
 	@OneToMany(mappedBy="hanziStrokeData", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
 	private Set<BookAndStroke> bookAndStroke;
 	

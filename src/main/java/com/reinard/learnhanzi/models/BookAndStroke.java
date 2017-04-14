@@ -85,6 +85,7 @@ public class BookAndStroke implements Serializable{
 	public String toString(){
 		StringBuilder resultString = new StringBuilder();
 		
+		resultString.append("book_and_stroke_id: " + this.getBook_and_stroke_id() + "\n");
 		resultString.append("BookData: " + this.getBookData() + "\n");
 		resultString.append("HanziStrokeData: " + this.getHanziStrokeData() + "\n\n");
 		

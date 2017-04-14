@@ -19,7 +19,6 @@ import javax.persistence.UniqueConstraint;
  * 
  * @author Reinard Hizkia Santosa
  */
-//TODO make doc about fetch type eager
 @Entity
 @Table(name="user_data", schema="learnhanzi_schema", uniqueConstraints= {@UniqueConstraint(columnNames={"username"})} )
 public class UserData implements Serializable{
@@ -41,6 +40,8 @@ public class UserData implements Serializable{
 	//A variable to store Entity "UserAndHanzi".
 	//One object of "UserData" (one row of table "user_data"), exist in many "UserAndHanzi" object.
 	//This is mapped by the variable "private UserData userData;", that exist in class "UserAndHanzi".
+	//Note: FetchType.EAGER indicate that, when hibernate select data from "user_data" table that mapped to this "UserData" entity, 
+	//the "Set<UserAndHanzi>" instance is always exist in this "UserData" instance, even after the session is closed.
 	@OneToMany(mappedBy="userData", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
 	private Set<UserAndHanzi> userAndHanzi;
 

@@ -19,32 +19,32 @@ import javax.persistence.Id;
  * @author reinard.santosa
  *
  */
-//@Entity
-//@Table(name="user_and_hanzi", schema="learnhanzi_schema")
+@Entity
+@Table(name="user_and_hanzi", schema="learnhanzi_schema")
 public class UserAndHanzi implements Serializable{
 
 	private static final long serialVersionUID = 256488880461687037L;
 	
-	//@Id
-	//@SequenceGenerator(name="seqUserAndHanzi", schema ="learnhanzi_schema", sequenceName="sequence_user_and_hanzi", allocationSize=1)
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqUserAndHanzi")
-	//@Column(name = "user_and_hanzi_id", nullable=false)
+	@Id
+	@SequenceGenerator(name="seqUserAndHanzi", schema ="learnhanzi_schema", sequenceName="sequence_user_and_hanzi", allocationSize=1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="seqUserAndHanzi")
+	@Column(name = "user_and_hanzi_id", nullable=false)
 	private long user_and_hanzi_id;
 	
 	//to make relations to entity "UserData", using foreign key "user_id".
 	//Many different instance of this class (UserAndHanzi), have same "UserData" object.
 	//Note: FetchType.EAGER indicate that, when hibernate select data from "user_and_hanzi" table that mapped to this "UserAndHanzi" entity, 
 	//the "UserData" object is always exist in UserAndHanzi object, even after the session is closed.
-	//@ManyToOne(fetch = FetchType.EAGER)
-	//@JoinColumn(name="user_id", nullable=false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="user_id", nullable=false)
 	private UserData userData;
 	
 	//to make relations to entity "HanziData", using foreign key "hanzi_id".
 	//Many different instance of this class (UserAndHanzi), have same "HanziData" object.
 	//Note: FetchType.EAGER indicate that, when hibernate select data from "user_and_hanzi" table that mapped to this "UserAndHanzi" entity, 
 	//the "HanziData" object is still exist in UserAndHanzi object, even after the session is closed.
-	//@ManyToOne(fetch = FetchType.EAGER)
-	//@JoinColumn(name="hanzi_id", nullable=false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="hanzi_id", nullable=false)
 	private HanziData hanziData;
 	
 	public UserAndHanzi(){
