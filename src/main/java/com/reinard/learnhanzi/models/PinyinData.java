@@ -31,11 +31,11 @@ public class PinyinData implements Serializable{
 	//@Column(name = "pinyin")
 	private String pinyin;
 	
-	//TODO create "one to many" relationship with entity that represent:
+	//TODO create "one to many" relationship with entity that represent: (currently not used, but it will be used in the future, if this application will be expanded)
 	//* hanzi_and_pinyin table
 	//* pronunciation_data table
 	
-	//TODO Create setter and getter
+	//TODO Create setter and getter (currently not used, but it will be used in the future, if this application will be expanded)
 	
 	public PinyinData(){
 		super();
