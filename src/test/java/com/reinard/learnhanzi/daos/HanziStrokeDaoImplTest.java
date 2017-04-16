@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.reinard.learnhanzi.dao.impl.BookDaoImpl;
 import com.reinard.learnhanzi.dao.impl.HanziStrokeDaoImpl;
+import com.reinard.learnhanzi.models.BookAndStroke;
 import com.reinard.learnhanzi.models.BookData;
 import com.reinard.learnhanzi.models.HanziStrokeData;
 
@@ -37,26 +38,47 @@ public class HanziStrokeDaoImplTest {
 	@Autowired
 	private HanziStrokeDaoImpl hanziStrokeDaoImpl;
 	
-	@Test
+	//@Test
 	public void insertTest() throws Exception{
 		logger.debug("Test Insert starting...");
 		logger.debug("Preparing HanziStroke...");
-		HanziStrokeData model = new HanziStrokeData();
-		model.setHanzi_stroke("消防局");
-		model.setCreated_date(System.currentTimeMillis());
+		HanziStrokeData faYin = new HanziStrokeData();
+		faYin.setHanzi_stroke("發音");
+		faYin.setCreated_date(System.currentTimeMillis());
+		
+		logger.debug("Preparing Child...");
+		
+		//to insert to table "book_and_stroke":
+		Set<BookAndStroke> childSet = new HashSet<>();
+		BookAndStroke child = new BookAndStroke();
+		
+		BookData firstBook = new BookData();
+		//setting the primary key
+		firstBook.setBook_id(1L);
+		
+		//set the data to insert to the "book_and_stroke.hanzi_stroke_id". The "hanzi_stroke_id" number is inside the "faYin" new instance, which is an auto-generated number.
+		child.setHanziStrokeData(faYin);
+		
+		//set the data to insert to the "book_and_stroke.book_id", book_id is taken from the "firstBook" new instance.
+		child.setBookData(firstBook);
+		
+		//add the child to parent
+		childSet.add(child);
+		faYin.setBookAndStroke(childSet);
+		
 		logger.debug("HanziStrokeData: ");
-		logger.debug(model.toString());
+		logger.debug(faYin.toString());
 		
 		logger.debug("Inserting \"HanziStrokeData\" to database...");
-		HanziStrokeData result = hanziStrokeDaoImpl.insert(model);
+		HanziStrokeData result = hanziStrokeDaoImpl.insert(faYin);
 		Assert.assertNotNull(result);
-		Assert.assertEquals("消防局",model.getHanzi_stroke());
+		Assert.assertEquals("發音",faYin.getHanzi_stroke());
 		logger.debug("Testing Inserting \"HanziStrokeData\" to succeed.");
 		logger.debug("Result: ");
 		logger.debug(result.toString());
 	}
 	
-	//@Test
+	@Test
 	public void selectAllTest() throws Exception{
 		logger.debug("Test Select All starting...");
 		logger.debug("selecting all data from \"hanzi_stroke_data\" table");

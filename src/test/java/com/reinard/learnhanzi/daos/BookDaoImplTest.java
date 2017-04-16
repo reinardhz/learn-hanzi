@@ -49,15 +49,16 @@ public class BookDaoImplTest {
 		logger.debug("Preparing BookData...");
 		BookData secondBook = new BookData();
 		secondBook.setBook_name("第二書");
+		
 		logger.debug("Preparing Child...");
 		
-		//to insert to table "book_and_stroke":
+		//preparing the child, to insert to table "book_and_stroke":
+		Set<BookAndStroke> childSet = new HashSet<>();
 		BookAndStroke child = new BookAndStroke();
 		
 		HanziStrokeData xiaoFangJu = new HanziStrokeData();
+		//setting the primary key
 		xiaoFangJu.setHanzi_stroke_id(3L);
-		
-		
 		
 		//set the data to insert to the "book_and_stroke.book_id". The "book_id" number is inside the "secondBook" new instance, which is an auto-generated number.
 		child.setBookData(secondBook);
@@ -65,7 +66,7 @@ public class BookDaoImplTest {
 		//set the data to insert to the "book_and_stroke.hanzi_stroke_id", hanzi_stroke_id is taken from the "xiaoFangJu" new instance.
 		child.setHanziStrokeData(xiaoFangJu);
 		
-		Set<BookAndStroke> childSet = new HashSet<>();
+		//add the child to parent
 		childSet.add(child);
 		secondBook.setBookAndStroke(childSet);
 		

@@ -31,15 +31,31 @@ public class BookAndStrokeDaoImpl {
 	 * 
 	 * A method to insert data to "book_and_stroke" table.
 	 * 
-	 * @param input - Object "BookAndStrokeData" to be inserted.
-	 * @return BookAndStrokeData - the successfully inserted "BookAndStrokeData".
+	 * @param input - Object "BookAndStroke" to be inserted.
+	 * @return BookAndStroke - the successfully inserted "BookAndStroke".
 	 * @throws Exception - If error happen when trying to insert data to database.
 	 */
 	public BookAndStroke insert(BookAndStroke input) throws Exception{
+		//TODO finish this method.
+		//TODO add logger.error("") message if transaction get rollback and if transaction not get rollback.
+		logger.info("Inserting data into \"book_and_stroke\" table...");
 		
-		logger.info("Inserting data into \"hanzi_stroke_data\" table...");
-		//TODO finish this method
-		return null;
+		Session newSession = hibernateSessionFactory.openSession();
+		Transaction transaction = null;
+		try{
+			transaction = newSession.beginTransaction();
+			newSession.save(input);
+			transaction.commit();
+			logger.info("Insert to \"book_and_stroke\" table succeed.");
+			logger.debug(input);
+			return input;
+		}catch(Exception e){
+			if (transaction != null) transaction.rollback();
+			logger.error("Unexpected error occurred when inserting to \"book_data\" table, rollback succeed.",e);
+			throw e;
+		}finally{
+			if(newSession.isOpen()) newSession.close();
+		}
 	}
 	
 	/**

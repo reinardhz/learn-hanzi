@@ -1,5 +1,10 @@
 package com.reinard.learnhanzi.daos;
 
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
+
+import com.reinard.learnhanzi.models.BookAndStroke;
 
 /**
  * A class to provide test to HomeController
@@ -24,7 +29,7 @@ public class ExceptionTest {
 		}
 	}
 	
-	public static void main(String[] args){
+	public static void main1(String[] args){
 		ExceptionTest exceptionTest = new ExceptionTest();
 		try {
 			exceptionTest.test();
@@ -33,6 +38,44 @@ public class ExceptionTest {
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public static String generateUUIDFront(){
+		String uuid = UUID.randomUUID().toString();
+		//get the first 8 digit:
+		String uuid_new = uuid.substring(0, 8);
+		return uuid_new;
+		
+	}
+	
+	public static String generateUUIDBack(){
+		String uuid = UUID.randomUUID().toString();
+		//get the last 8 digit:
+		String uuid_new = uuid.substring(28);
+		return uuid_new;
+		
+	}
+
+	
+	public static void main(String[] args) throws Exception{
+		Set<String> setOfUUID = new HashSet<>();
+		for(int i=0; i<10000000; ++i){
+			String uuid = UUID.randomUUID().toString();
+			setOfUUID.add(uuid);
+		}
+		
+		System.out.println(setOfUUID.size());
+		
+		if(setOfUUID.size()<10000000){
+			System.out.println("There is the same generated number of UUID !");
+		}
+		//System.out.println(setOfUUID.size());
+		
+		//String uuid;
+		///for(int i =0; i<10000; ++i){
+		//long ts = UUID.randomUUID().timestamp();
+		//System.out.println(ts);
+		//}
 	}
 
 }

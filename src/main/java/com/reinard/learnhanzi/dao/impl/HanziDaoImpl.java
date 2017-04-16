@@ -4,15 +4,15 @@ import java.util.List;
 
 import javax.persistence.PersistenceException;
 
+import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
 import com.reinard.learnhanzi.models.HanziData;
-import org.apache.log4j.Logger;
 
 @Repository(value="hanziDaoImpl")
 public class HanziDaoImpl {
@@ -42,8 +42,13 @@ public class HanziDaoImpl {
 			logger.debug(result.toString());
 			return result;
 		}catch(Exception e){
-			if (transaction != null) transaction.rollback();
-			logger.error("Unexpected error occurred when trying to select all from \"hanzi_data\" table, rollback succeed", e);
+			if (transaction != null){
+				transaction.rollback();
+				logger.error("Unexpected error occurred when trying to select all from \"hanzi_data\" table, rollback succeed", e);
+			}else{
+				logger.error("Unexpected error occurred when trying to select all from \"hanzi_data\" table.", e);
+			}
+			
 			throw e;
 		}finally{
 			if(newSession.isOpen()) newSession.close();
@@ -65,20 +70,26 @@ public class HanziDaoImpl {
 		try{
 			transaction = newSession.beginTransaction();
 			//SELECT * FROM hanzi_data WHERE hanzi = "[inputted hanzi]"
-			 Object resultObject = (newSession.createCriteria(HanziData.class).add(Restrictions.eq("hanzi", hanzi)).uniqueResult());
-			 if(resultObject == null){
-				 logger.info("HanziData not found.");
-				 return null;
-			 }else{
-			 HanziData result = (HanziData)resultObject;
-			 logger.info("HanziData found.");
-			 logger.debug(result.toString());
-			 return result;
-			 }
+			//Ensure that no record has the same value.
+			Object resultObject = (newSession.createCriteria(HanziData.class).add(Restrictions.eq("hanzi", hanzi)).uniqueResult());
+			if(resultObject == null){
+				logger.info("HanziData not found.");
+				logger.info("Searching hanzi_data from inputted hanzi succeed.");
+				return null;
+			}else{
+				HanziData result = (HanziData)resultObject;
+				logger.info("HanziData found.");
+				logger.debug(result.toString());
+				logger.info("Searching hanzi_data from inputted hanzi succeed.");
+				return result;
+			}
 		}catch(Exception e){
-			if (transaction != null) transaction.rollback();
-			
-			logger.error("Unexpected error occurred when trying to select \"hanzi_data\" by inputted hanzi, rollback complete", e);
+			if (transaction != null){
+				transaction.rollback();
+				logger.error("Unexpected error occurred when trying to select \"hanzi_data\" by inputted hanzi, rollback succeed.", e);
+			}else{
+				logger.error("Unexpected error occurred when trying to select \"hanzi_data\" by inputted hanzi.", e);
+			}
 			throw e;
 		}finally{
 			if(newSession.isOpen()) newSession.close();
@@ -106,14 +117,17 @@ public class HanziDaoImpl {
 			logger.debug(input.toString());
 			return input;
 		}catch(Exception e){
-			if (transaction != null) transaction.rollback();
-			
-			if(e instanceof PersistenceException){
-				logger.error("Error: cannot insert the same HanziData, rollback succeed", e);
-				throw e;
+			if ((transaction != null) && (e instanceof PersistenceException)){
+				transaction.rollback();
+				logger.error("Error: cannot insert the same HanziData, rollback succeed.", e);
+			}else if(e instanceof PersistenceException){
+				logger.error("Error: cannot insert the same HanziData.", e);
+			}else if(transaction != null){
+				transaction.rollback();
+				logger.error("Unexpected error occurred when inserting to \"hanzi_data\" table rollback succeed", e);
+			}else{
+				logger.error("Unexpected error occurred when inserting to \"hanzi_data\" table.", e);
 			}
-			
-			logger.error("Unexpected error occurred when inserting HanziData, rollback succeed",e);
 			throw e;
 		}finally{
 			if(newSession.isOpen()) newSession.close();

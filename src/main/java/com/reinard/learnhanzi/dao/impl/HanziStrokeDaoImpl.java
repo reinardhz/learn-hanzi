@@ -33,7 +33,6 @@ public class HanziStrokeDaoImpl {
 	 * @throws Exception - If error happen when trying to insert data to database.
 	 */
 	public HanziStrokeData insert(HanziStrokeData input) throws Exception{
-		//TODO retest insert with the child
 		logger.info("Inserting data into \"hanzi_stroke_data\" table...");
 		
 		Session newSession = hibernateSessionFactory.openSession();
