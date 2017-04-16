@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +14,9 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.reinard.learnhanzi.dao.impl.BookDaoImpl;
+import com.reinard.learnhanzi.models.BookAndStroke;
 import com.reinard.learnhanzi.models.BookData;
+import com.reinard.learnhanzi.models.HanziStrokeData;
 
 import junit.framework.Assert;
 
@@ -33,27 +37,51 @@ public class BookDaoImplTest {
 	private final static Logger logger = Logger.getLogger(BookDaoImplTest.class);
 	
 	@Autowired
+	private SessionFactory hibernateSessionFactory;
+	
+	@Autowired
 	private BookDaoImpl bookDaoImpl;
 	
-	//@Test
+	@Test
 	public void insertTest() throws Exception{
-		BookData model = new BookData();
-		model.setBook_name("第二課");
+		
 		logger.debug("Test Insert starting...");
 		logger.debug("Preparing BookData...");
+		BookData secondBook = new BookData();
+		secondBook.setBook_name("第二書");
+		logger.debug("Preparing Child...");
+		
+		//to insert to table "book_and_stroke":
+		BookAndStroke child = new BookAndStroke();
+		
+		HanziStrokeData xiaoFangJu = new HanziStrokeData();
+		xiaoFangJu.setHanzi_stroke_id(3L);
+		
+		
+		
+		//set the data to insert to the "book_and_stroke.book_id". The "book_id" number is inside the "secondBook" new instance, which is an auto-generated number.
+		child.setBookData(secondBook);
+		
+		//set the data to insert to the "book_and_stroke.hanzi_stroke_id", hanzi_stroke_id is taken from the "xiaoFangJu" new instance.
+		child.setHanziStrokeData(xiaoFangJu);
+		
+		Set<BookAndStroke> childSet = new HashSet<>();
+		childSet.add(child);
+		secondBook.setBookAndStroke(childSet);
+		
 		logger.debug("BookData: ");
-		logger.debug(model.toString());
+		logger.debug(secondBook.toString());
 		
 		logger.debug("Inserting \"BookData\" to database...");
-		BookData result = bookDaoImpl.insert(model);
+		BookData result = bookDaoImpl.insert(secondBook);
 		Assert.assertNotNull(result);
-		Assert.assertEquals("第二課",model.getBook_name());
+		Assert.assertEquals("第二書",secondBook.getBook_name());
 		logger.debug("Testing Inserting \"BookData\" to succeed.");
 		logger.debug("Result: ");
 		logger.debug(result.toString());
 	}
 	
-	@Test
+	//@Test
 	public void selectAllTest() throws Exception{
 		logger.debug("Test Select All starting...");
 		logger.debug("selecting all data from \"book_data\" table");

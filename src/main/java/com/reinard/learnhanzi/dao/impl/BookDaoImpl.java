@@ -15,12 +15,11 @@ import com.reinard.learnhanzi.models.BookData;
 import com.reinard.learnhanzi.models.HanziData;
 
 /**
- * A class that provides many database operations on "book_data" table.
+ * A class that provides many database operations on "book_data" table. This class is already tested (OK).
  * 
  * @author reinard.santosa
  *
  */
-//TODO Test this dao
 @Repository(value="bookDaoImpl")
 public class BookDaoImpl {
 	
@@ -28,6 +27,7 @@ public class BookDaoImpl {
 	
 	@Autowired
 	private SessionFactory hibernateSessionFactory;
+	
 	
 	/**
 	 * A method to insert data to "book_data" table.
@@ -37,8 +37,8 @@ public class BookDaoImpl {
 	 * @throws Exception - If error happen when trying to insert data to database.
 	 */
 	public BookData insert(BookData input) throws Exception{
-		//TODO test this method (OK, tested success)
-		logger.info("Inserting data book_data table...");
+		//TODO retest insert with the child (OK, tested)
+		logger.info("Inserting data \"book_data\" table...");
 		Session newSession = hibernateSessionFactory.openSession();
 		Transaction transaction = null;
 		
@@ -57,7 +57,7 @@ public class BookDaoImpl {
 				throw e;
 			}
 			
-			logger.error("Unexpected error occurred when inserting to book_data table, rollback succeed",e);
+			logger.error("Unexpected error occurred when inserting to \"book_data\" table, rollback succeed",e);
 			throw e;
 		}finally{
 			if(newSession.isOpen()) newSession.close();
@@ -72,8 +72,8 @@ public class BookDaoImpl {
 	 */
 	@SuppressWarnings("all")
 	public List<BookData> selectAll() throws Exception{
-		//TODO test this method
-		logger.info("Selecting all book_data...");
+		
+		logger.info("Selecting all data from \"book_data\" table...");
 		Session newSession = hibernateSessionFactory.openSession();
 		Transaction transaction = null;
 		
@@ -81,7 +81,7 @@ public class BookDaoImpl {
 			transaction = newSession.beginTransaction();
 			List<BookData> result = newSession.createCriteria(BookData.class).list();
 			transaction.commit();
-			logger.info("Select all book_data succeed.");
+			logger.info("Selecting all data from \"book_data\" table.");
 			logger.debug(result.toString());
 			return result;
 		}catch(Exception e){

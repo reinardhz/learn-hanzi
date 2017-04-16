@@ -17,12 +17,11 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 /**
- * Entity class represents "book_data" table.
+ * Entity class represents "book_data" table. This model is already tested (OK).
  * 
  * @author Reinard Hizkia Santosa
  *
  */
-//TODO test this model
 @Entity
 @Table(name="book_data", schema="learnhanzi_schema", uniqueConstraints= {@UniqueConstraint(columnNames={"book_name"})})
 public class BookData implements Serializable{

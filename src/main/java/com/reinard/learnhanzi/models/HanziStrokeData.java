@@ -15,12 +15,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
- * Entity class represents "hanzi_stroke_data" table.
+ * Entity class represents "hanzi_stroke_data" table. 
  * 
  * @author Reinard Hizkia Santosa
  *
  */
-//TODO test this model
 @Entity
 @Table(name="hanzi_stroke_data", schema="learnhanzi_schema")
 public class HanziStrokeData implements Serializable{
