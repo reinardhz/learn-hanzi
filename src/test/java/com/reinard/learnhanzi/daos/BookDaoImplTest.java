@@ -39,6 +39,10 @@ public class BookDaoImplTest {
 	@Autowired
 	private BookDaoImpl bookDaoImpl;
 	
+	/**
+	 * case 1, insert the new data, with the child
+	 * @throws Exception
+	 */
 	//@Test
 	public void insertTest() throws Exception{
 		
@@ -78,6 +82,15 @@ public class BookDaoImplTest {
 		logger.debug("Result: ");
 		logger.debug(result.toString());
 	}
+	
+	
+	/**
+	 * Test method "BookDaoImpl.insert(BookData input)".
+	 * 
+	 * Case 2: insert the same "book_name", this method must throw "javax.persistence.PersistenceException;".
+	 * 
+	 */
+	//TODO finish this test case method.
 	
 	@Test
 	public void selectAllTest() throws Exception{

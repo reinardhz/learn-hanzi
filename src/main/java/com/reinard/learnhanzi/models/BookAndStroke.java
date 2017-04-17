@@ -20,7 +20,6 @@ import javax.persistence.Id;
  *
  */
 
-//TODO test this model
 @Entity
 @Table(name="book_and_stroke", schema="learnhanzi_schema")
 public class BookAndStroke implements Serializable{

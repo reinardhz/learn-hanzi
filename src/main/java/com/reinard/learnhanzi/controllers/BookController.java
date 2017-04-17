@@ -1,29 +1,21 @@
 package com.reinard.learnhanzi.controllers;
 
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.WebApplicationContext;
-import java.io.BufferedReader;
-
-import com.reinard.learnhanzi.helper.utils.StringUtil;
-import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 
 
 /**
- * A Controller that handles http request coming from "Book" page.
+ * A Controller that handles all http request coming from "Book" page.
  * 
  * @author reinard.santosa
  *
  */
+//@Controller
+//To make this controller is not singleton, to support multithreading.
+@Scope(value = WebApplicationContext.SCOPE_REQUEST)
+@RequestMapping(value = "/book")
 public class BookController {
 	
 	/**
@@ -42,7 +34,6 @@ public class BookController {
 	 * 5. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
 	 * 4. If the data cannot be inserted, response to client with error String: "Error: Cannot Insert. Data Already Exist."<br/>
 	 * 5. If error happened, response to client with error String: "Error when inserting hanzi data". <br/>
-	 * 
 	 * 
 	 */
 	public ResponseEntity<String> insertBook(){
