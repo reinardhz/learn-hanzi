@@ -53,7 +53,7 @@ public class BookController {
 	/**
 	 * A method to response all book data in table "book_data".
 	 * 
-	 * Http Response Json String Example: {"book data":[{"book 1"},{"book 2"},...]}
+	 * Http Response Json String Example: {"book_data":[{"book_id":"1", "book_name":"第一書"},{"book_id":"2", "book_name":"第二書"},...]}
 	 * 
 	 * Important note: do not remove the 'space' character from http request.
 	 * @return
@@ -67,8 +67,8 @@ public class BookController {
 	/**
 	 * A method to response all hanzi stroke written in specified book.
 	 * 
-	 * Http Request String Example: Book 1.
-	 * Http Response Json String Example: {"Book 1":[{"營業員"},{"電郵"},{"發音"}...]}
+	 * Http Request String Example: 第一書.
+	 * Http Response Json String Example: {"第一書":[{"營業員"},{"電郵"},{"發音"}...]}
 	 * 
 	 * Important note: do not remove the 'space' character from http request.
 	 * @return

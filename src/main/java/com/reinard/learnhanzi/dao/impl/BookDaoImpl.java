@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.reinard.learnhanzi.models.BookData;
-import com.reinard.learnhanzi.models.HanziData;
 
 /**
  * A class that provides many database operations on "book_data" table. This class is already tested (OK).
@@ -70,11 +69,10 @@ public class BookDaoImpl {
 	 * A method to select all data from "book_data" table.
 	 * 
 	 * @return List&lt;BookData&gt; All record from "book_data" table. Return <i>null</i> if no data found.
-	 * @throws Exception
+	 * @throws Exception - If error happened when trying to select all data from database.
 	 */
 	@SuppressWarnings("all")
 	public List<BookData> selectAll() throws Exception{
-		//TODO add logger.error("") message if transaction get rollback and if transaction not get rollback.
 		logger.info("Selecting all data from \"book_data\" table...");
 		Session newSession = hibernateSessionFactory.openSession();
 		Transaction transaction = null;
@@ -83,12 +81,23 @@ public class BookDaoImpl {
 			transaction = newSession.beginTransaction();
 			List<BookData> result = newSession.createCriteria(BookData.class).list();
 			transaction.commit();
-			logger.info("Selecting all data from \"book_data\" table.");
+			logger.info("Selecting all data from \"book_data\" table succeed.");
 			logger.debug(result.toString());
+			
+			if(result==null || result.isEmpty()){
+				logger.info("Selecting all data from \"book_data\" produced no data.");
+				logger.info("Selecting all data from \"book_data\" table succeed.");
+				return null;
+			}
+			logger.info("Selecting all data from \"book_data\" table succeed.");
 			return result;
 		}catch(Exception e){
-			if (transaction != null) transaction.rollback();
-			logger.error("Unexpected error occurred when trying to select all from \"book_data\" table, rollback succeed.", e);
+			if (transaction != null){
+				transaction.rollback();
+				logger.error("Unexpected error occurred when trying to select all from \"book_data\" table, rollback succeed.", e);
+			}else{
+				logger.error("Unexpected error occurred when trying to select all from \"book_data\" table.", e);
+			}
 			throw e;
 		}finally{
 			if(newSession.isOpen()) newSession.close();

@@ -37,12 +37,9 @@ public class BookDaoImplTest {
 	private final static Logger logger = Logger.getLogger(BookDaoImplTest.class);
 	
 	@Autowired
-	private SessionFactory hibernateSessionFactory;
-	
-	@Autowired
 	private BookDaoImpl bookDaoImpl;
 	
-	@Test
+	//@Test
 	public void insertTest() throws Exception{
 		
 		logger.debug("Test Insert starting...");
@@ -82,7 +79,7 @@ public class BookDaoImplTest {
 		logger.debug(result.toString());
 	}
 	
-	//@Test
+	@Test
 	public void selectAllTest() throws Exception{
 		logger.debug("Test Select All starting...");
 		logger.debug("selecting all data from \"book_data\" table");

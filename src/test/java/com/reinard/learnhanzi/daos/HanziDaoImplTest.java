@@ -37,7 +37,7 @@ public class HanziDaoImplTest {
 	@Autowired
 	private HanziDaoImpl hanziDaoImpl;
 	
-	@Test
+	//@Test
 	public void currentTime(){
 		System.out.println(System.currentTimeMillis());
 		System.out.println(System.currentTimeMillis()/1000L);
@@ -106,7 +106,7 @@ public class HanziDaoImplTest {
 	public void testInsert2() throws Exception{
 		logger.debug("Start test");
 		HanziData hanziData = new HanziData();
-		hanziData.setHanzi("愛");
+		hanziData.setHanzi("我");
 		hanziData.setCreated_date(System.currentTimeMillis());
 		
 		//prepare the child

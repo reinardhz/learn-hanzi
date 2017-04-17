@@ -77,6 +77,13 @@ public class HanziStrokeDaoImpl {
 			transaction.commit();
 			logger.info("Selecting all data from \"hanzi_stroke_data\" table.");
 			logger.debug(result.toString());
+			
+			if(result==null || result.isEmpty()){
+				logger.info("Selecting all data from \"hanzi_stroke_data\" produced no data.");
+				logger.info("Selecting all data from \"hanzi_stroke_data\" table succeed.");
+				return null;
+			}
+			logger.info("Selecting all data from \"hanzi_stroke_data\" table succeed.");
 			return result;
 		}catch(Exception e){
 			if (transaction != null){
