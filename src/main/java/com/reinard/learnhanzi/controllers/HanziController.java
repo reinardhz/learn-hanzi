@@ -32,7 +32,7 @@ public class HanziController{
 	private final static Logger logger = Logger.getLogger(HanziController.class);
 	
 	@Autowired
-	private HanziServiceImpl hanziService;
+	private HanziServiceImpl hanziServiceImpl;
 	
 	
 	
@@ -52,7 +52,7 @@ public class HanziController{
 	public ResponseEntity<String> getAllHanzi(){
 		try{
 			logger.info("Get all hanzi data...");
-			String resultJson = hanziService.selectAll();
+			String resultJson = hanziServiceImpl.selectAll();
 			
 			//enable "same cross origin", so this controller could response data to ajax
 			HttpHeaders headers = new HttpHeaders();
@@ -136,7 +136,7 @@ public class HanziController{
 			logger.debug("The request body: "+ resultString.toString());
 			String hanzi = resultString.toString();
 			
-			String resultJson = hanziService.selectBy(hanzi);
+			String resultJson = hanziServiceImpl.selectBy(hanzi);
 			
 			if(resultJson == null){
 				resultJson="not found";
@@ -228,7 +228,7 @@ public class HanziController{
 				return new ResponseEntity<String>("The request body cannot be empty.", HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
-			String resultJson = hanziService.insertHanzi(input);
+			String resultJson = hanziServiceImpl.insertHanzi(input);
 			
 			//enable "same cross origin", so this controller could response data to ajax
 			HttpHeaders headers = new HttpHeaders();

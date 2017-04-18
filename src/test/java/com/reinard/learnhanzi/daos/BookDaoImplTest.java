@@ -40,11 +40,12 @@ public class BookDaoImplTest {
 	private BookDaoImpl bookDaoImpl;
 	
 	/**
-	 * case 1, insert the new data, with the child
+	 * case 1, test insert to "book_data" table and "book_and_stroke" table.
+	 * 
 	 * @throws Exception
 	 */
 	//@Test
-	public void insertTest() throws Exception{
+	public void insertTest1() throws Exception{
 		
 		logger.debug("Test Insert starting...");
 		logger.debug("Preparing BookData...");
@@ -90,8 +91,22 @@ public class BookDaoImplTest {
 	 * Case 2: insert the same "book_name", this method must throw "javax.persistence.PersistenceException;".
 	 * 
 	 */
-	//TODO finish this test case method.
+	@Test(expected=javax.persistence.PersistenceException.class)
+	public void insertTest2() throws Exception{
+		logger.debug("Test Insert starting...");
+		logger.debug("Preparing BookData...");
+		BookData secondBook = new BookData();
+		secondBook.setBook_name("第二書");
+		logger.debug("Inserting \"BookData\" to database...");
+		bookDaoImpl.insert(secondBook);
+	}
 	
+	/**
+	 * Test method "BookDaoImpl.selectAll()".
+	 * 
+	 * Case 1: There is a data in database, so this method must produce non-null result.
+	 * 
+	 */
 	@Test
 	public void selectAllTest() throws Exception{
 		logger.debug("Test Select All starting...");

@@ -27,7 +27,7 @@ public class HanziServiceImplTest {
 	private final static Logger logger = Logger.getLogger(HanziServiceImplTest.class);
 	
 	@Autowired
-	HanziServiceImpl hanziService;
+	HanziServiceImpl hanziServiceImpl;
 	
 	/**
 	 * Case 1: Select all data from table that already had data, must return the data.
@@ -38,7 +38,7 @@ public class HanziServiceImplTest {
 	@Test
 	public void testSelectAll() throws Exception{
 		logger.debug("Start test");
-		String result = hanziService.selectAll();
+		String result = hanziServiceImpl.selectAll();
 		Assert.assertNotNull(result);
 		logger.debug(result);
 	}
@@ -54,13 +54,13 @@ public class HanziServiceImplTest {
 	public void testSelectBy() throws Exception{
 		logger.debug("Start test");
 		//Case 1: Data found
-		String result1 = hanziService.selectBy("我");
+		String result1 = hanziServiceImpl.selectBy("我");
 		Assert.assertNotNull(result1);
 		Assert.assertTrue(result1.contains("我"));
 		logger.debug(result1);
 		
 		//Case 2: Data not found
-		String result2 = hanziService.selectBy("鳱");
+		String result2 = hanziServiceImpl.selectBy("鳱");
 		Assert.assertNull(result2);
 		
 		//Case 3: ?
@@ -71,13 +71,13 @@ public class HanziServiceImplTest {
 	 * Response json string example: {"hanzi_data":[{"hanzi":"會", "created_date":"1491448282654"}]}.
 	 * <br/><br/>
 	 */
-	@Test
+	//@Test
 	public void insertHanzi1() throws Exception{
 		logger.debug("Start test");
 		String input = "沙";
 		
 		//Case 1:
-		String insertSucceed = hanziService.insertHanzi(input);
+		String insertSucceed = hanziServiceImpl.insertHanzi(input);
 		Assert.assertNotNull(insertSucceed);
 		Assert.assertTrue(insertSucceed.contains(input));
 		logger.debug(insertSucceed);
@@ -90,12 +90,12 @@ public class HanziServiceImplTest {
 	@Test
 	public void insertHanzi2() throws Exception{
 		logger.debug("Start test");
-		String input = "沙";
+		String input = "我";
 		
 		//Case 2:
-		String insertFailed = hanziService.insertHanzi(input);
+		String insertFailed = hanziServiceImpl.insertHanzi(input);
 		Assert.assertNotNull(insertFailed);
-		Assert.assertEquals("Error: Cannot Insert. Data Already Exist", insertFailed);
+		Assert.assertEquals("Error: Cannot Insert. Data Already Exist.", insertFailed);
 	}
 
 }

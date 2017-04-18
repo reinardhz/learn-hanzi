@@ -33,9 +33,10 @@ public class BookDaoImpl {
 	 * 
 	 * @param input - Object BookData to be inserted.
 	 * @return BookData - the successfully inserted BookData.
-	 * @throws Exception - If error happen when trying to insert data to database.
+	 * @throws Exception If error happen when trying to insert data to database.
+	 * @throws PersistenceException If error occurred because trying to insert the same book_name.
 	 */
-	public BookData insert(BookData input) throws Exception{
+	public BookData insert(BookData input) throws PersistenceException, Exception{
 		logger.info("Inserting data \"book_data\" table...");
 		Session newSession = hibernateSessionFactory.openSession();
 		Transaction transaction = null;

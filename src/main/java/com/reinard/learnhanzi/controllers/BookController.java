@@ -27,8 +27,8 @@ public class BookController {
 	 * If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected.<br/><br/>
 	 * 
 	 *  This controller will: <br/>
-	 * 1. Get the hanzi data from json. <br/>
-	 * 2. Create the date, from current date. <br/>
+	 * 1. Get the "book name" from json. <br/>
+	 * 2. Call "BookServiceImpl" to insert the book name into database. <br/>
 	 * 3. Insert the data to database, and respond to client.<br/>
 	 * 4. If the data cannot be read, response to client with error String: "The request body cannot be read."<br/>
 	 * 5. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>

@@ -20,7 +20,7 @@ import com.reinard.learnhanzi.models.HanziData;
 import com.reinard.learnhanzi.models.UserAndHanzi;
 import com.reinard.learnhanzi.models.UserData;
 
-@Service("hanziService")
+@Service("hanziServiceImpl")
 public class HanziServiceImpl {
 	
 	private static final Logger logger = Logger.getLogger(HanziServiceImpl.class);
@@ -136,7 +136,7 @@ public class HanziServiceImpl {
 	 * 
 	 * @param hanzi - String hanzi to insert.
 	 * @return String result - The inserted hanzi data in json format, or String: "Error: Cannot Insert. Data Already Exist.", if trying to insert the already inserted data.
-	 * @throws Exception - If errors occurs when inserting data to database
+	 * @throws Exception - If errors occurs when inserting data to database.
 	 * 
 	 */
 	public String insertHanzi(String input) throws Exception{
