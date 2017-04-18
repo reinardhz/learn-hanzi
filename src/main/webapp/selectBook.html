@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html>
+<head>
+<meta charset="UTF-8">
+</head>
 <body>
 
 Choose Book: <select id="bookList" onchange="detect()">
 <option value="...">---Choose Book---</option>
 </select>
 
-<button name="a" onclick="getBookList()">Get book list</button>
+<button name="a" onclick="getBookList()">Get All Book</button>
 
 <br/><br/>
 Result: <div id="result"></div>
@@ -18,12 +21,27 @@ function getBookList(){
 	//get the <select> element DOM object.
 	var bookList = document.getElementById("bookList");
 	
-	//prepare the data.
-	var dataBook = ["Book 1", "Book 2", "Book 3", "Book 4", "Book 5"]; 
+	//clear the <option> tag from <select> element DOM object:
+	
+	//get the number of how many <option> element this object has.
+    var size = bookList.length;
+    //lopping as many number of the <option> element. 
+    for(var i=0; i<size; ++i){
+    	//remove the <option> element, in index 0, to ensure all tag is removed.
+    	bookList.remove(0);
+	}
+	
+	//prepare the data from http response
+	var dataBook = "第一書,第二書,第三書";
+	
+	//splits a string into an array of strings using the comma separator
+	var dataBookArray = dataBook.split(",");
+	
+	//var dataBook = ["Book 1", "Book 2", "Book 3", "Book 4", "Book 5"]; 
 	
 	//Display the dropdown list from array.
-	for(var i = 0; i < dataBook.length; ++i) {
-    	var bookName = dataBook[i];
+	for(var i = 0; i < dataBookArray.length; ++i) {
+    	var bookName = dataBookArray[i];
         
         //create new <option> tag.
     	var newOptionTag = document.createElement("option");

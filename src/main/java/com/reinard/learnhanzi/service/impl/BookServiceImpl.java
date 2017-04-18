@@ -23,7 +23,7 @@ public class BookServiceImpl {
 	private BookDaoImpl bookDaoImpl;
 	
 	/**
-	 * A method to handle menu "add new book", in "Book.html" page.
+	 * A method to handle menu "add new book", in "Book.html" page. (tested OK)
 	 * 
 	 * @param input - The new book name that will be added to database. Example: "第一書" (without double quotes).
 	 * @return String - The message indicate the successfull action. Example: "Book 第一書  inserted." (without double quotes).
@@ -31,13 +31,14 @@ public class BookServiceImpl {
 	 * @throws PersistenceException If error occurred because trying to insert the same "book_name".
 	 */
 	public String addNewBook(String input) throws PersistenceException, Exception{
-		//TODO Test this service
 		logger.info("binding the input with \"BookData\" object.");
 		BookData model = new BookData();
 		model.setBook_name(input);
 		BookData result = bookDaoImpl.insert(model);
-		
+		logger.info("Book " + result.getBook_name() + " inserted.");
 		return "Book " + result.getBook_name() + " inserted.";
 	}
+	
+	
 
 }

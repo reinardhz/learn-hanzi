@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.reinard.learnhanzi.models.BookData;
 
 /**
- * A class that provides many database operations on "book_data" table. This class is already tested (OK).
+ * A class that provides many database operations on "book_data" table.
  * 
  * @author reinard.santosa
  *
@@ -29,7 +29,7 @@ public class BookDaoImpl {
 	
 	
 	/**
-	 * A method to insert data to "book_data" table.
+	 * A method to insert data to "book_data" table. (tested OK)
 	 * 
 	 * @param input - Object BookData to be inserted.
 	 * @return BookData - the successfully inserted BookData.
@@ -67,7 +67,7 @@ public class BookDaoImpl {
 	}
 	
 	/**
-	 * A method to select all data from "book_data" table.
+	 * A method to select all data from "book_data" table. (tested OK)
 	 * 
 	 * @return List&lt;BookData&gt; All record from "book_data" table. Return <i>null</i> if no data found.
 	 * @throws Exception - If error happened when trying to select all data from database.

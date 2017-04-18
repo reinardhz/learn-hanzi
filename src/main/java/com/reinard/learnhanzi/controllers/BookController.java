@@ -37,20 +37,20 @@ public class BookController {
 	 * 
 	 */
 	public ResponseEntity<String> insertBook(){
-		//TODO finish this controller
+		//TODO finish this method
 		return null;
 	}
 	
 	/**
 	 * A method to response all book data in table "book_data".
 	 * 
-	 * Http Response Json String Example: {"book_data":[{"book_id":"1", "book_name":"第一書"},{"book_id":"2", "book_name":"第二書"},...]}
+	 * Http Response String Example: "第一書,第二書,第三書,第四書,第五書"
 	 * 
-	 * Important note: do not remove the 'space' character from http request.
+	 * Important note: Make sure that each book name separated by comma, and not spaced allow in the Http Response String.
 	 * @return
 	 */
 	public ResponseEntity<String> getAllBook(){
-		//TODO finish this controller
+		//TODO finish this method
 		return null;
 	}
 	
@@ -65,7 +65,7 @@ public class BookController {
 	 * @return
 	 */
 	public ResponseEntity<String> getAllHanziStrokeInBook(){
-		//TODO finish this controller
+		//TODO finish this method
 		return null;
 	}
 	
@@ -78,7 +78,7 @@ public class BookController {
 	 * @return
 	 */
 	public ResponseEntity<String> insertHanziStrokeInBook(){
-		//TODO finish this controller
+		//TODO finish this method
 		return null;
 	}
 	
@@ -90,7 +90,7 @@ public class BookController {
 	 * @return
 	 */
 	public ResponseEntity<String> searchHanziStrokeInBook(){
-		//TODO finish this controller
+		//TODO finish this method
 		return null;
 	}
 
