@@ -95,7 +95,7 @@ public class HanziServiceImplTest {
 		//Case 2:
 		String insertFailed = hanziServiceImpl.insertHanzi(input);
 		Assert.assertNotNull(insertFailed);
-		Assert.assertEquals("Error: Cannot Insert. Data Already Exist.", insertFailed);
+		Assert.assertEquals("Error: Cannot insert. Data already exist.", insertFailed);
 	}
 
 }

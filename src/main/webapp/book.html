@@ -59,7 +59,6 @@
 			<td>Search:</td>
 			<td><input id="search" type="text" /></td>
 			<td><button id="searchHanziButton" type="button" onclick="searchHanzi()">Search</button></td>
-			
 		</tr>
 		<tr>
 			<td>Add:</td>
@@ -268,8 +267,8 @@
 						document.getElementById("result").innerHTML = "The request body cannot be empty.";
 						return;
 					}
-					if(responseString === "Error: Cannot Insert. Data Already Exist."){
-						document.getElementById("result").innerHTML = "Error: Cannot Insert. Data Already Exist.";
+					if(responseString === "Error: Cannot insert. Data already exist."){
+						document.getElementById("result").innerHTML = "Error: Cannot insert. Data already exist.";
 						return;
 					}
 					if(responseString === "Error when inserting hanzi data."){
