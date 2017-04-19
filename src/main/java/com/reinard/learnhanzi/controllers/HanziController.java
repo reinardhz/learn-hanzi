@@ -28,7 +28,7 @@ import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
 @RequestMapping(value = "/hanzi")
 public class HanziController{
-	//TODO change not found to Not Found
+	
 	private final static Logger logger = Logger.getLogger(HanziController.class);
 	
 	@Autowired
@@ -64,11 +64,8 @@ public class HanziController{
 		
 		try{
 			
-			
 			logger.info("Get all hanzi data...");
 			String resultJson = hanziServiceImpl.selectAll();
-			
-			
 			
 			if(resultJson == null){
 				logger.info("Sending response:");
@@ -84,7 +81,7 @@ public class HanziController{
 			logger.info("Sending response:");
 			logger.info("Error when getting all hanzi data.");
 			
-			return new ResponseEntity<String>("Error when getting all hanzi data.", responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Error when getting all hanzi data.", responseHeaders, HttpStatus.OK);
 		}
 	}
 	
@@ -159,11 +156,13 @@ public class HanziController{
 				if((resultInt<0) || resultInt>65535){
 					logger.info("Sending response:");
 					logger.info("The request body cannot be read.");
-					return new ResponseEntity<String>("The request body cannot be read.", responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+					return new ResponseEntity<String>("The request body cannot be read.", responseHeaders, HttpStatus.OK);
 				}
 				
-				//Add only the character needed (do not add system character, space character, del character):
-				if( (resultInt>32) && (resultInt!=127) ){
+				//Add only the unicode CJK (Chinese Japanese Korean) characters:
+				//the unicode CJK range is from U+4E00 (19968) to U+9FFF (40959)
+				//source: http://www.fileformat.info/info/unicode/block/cjk_unified_ideographs/index.htm
+				if( (resultInt>=19968) && (resultInt<=40959) ){
 					resultChar = (char)resultInt;
 					resultString.append(resultChar);
 				}
@@ -171,9 +170,16 @@ public class HanziController{
 			}
 			
 			logger.debug("The request body: "+ resultString.toString());
-			String hanzi = resultString.toString();
+			String input = resultString.toString();
 			
-			String resultJson = hanziServiceImpl.selectBy(hanzi);
+			if(StringUtil.isEmpty(input)){
+				logger.info("Sending response:");
+				logger.info("The request body cannot be empty.");
+				
+				return new ResponseEntity<String>("The request body cannot be empty.", responseHeaders, HttpStatus.OK);
+			}
+			
+			String resultJson = hanziServiceImpl.selectBy(input);
 			
 			
 			if(resultJson == null){
@@ -191,7 +197,7 @@ public class HanziController{
 			logger.info("Sending response:");
 			logger.info("Error when searching hanzi data.");
 			
-			return new ResponseEntity<String>("Error when searching hanzi data.", responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Error when searching hanzi data.", responseHeaders, HttpStatus.OK);
 		}
 		
 	}
@@ -260,8 +266,7 @@ public class HanziController{
 				if((resultInt<0) || resultInt>65535){
 					logger.info("Sending response:");
 					logger.info("The request body cannot be read.");
-					
-					return new ResponseEntity<String>("The request body cannot be read.", responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+					return new ResponseEntity<String>("The request body cannot be read.", responseHeaders, HttpStatus.OK);
 				}
 				
 				//Add only the unicode CJK (Chinese Japanese Korean) characters:
@@ -280,8 +285,8 @@ public class HanziController{
 			if(StringUtil.isEmpty(input)){
 				logger.info("Sending response:");
 				logger.info("The request body cannot be empty.");
-				//TODO set response header charset: UTF-8
-				return new ResponseEntity<String>("The request body cannot be empty.", responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+				
+				return new ResponseEntity<String>("The request body cannot be empty.", responseHeaders, HttpStatus.OK);
 			}
 			
 			String resultJson = hanziServiceImpl.insertHanzi(input);
@@ -294,7 +299,7 @@ public class HanziController{
 			logger.error("Unexpected error when inserting hanzi data.", e);
 			logger.info("Sending response:");
 			logger.info("Error when inserting hanzi data.");
-			return new ResponseEntity<String>("Error when inserting hanzi data.", responseHeaders, HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity<String>("Error when inserting hanzi data.", responseHeaders, HttpStatus.OK);
 		}
 		
 	}

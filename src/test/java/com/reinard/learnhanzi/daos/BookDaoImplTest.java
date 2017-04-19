@@ -114,7 +114,8 @@ public class BookDaoImplTest {
 		List<BookData> result = bookDaoImpl.selectAll();
 		Assert.assertNotNull(result);
 		logger.debug("Result: ");
-		logger.debug(result);
+		logger.debug(result.size());
+		
 	}
 	
 }

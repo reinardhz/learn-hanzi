@@ -42,7 +42,7 @@ public class BookServiceImplTest {
 	 * 
 	 * Case 1: Input new book_name, this method must return "Book "+ book_name + " inserted.";
 	 */
-	@Test
+	//@Test
 	public void addNewBookTest1() throws Exception{
 		logger.debug("Test insert starting...");
 		logger.debug("Preparing input...");
@@ -59,7 +59,7 @@ public class BookServiceImplTest {
 	 * 
 	 * Case 2: Input existing book_name, this method must throw PersistenceException.
 	 */
-	@Test(expected=javax.persistence.PersistenceException.class)
+	//@Test(expected=javax.persistence.PersistenceException.class)
 	public void addNewBookTest2() throws Exception{
 		logger.debug("Test insert starting...");
 		logger.debug("Preparing input...");
@@ -67,7 +67,20 @@ public class BookServiceImplTest {
 		logger.debug(input);
 		logger.debug("Inserting same \"book_name\" into database...");
 		String result = bookServiceImpl.addNewBook(input);
-		Assert.assertNull(result);	
+		Assert.assertNull(result);
+	}
+	
+	/**
+	 * A method to test method "BookServiceImpl.getAllBookName()".
+	 * 
+	 */
+	@Test
+	public void getAllBookNameTest() throws Exception{
+		logger.debug("Test select starting...");
+		logger.debug("Getting all book name from database...");
+		String result = bookServiceImpl.getAllBookName();
+		Assert.assertNotNull(result);
+		logger.debug(result);
 	}
 
 }

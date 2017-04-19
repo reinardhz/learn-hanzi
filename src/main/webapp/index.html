@@ -123,14 +123,13 @@
 					//get the "hanzi" and "created_date" from json .
 					var result = "";
 					for (i in responseObject.hanzi_data) {
-						console.log(i);
 						var hanzi = responseObject.hanzi_data[i].hanzi;
 						var created_date_epoch_string = responseObject.hanzi_data[i].created_date;
-						//console.log("on function getAllHanzi(), created_date_epoch : "+created_date_epoch)
-						//TODO convert the created_date_epoch into javascript date.
+						
+						//convert the created_date_epoch into javascript date.
 						var created_date_epoch_int = parseInt(created_date_epoch_string);
 						var created_date = new Date(created_date_epoch_int);
-						//console.log("on function getAllHanzi(), created_date_string : "+created_date)
+						
 						result = result + hanzi + " " + created_date
 									+ "<br/>";
 						document.getElementById("data").innerHTML = result;
@@ -206,7 +205,7 @@
 					//get the "hanzi" and "created_date" from json .
 					var result = "";
 					for (i in responseObject.hanzi_data) {
-						console.log(i);
+						
 						var hanzi = responseObject.hanzi_data[i].hanzi;
 						var created_date_epoch_string = responseObject.hanzi_data[i].created_date;
 						var created_date_epoch_int = parseInt(created_date_epoch_string);
@@ -259,17 +258,15 @@
 			ajax.onreadystatechange = function() {
 				//When readyState property is 4 and the status property is 200, the response is ready:
 				if (this.readyState == 4 && this.status == 200) {
-					console.log("insertHanzi(), responseText: "
-							+ ajax.responseText);
+					
 					var responseString = ajax.responseText;
-					//get response from server, add succeed or fail?, then display it.
 					
 					if(responseString === "The request body cannot be read."){
-						document.getElementById("result").innerHTML = "The request body cannot be read.";
+						document.getElementById("result").innerHTML = "Error: Server cannot procees the request.";
 						return;
 					}
 					if(responseString === "The request body cannot be empty."){
-						document.getElementById("result").innerHTML = "The request body cannot be empty.";
+						document.getElementById("result").innerHTML = "Error: Server cannot procees the request.";
 						return;
 					}
 					if(responseString === "Error: Cannot insert. Data already exist."){
@@ -277,7 +274,7 @@
 						return;
 					}
 					if(responseString === "Error when inserting hanzi data."){
-						document.getElementById("result").innerHTML = "Error when inserting hanzi data.";
+						document.getElementById("result").innerHTML = "Error when inserting hanzi data";
 						return;
 					}
 					
@@ -287,7 +284,6 @@
 					//get the "hanzi" and "created_date" from json .
 					var result = "";
 					for (i in responseObject.hanzi_data) {
-						console.log(i);
 						var hanzi = responseObject.hanzi_data[i].hanzi;
 						var created_date_epoch_string = responseObject.hanzi_data[i].created_date;
 						var created_date_epoch_int = parseInt(created_date_epoch_string);

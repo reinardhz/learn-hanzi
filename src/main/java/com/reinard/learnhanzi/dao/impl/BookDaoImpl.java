@@ -70,7 +70,7 @@ public class BookDaoImpl {
 	 * A method to select all data from "book_data" table. (tested OK)
 	 * 
 	 * @return List&lt;BookData&gt; All record from "book_data" table. Return <i>null</i> if no data found.
-	 * @throws Exception - If error happened when trying to select all data from database.
+	 * @throws Exception If error happened when trying to select all data from database.
 	 */
 	@SuppressWarnings("all")
 	public List<BookData> selectAll() throws Exception{

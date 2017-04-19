@@ -41,7 +41,7 @@ public class BookController {
 	 * <i>or</i> <br/>
 	 * Error: Cannot insert. Data already exist. <br/>
 	 * <i>or</i> <br/>
-	 * Error when inserting hanzi data. <br/>
+	 * Error when inserting book data. <br/>
 	 * <br/><br/>
 	 * 
 	 * If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected.<br/><br/>
@@ -74,9 +74,16 @@ public class BookController {
 	 * 
 	 * <i>or</i> <br/>
 	 * 
-	 * not found.
+	 * Not found. <br/>
 	 * 
-	 * Important note: Make sure that each book name separated by comma, and not spaced allow in the Http Response String.
+	 * <i>or</i> <br/>
+	 * 
+	 * Error when getting all hanzi data. <br/><br/>
+	 * 
+	 * Important note: Make sure that the response body: <br/>
+	 * * Do not contains the space character. <br/>
+	 * * Each book name is separated by comma character. <br/>
+	 * 
 	 * @return
 	 */
 	@RequestMapping(value = "/getAllBook", method = RequestMethod.GET, produces = {"text/plain"})
@@ -92,7 +99,7 @@ public class BookController {
 	 * Http Request String Example: 第一書.
 	 * Http Response Json String Example: {"第一書":[{"營業員"},{"電郵"},{"發音"}...]}
 	 * 
-	 * Important note: do not remove the 'space' character from http request.
+	 *
 	 * @return
 	 */
 	public ResponseEntity<String> getAllHanziStrokeInBook(){
@@ -103,8 +110,8 @@ public class BookController {
 	/**
 	 * A method to insert one hanzi stroke in specified book.
 	 * 
-	 * Http Request Body Example: {"第一書":[{"郵局"}]}
-	 * Http Response Json String Example: 郵局 added in 第一書.
+	 * Http Request Body Example: 第一書:郵局 
+	 * Http Response Json String Example: 郵局 added in book 第一書.
 	 * 
 	 * @return
 	 */
@@ -116,8 +123,8 @@ public class BookController {
 	/**
 	 * A method to search hanzi stroke in specified book.
 	 * 
-	 * Http Request Body Example : {"第一書":[{"郵局"}]}
-	 * Http Response Json String Example： {"hanzi_stroke_data":[{"hanzi_stroke":"郵局","created_date":"1491448282654"}]} or "not found"
+	 * Http Request Body Example: 第一書:郵局
+	 * Http Response Json String Example: {"第一書":[{"hanzi_stroke":"郵局","created_date":"1491448282654"}]} or "not found"
 	 * @return
 	 */
 	public ResponseEntity<String> searchHanziStrokeInBook(){
