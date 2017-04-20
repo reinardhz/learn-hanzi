@@ -1,7 +1,7 @@
 package com.reinard.learnhanzi.json;
 
 /**
- * Part of HanziDataJson class.
+ * Part of "HanziDataJsonResponseObject" class.
  * 
  * @author reinard.santosa
  */

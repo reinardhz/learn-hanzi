@@ -43,7 +43,7 @@ public class HanziStrokeData implements Serializable{
 	//This is mapped by the variable "private HanziStrokeData hanziStrokeData;", that exist in class "BookAndStroke".
 	//Note: FetchType.EAGER indicate that, when hibernate select data from "hanzi_stroke_data" table that mapped to this "HanziStrokeData" entity, 
 	//the "Set<BookAndStroke>" instance is always exist in this "HanziStrokeData" instance, even after the session is closed.
-	@OneToMany(mappedBy="hanziStrokeData", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="hanziStrokeData", fetch=FetchType.LAZY, cascade={CascadeType.ALL})
 	private Set<BookAndStroke> bookAndStroke;
 	
 	public HanziStrokeData(){

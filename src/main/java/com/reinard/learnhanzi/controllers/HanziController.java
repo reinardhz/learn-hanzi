@@ -86,7 +86,7 @@ public class HanziController{
 	}
 	
 	/**
-	 * This is a controller to to handle http request to search the inputted hanzi from database. <br/><br/>
+	 * A method to handle http request to search the inputted hanzi from database. <br/><br/>
 	 * Http Request Example: <br/>
 	 * <b>Request Header:</b> <br/>
 	 * Content-Type: text/plain;charset=UTF-8 <br/>
@@ -114,12 +114,12 @@ public class HanziController{
 	 * 
 	 * <i>or</i> <br/>
 	 * 
-	 * Error when searching hanzi data.<br/><br/>
+	 * Error when searching hanzi data. <br/><br/>
 	 * 
 	 * Note: If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected. <br/><br/>
 	 * 
 	 * This controller will: <br/>
-	 * 1. Get the hanzi http request. <br/>
+	 * 1. Get the hanzi from http request. <br/>
 	 * 2. Search from the table \"hanzi_data\" that match the inputted hanzi, then convert to json. <br/>
 	 * 3. If the data cannot be read, response to client with error String: "The request body cannot be read." <br/>
 	 * 4. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
@@ -203,7 +203,7 @@ public class HanziController{
 	}
 	
 	/**
-	 * A method to handle http request to save data hanzi to database.  <br/><br/>
+	 * A method to handle http request to save data hanzi to database. <br/><br/>
 	 * Http Request Example: <br/>
 	 * <b>Request Header:</b> <br/>
 	 * Content-Type: text/plain;charset=UTF-8 <br/>
@@ -234,8 +234,8 @@ public class HanziController{
 	 * 3. Insert the data to database. <br/>
 	 * 4. If the data cannot be read, response to client with error String: "The request body cannot be read."<br/>
 	 * 5. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
-	 * 4. If the data cannot be inserted, response to client with error String: "Error: Cannot insert. Data already exist."<br/>
-	 * 5. If error happened, response to client with error String: "Error when inserting hanzi data."<br/>
+	 * 6. If the data cannot be inserted, response to client with error String: "Error: Cannot insert. Data already exist."<br/>
+	 * 7. If error happened, response to client with error String: "Error when inserting hanzi data."<br/>
 	 */
 	@RequestMapping(value = "/insertHanzi", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanzi(HttpServletRequest httpServletRequest){

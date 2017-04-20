@@ -5,9 +5,12 @@ import java.util.List;
 import javax.persistence.PersistenceException;
 
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -103,8 +106,59 @@ public class BookDaoImpl {
 		}finally{
 			if(newSession.isOpen()) newSession.close();
 		}
+		
 	}
 	
-	
-	
+	/**
+	 * A method to select one record from "book_data" table by specified book_name. (tested OK)
+	 * 
+	 * @return BookData One record from "book_data" table. Return <i>null</i> if no data found.
+	 * @throws Exception If error happened when trying to select data from database.
+	 */
+	public BookData selectBy(String inputBookName){
+		
+		logger.info("Selecting all data from \"book_data\" table by \"book_name\"...");
+		Session newSession = hibernateSessionFactory.openSession();
+		Transaction transaction = null;
+		
+		try{
+			transaction = newSession.beginTransaction();
+			Criteria selectByBookName = newSession.createCriteria(BookData.class);
+			
+			//define the filter for the data:
+			//1. book_name equals the inputted book_name (WHERE book_name = [inputted book_name])
+			//because this Restrictions is will be put in "BookData" criteria:
+			//book_name is point to variable "private String book_name;" in entity BookData, which then point to column "book_name" in table "book_data".
+			Criterion equalsInputtedBookName = Restrictions.eq("book_name", inputBookName);
+			selectByBookName.add(equalsInputtedBookName);
+			
+			//SELECT * FROM book_data WHERE book_name = [input]
+			//Ensure that there is only one unique result.
+			Object resultObject = selectByBookName.uniqueResult();
+			
+			if(resultObject == null){
+				logger.info("\"book_data\" not found.");
+				logger.info("Searching \"book_data\" from inputted book_name succeed.");
+				return null;
+			}else{
+				BookData result = (BookData) resultObject;
+				logger.info("\"book_data\" found.");
+				logger.debug(result.toString());
+				logger.info("Selecting all data from \"book_data\" table by \"book_name\" succeed.");
+				return result;
+			}
+			
+		}catch(Exception e){
+			if (transaction != null){
+				transaction.rollback();
+				logger.error("Unexpected error occurred when trying to select \"book_data\" by inputted book_name, rollback succeed.", e);
+			}else{
+				logger.error("Unexpected error occurred when trying to select \"book_data\" by inputted book_name.", e);
+			}
+			throw e;
+		}finally{
+			if(newSession.isOpen()) newSession.close();
+		}
+		
+	}
 }

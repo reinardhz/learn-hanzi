@@ -35,7 +35,7 @@ public class UserAndHanzi implements Serializable{
 	//Many different instance of this class (UserAndHanzi), have same "UserData" object.
 	//Note: FetchType.EAGER indicate that, when hibernate select data from "user_and_hanzi" table that mapped to this "UserAndHanzi" entity, 
 	//the "UserData" object is always exist in UserAndHanzi object, even after the session is closed.
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="user_id", nullable=false)
 	private UserData userData;
 	
@@ -43,7 +43,7 @@ public class UserAndHanzi implements Serializable{
 	//Many different instance of this class (UserAndHanzi), have same "HanziData" object.
 	//Note: FetchType.EAGER indicate that, when hibernate select data from "user_and_hanzi" table that mapped to this "UserAndHanzi" entity, 
 	//the "HanziData" object is still exist in UserAndHanzi object, even after the session is closed.
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="hanzi_id", nullable=false)
 	private HanziData hanziData;
 	

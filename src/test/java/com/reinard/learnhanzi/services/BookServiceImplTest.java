@@ -59,7 +59,7 @@ public class BookServiceImplTest {
 	 * 
 	 * Case 2: Input existing book_name, this method must throw PersistenceException.
 	 */
-	//@Test(expected=javax.persistence.PersistenceException.class)
+	@Test(expected=javax.persistence.PersistenceException.class)
 	public void addNewBookTest2() throws Exception{
 		logger.debug("Test insert starting...");
 		logger.debug("Preparing input...");
@@ -80,7 +80,36 @@ public class BookServiceImplTest {
 		logger.debug("Getting all book name from database...");
 		String result = bookServiceImpl.getAllBookName();
 		Assert.assertNotNull(result);
+		Assert.assertFalse(result.contains(" "));
+		
 		logger.debug(result);
 	}
-
+	
+	/**
+	 * A method to test method "BookServiceImpl.getAllHanziStrokeInBook(String inputBookName)".
+	 * 
+	 * Case 1: There is a "hanzi_stroke" related with the inputted book name.
+	 */
+	@Test
+	public void getAllHanziStrokeInBookTest1() throws Exception{
+		logger.debug("Test \"getAllHanziStrokeInBook\" starting...");
+		logger.debug("preparing the input: ");
+		String inputBookName = "第一書";
+		logger.debug(inputBookName);
+		logger.debug("getting all hanzi stroke in book "+ inputBookName);
+		String result = bookServiceImpl.getAllHanziStrokeInBook(inputBookName);
+		Assert.assertNotNull(result);
+		logger.debug("Test getting all hanzi stroke in book "+ inputBookName + "succeed.");
+		logger.debug(result);
+	}
+	
+	/**
+	 * A method to test method "BookServiceImpl.getAllHanziStrokeInBook(String inputBookName)".
+	 * 
+	 * Case 2: There is no "hanzi_stroke" related with the inputted book name.
+	 */
+	@Test
+	public void getAllHanziStrokeInBookTest2() throws Exception{
+		
+	}
 }

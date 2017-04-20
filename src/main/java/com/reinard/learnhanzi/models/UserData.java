@@ -42,7 +42,7 @@ public class UserData implements Serializable{
 	//This is mapped by the variable "private UserData userData;", that exist in class "UserAndHanzi".
 	//Note: FetchType.EAGER indicate that, when hibernate select data from "user_data" table that mapped to this "UserData" entity, 
 	//the "Set<UserAndHanzi>" instance is always exist in this "UserData" instance, even after the session is closed.
-	@OneToMany(mappedBy="userData", fetch=FetchType.EAGER, cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="userData", fetch=FetchType.LAZY, cascade={CascadeType.ALL})
 	private Set<UserAndHanzi> userAndHanzi;
 
 	public UserData() {

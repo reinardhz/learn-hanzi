@@ -97,8 +97,9 @@ public class BookDaoImplTest {
 		logger.debug("Preparing BookData...");
 		BookData secondBook = new BookData();
 		secondBook.setBook_name("第二書");
-		logger.debug("Inserting \"BookData\" to database...");
+		logger.debug("Inserting same \"book_name\" to database...");
 		bookDaoImpl.insert(secondBook);
+		logger.debug("Testing Inserting same \"book_name\" to succeed.");
 	}
 	
 	/**
@@ -108,14 +109,78 @@ public class BookDaoImplTest {
 	 * 
 	 */
 	@Test
-	public void selectAllTest() throws Exception{
+	public void selectAllTest1() throws Exception{
 		logger.debug("Test Select All starting...");
 		logger.debug("selecting all data from \"book_data\" table");
 		List<BookData> result = bookDaoImpl.selectAll();
 		Assert.assertNotNull(result);
+		logger.debug("Testing select all \"BookData\" succeed.");
 		logger.debug("Result: ");
-		logger.debug(result.size());
+		logger.debug(result.size());	
+	}
+	
+	/**
+	 * Test method "BookDaoImpl.selectAll()".
+	 * 
+	 * Case 2: There is no data in database, so this method must produce null result.
+	 * 
+	 */
+	//@Test
+	public void selectAllTest2() throws Exception{
 		
 	}
+	
+	/**
+	 * Test for method "BookDaoImpl.selectBy(String inputBookName)".
+	 * 
+	 * Case 1: table book_data contains data and the book_name exist in table book_data, so this method must produce non-null result.
+	 * 
+	 */
+	@Test
+	public void selectByBookName1() throws Exception{
+		logger.debug("Test Select book_data by book_name starting...");
+		String inputBookName = "第一書"; 
+		logger.debug("selecting book_data by book_name: " + inputBookName + "...");
+		
+		BookData result = bookDaoImpl.selectBy(inputBookName);
+		Assert.assertNotNull(result);
+		Assert.assertEquals("第一書", result.getBook_name());
+		
+		logger.debug("Test Select book_data by book_name succeed.");
+		logger.debug("Result: ");
+		logger.debug(result);
+	}
+	
+	/**
+	 * Test for method "BookDaoImpl.selectBy(String inputBookName)".
+	 * 
+	 * Case 2 : table book_data contains data and the book_name not exist in table book_data, so this method must produce null result.
+	 * 
+	 */
+	@Test
+	public void selectByBookName2() throws Exception{
+		logger.debug("Test Select book_data by book_name starting...");
+		String inputBookName = "第萬書";
+		logger.debug("selecting book_data by book_name: " + inputBookName + "...");
+		
+		BookData result = bookDaoImpl.selectBy(inputBookName);
+		Assert.assertNull(result);
+		
+		logger.debug("Test Select book_data by book_name succeed.");
+		logger.debug("Result: ");
+		logger.debug(result);
+	}
+	
+	/**
+	 * Test for method "BookDaoImpl.selectBy(String inputBookName)"
+	 * 
+	 * Case 3: table book_data contains note data, so this method must produce null result.
+	 * 
+	 */
+	//@Test
+	public void selectByBookName3() throws Exception{
+		
+	}
+	
 	
 }

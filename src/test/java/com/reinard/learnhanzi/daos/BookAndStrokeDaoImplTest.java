@@ -144,6 +144,7 @@ public class BookAndStrokeDaoImplTest {
 		List<BookAndStroke> result = bookAndStrokeDaoImpl.selectAll();
 		Assert.assertNotNull(result);
 		logger.debug(result);
+		logger.debug(result.size());
 	}
 	
 }

@@ -42,7 +42,7 @@ public class BookData implements Serializable{
 	//One instance of this class ("BookData"), that represents one row of table "book_data", exist in many "BookAndStroke" object.
 	//This is mapped by the variable "private BookData bookData;", that exist in class "BookAndStroke".
 	//Note: FetchType.EAGER indicate that, when hibernate select data from "book_data" table that mapped to this "BookData" entity, 
-	//the "Set<BookAndStroke>" instance is always exist in this "BookData" instance, even after the session is closed.
+	//the "Set<BookAndStroke>" instance is not exist in this "BookData" instance. The "Set<BookAndStroke>" is only exist if we call it, and as long the session is not closed.
 	@OneToMany(mappedBy="bookData", fetch=FetchType.LAZY, cascade={CascadeType.ALL})
 	private Set<BookAndStroke> bookAndStroke;
 	

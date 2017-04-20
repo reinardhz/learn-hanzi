@@ -84,9 +84,54 @@ public class HanziStrokeDaoImplTest {
 		logger.debug("selecting all data from \"hanzi_stroke_data\" table");
 		List<HanziStrokeData> result = hanziStrokeDaoImpl.selectAll();
 		Assert.assertNotNull(result);
-		logger.debug("Testing select all data from \"hanzi_stroke_data\" table");
+		logger.debug("Testing select all data from \"hanzi_stroke_data\" table succeed.");
 		logger.debug("Result: ");
 		logger.debug(result);
+	}
+	
+	/**
+	 * Test for method "HanziStrokeDaoImpl.selectBy(long inputHanziStrokeId)"
+	 * 
+	 * Case 1: Table "hanzi_stroke_data" contains data and the "hanzi_stroke_id" exist in table book_data, so this method must produce non-null result.
+	 */
+	@Test
+	public void selectByHanziStrokeId1() throws Exception{
+		logger.debug("Test Select \"hanzi_stroke_data\" by \"hanzi_stroke_id\" starting...");
+		
+		long inputHanziStrokeId = 1L;
+		logger.debug("Selecting \"hanzi_stroke_data\" by \"hanzi_stroke_id\": " +inputHanziStrokeId+ "...");
+		HanziStrokeData result =  hanziStrokeDaoImpl.selectBy(inputHanziStrokeId);
+		Assert.assertNotNull(result);
+		Assert.assertEquals("營業員", result.getHanzi_stroke());
+		logger.debug("Test Select \"hanzi_stroke_data\" by \"hanzi_stroke_id\" succeed.");
+		logger.debug("Result: ");
+		logger.debug(result);
+	}
+	
+	/**
+	 * Test for method "HanziStrokeDaoImpl.selectBy(long inputHanziStrokeId)"
+	 * 
+	 * Case 2: Table "hanzi_stroke_data" contains data and the "hanzi_stroke_id" not exist in table book_data, so this method must produce null result.
+	 */
+	@Test
+	public void selectByHanziStrokeId2() throws Exception{
+		logger.debug("Test Select \"hanzi_stroke_data\" by \"hanzi_stroke_id\" starting...");
+		long inputHanziStrokeId = 9999L;
+		logger.debug("Selecting \"hanzi_stroke_data\" by \"hanzi_stroke_id\": " +inputHanziStrokeId+ "...");
+		HanziStrokeData result =  hanziStrokeDaoImpl.selectBy(inputHanziStrokeId);
+		Assert.assertNull(result);
+		logger.debug("Test Select \"hanzi_stroke_data\" by \"hanzi_stroke_id\" succeed.");
+		logger.debug("Result: ");
+		logger.debug(result);
+	}
+	
+	/**
+	 * Test for method "HanziStrokeDaoImpl.selectBy(long inputHanziStrokeId)"
+	 * 
+	 * Case 3: Table "hanzi_stroke_data" contains no data, so this method must produce null result.
+	 */
+	//@Test
+	public void selectByHanziStrokeId3() throws Exception{
 		
 	}
 	

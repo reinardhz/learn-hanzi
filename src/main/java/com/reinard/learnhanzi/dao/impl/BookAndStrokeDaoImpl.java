@@ -31,7 +31,7 @@ public class BookAndStrokeDaoImpl {
 	
 	/**
 	 * 
-	 * A method to insert data to "book_and_stroke" table.
+	 * A method to insert data to "book_and_stroke" table. (tested OK).
 	 * 
 	 * @param input - Object "BookAndStroke" to be inserted.
 	 * @return BookAndStroke - the successfully inserted "BookAndStroke".
@@ -65,7 +65,7 @@ public class BookAndStrokeDaoImpl {
 	}
 	
 	/**
-	 * A method to select all data from "book_and_stroke" table that contains the specified "book_id".
+	 * A method to select all data from "book_and_stroke" table that contains the specified "book_id". (tested OK).
 	 * 
 	 * @param input_book_id - the inputted "book_id".
 	 * @return List&lt;BookAndStroke&gt; - All row from "book_and_stroke" table, that containes the inputted "book_id", or null if no data.
@@ -125,7 +125,7 @@ public class BookAndStrokeDaoImpl {
 	
 	
 	/**
-	 * A method to select all data from "book_and_stroke" table.
+	 * A method to select all data from "book_and_stroke" table. (tested OK).
 	 * 
 	 * @return List&lt;BookAndStroke&gt; - All record from "book_and_stroke" table. Return <i>null</i> if no data found.
 	 * @throws Exception - If error happened when trying to select all data from database.
