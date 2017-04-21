@@ -91,6 +91,7 @@ public class BookController {
 	@RequestMapping(value = "/getAllBookName", method = RequestMethod.GET, produces = {"text/plain"})
 	public ResponseEntity<String> getAllBookName(){
 		//TODO finish this method
+		//the service needed in this method is tested ok.
 		return null;
 	}
 	
@@ -142,6 +143,7 @@ public class BookController {
 	@RequestMapping(value = "/getAllHanziStrokeInBookName", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> getAllHanziStrokeInBookName(HttpServletRequest httpServletRequest){
 		//TODO finish this method
+		//the service needed in this method is tested ok.
 		return null;
 	}
 	
@@ -185,6 +187,7 @@ public class BookController {
 	@RequestMapping(value = "/insertHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanziStrokeInBook(HttpServletRequest httpServletRequest){
 		//TODO finish this method
+		//the service needed in this method is not yet tested.
 		return null;
 	}
 	
@@ -198,6 +201,7 @@ public class BookController {
 	@RequestMapping(value = "/searchHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> searchHanziStrokeInBook(){
 		//TODO finish this method
+		//the service needed in this method is not yet tested.
 		return null;
 	}
 
