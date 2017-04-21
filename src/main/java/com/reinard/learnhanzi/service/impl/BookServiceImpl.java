@@ -1,5 +1,6 @@
 package com.reinard.learnhanzi.service.impl;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -105,15 +106,14 @@ public class BookServiceImpl {
 	}
 	
 	/**
-	 * A method to response all hanzi_stroke written in specified book_name.
+	 * A method to response all hanzi_stroke written in specified book_name. (tested OK).
 	 * 
 	 * @param input - The book_name Example: "第一書" (without double quotes).
 	 * @return String result - All hanzi stroke in the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"營業員", "created_date":"1491448282651"},{"hanzi_stroke":"電郵", "created_date":"1491448282652"},{"hanzi_stroke":"發音", "created_date":"1491448282653"}]}
-	 * @return null, if not data found.
+	 * @return Null, if not data found.
 	 * @throws Exception If error happened when trying to select all hanzi_stroke from database.
 	 */
 	public String getAllHanziStrokeInBook(String inputBookName) throws Exception{
-		//TODO test this method
 		
 		logger.info("Getting all hanzi stroke in book " + inputBookName + " ...");
 		
@@ -121,20 +121,35 @@ public class BookServiceImpl {
 		BookData bookData = bookDaoImpl.selectBy(inputBookName);
 		
 		if(bookData == null){
+			logger.info("bookData is null. Return null.");
 			return null;
 		}
+		
 		long book_id = bookData.getBook_id();
 		
 		logger.debug("2. Get the \"BookAndStroke\" in the \"book_name\".");
 		List<BookAndStroke> listOfbookAndStroke = bookAndStrokeDaoImpl.selectAllByBookId(book_id);
 		
 		if(listOfbookAndStroke==null || listOfbookAndStroke.isEmpty()){
+			logger.info("\"BookAndStroke\" in the \"book_name\" is null. Return null.");
 			return null;
 		}
 		
+		
 		logger.debug("3. Get the \"hanzi_stroke\" and \"created_date\" in the \"BookAndStroke\" then, add it into \"List<Hanzi_stroke_data>\".");
-		List<Hanzi_stroke_data> listOfHanzi_stroke_data = null;
-		for(BookAndStroke bookAndStroke: listOfbookAndStroke){
+		List<Hanzi_stroke_data> listOfHanzi_stroke_data = new ArrayList<>();;
+		for(BookAndStroke bookAndStroke : listOfbookAndStroke){
+			
+			if(bookAndStroke.getHanziStrokeData() == null){
+				logger.info("\"HanziStrokeData\" in the \"BookAndStroke\" is null. Return null.");
+				return null;
+			}
+			
+			if(bookAndStroke.getHanziStrokeData().getHanzi_stroke() == null){
+				logger.info("\"hanzi_stroke\" in the \"HanziStrokeData\" is null. Return null.");
+				return null;
+			}
+			
 			String hanzi_stroke = bookAndStroke.getHanziStrokeData().getHanzi_stroke();
 			long created_date = bookAndStroke.getHanziStrokeData().getCreated_date();
 			
@@ -149,6 +164,9 @@ public class BookServiceImpl {
 		
 		logger.debug("5. Prepare the \"AllHanziStrokeInBookName\" class to convert to json");
 		AllHanziStrokeInBookName allHanziStrokeInBookName = new AllHanziStrokeInBookName();
+		allHanziStrokeInBookName.setBook_name(inputBookName);
+		allHanziStrokeInBookName.setHanzi_stroke_data(arrayOfHanziStrokeData);
+		
 		
 		logger.debug("6. Convert the \"AllHanziStrokeInBookName\" class into json string");
 		ObjectMapper mapper = new ObjectMapper();
