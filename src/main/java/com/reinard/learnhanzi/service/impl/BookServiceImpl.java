@@ -180,14 +180,13 @@ public class BookServiceImpl {
 	}
 	
 	/**
-	 * A method to insert hanzi_stroke that is related to the book_name. (not-yet tested)
+	 * A method to insert hanzi_stroke that is related to the book_name. (tested OK).
 	 * 
 	 * @param inputBookNameAndHanziStroke - The book_name and hanzi_stroke to be inserted. Example: "第一書:郵局" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
 	 * @return String result - The successfully inserted hanzi_stroke that is related to the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"郵局", "created_date":"1491448282651"}]}
 	 * @throws Exception If error happened when trying to insert hanzi_stroke into database.
 	 */
 	public String insertHanziStroke(String inputBookNameAndHanziStroke) throws Exception{
-		//TODO test this method
 		
 		String[] splitInput = inputBookNameAndHanziStroke.split(":");
 		logger.info("Inserting hanzi_stroke: "+ splitInput[1] + " that is related to book: " + splitInput[0] + " ...");

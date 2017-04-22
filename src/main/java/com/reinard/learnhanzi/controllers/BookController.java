@@ -187,7 +187,7 @@ public class BookController {
 	@RequestMapping(value = "/insertHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanziStrokeInBook(HttpServletRequest httpServletRequest){
 		//TODO finish this method
-		//the service needed in this method is not yet tested.
+		//the service needed in this method is tested ok.
 		return null;
 	}
 	

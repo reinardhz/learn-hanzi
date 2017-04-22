@@ -1,7 +1,7 @@
 ---POSTGRESQL DATABASE 9.5---
 
 ---------------------------------------------------------
---login to superuser before executing these sql
+--login to 'superuser' before executing these sql
 BEGIN;
 --Set the system message to use english language.
 SET lc_messages TO 'en_US.UTF-8';
@@ -9,7 +9,7 @@ SET lc_messages TO 'en_US.UTF-8';
 --Create new user, that has access as admin.
 CREATE USER learnhanzi WITH SUPERUSER CREATEDB CREATEROLE INHERIT LOGIN REPLICATION BYPASSRLS CONNECTION LIMIT -1 ENCRYPTED PASSWORD 'xuehanzi'; 
 
---Create new tablespace that belongs to learnhanzi, inside specified directory.
+--Create new tablespace that belongs to 'learnhanzi', inside specified directory.
 CREATE TABLESPACE learnhanzi_tablespace OWNER learnhanzi location 'E:\\Data Pribadi\\learn_hanzi_tablespace';
 
 --Create a new database that could be cloned.
@@ -19,7 +19,7 @@ COMMIT;
 
 
 ---------------------------------------------------------
----Login to learnhanzi before executing these sql---
+---Login to 'learnhanzi' before executing these sql---
 
 --Create new schema for user 'learnhanzi'.
 BEGIN;
@@ -65,7 +65,7 @@ CREATE SEQUENCE learnhanzi_schema.sequence_hanzi_stroke_data INCREMENT BY 1 CACH
 
 CREATE TABLE learnhanzi_schema.hanzi_stroke_data(
 hanzi_stroke_id BIGINT PRIMARY KEY DEFAULT  nextval('learnhanzi_schema.sequence_hanzi_stroke_data'),
-hanzi_stroke TEXT UNIQUE,
+hanzi_stroke TEXT,
 created_date BIGINT
 ) TABLESPACE learnhanzi_tablespace;
 
