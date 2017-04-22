@@ -51,9 +51,18 @@ public class HanziController{
 	 * <i>or</i> <br/>
 	 * 
 	 * Error when getting all hanzi data.
+	 * 
+	 * <br/><br/>
+	 * 
+	 * This controller will: <br/>
+	 * 1. Get all "hanzi_data" from database. <br/>
+	 * 2. Response the data to client if the data found, or string "Not found.", if the data is not found. <br/>
+	 * 3. If error happened, response to client with error String: "Error when getting all hanzi data."<br/>
 	 */
 	@RequestMapping(value = "/getAllHanzi", method = RequestMethod.GET, produces = {"text/plain"})
 	public ResponseEntity<String> getAllHanzi(){
+		
+		logger.info("Processing request to getAllHanzi. Get all hanzi data now...");
 		
 		//enable "same cross origin", so this controller could response data to ajax
 		HttpHeaders responseHeaders = new HttpHeaders();
@@ -64,7 +73,6 @@ public class HanziController{
 		
 		try{
 			
-			logger.info("Get all hanzi data...");
 			String resultJson = hanziServiceImpl.selectAll();
 			
 			if(resultJson == null){
@@ -119,15 +127,18 @@ public class HanziController{
 	 * Note: If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected. <br/><br/>
 	 * 
 	 * This controller will: <br/>
-	 * 1. Get the hanzi from http request. <br/>
-	 * 2. Search from the table \"hanzi_data\" that match the inputted hanzi, then convert to json. <br/>
-	 * 3. If the data cannot be read, response to client with error String: "The request body cannot be read." <br/>
-	 * 4. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
-	 * 5. Response the json data to client if the data found, or string "Not found.", if the data is not found. <br/>
-	 * 6. If error happened, response to server with error String: "Error when searching hanzi data." <br/>
+	 * 1. Read the data from http request.
+	 * 2. If the data cannot be read, response to client with error String: "The request body cannot be read." <br/>
+	 * 3. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
+	 * 4. Get the "hanzi" from http request. <br/>
+	 * 5. Search from the table \"hanzi_data\" that match the inputted hanzi, then convert to json. <br/>
+	 * 6. Response the json data to client if the data found, or string "Not found.", if the data is not found. <br/>
+	 * 7. If error happened, response to client with error String: "Error when searching hanzi data." <br/>
 	 */
 	@RequestMapping(value = "/searchHanzi", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> searchHanzi(HttpServletRequest httpServletRequest){
+		
+		logger.info("Processing request to searchHanzi. Searching hanzi now...");
 		
 		//enable "same cross origin", so this controller could response data to ajax
 		HttpHeaders responseHeaders = new HttpHeaders();
@@ -137,7 +148,6 @@ public class HanziController{
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
 		
 		try {
-			logger.info("Processing request to searchHanzi. Searching hanzi now...");
 			
 			logger.debug("Read the http request body raw byte, because jetty server could not bind the request using Spring @RequestBody annotation.");
 			BufferedReader bufferedReader = httpServletRequest.getReader();
@@ -223,22 +233,25 @@ public class HanziController{
 	 * <i>or</i> <br/>
 	 * Error: Cannot insert. Data already exist. <br/>
 	 * <i>or</i> <br/>
-	 * Error when inserting hanzi data. <br/>
-	 * <br/><br/>
+	 * Error when inserting hanzi data. <br/><br/>
 	 * 
-	 * If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected.<br/><br/>
+	 * Note: If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected.<br/><br/>
 	 * 
 	 * This controller will: <br/>
-	 * 1. Get the hanzi data from json. <br/>
-	 * 2. Create the date, from current date. <br/>
-	 * 3. Insert the data to database. <br/>
-	 * 4. If the data cannot be read, response to client with error String: "The request body cannot be read."<br/>
-	 * 5. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
-	 * 6. If the data cannot be inserted, response to client with error String: "Error: Cannot insert. Data already exist."<br/>
-	 * 7. If error happened, response to client with error String: "Error when inserting hanzi data."<br/>
+	 * 1. Read the data from http request.
+	 * 2. If the data cannot be read, response to client with error String: "The request body cannot be read."<br/>
+	 * 3. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
+	 * 4. Get the hanzi data from json. <br/>
+	 * 5. Create the date, from current date. <br/>
+	 * 6. Insert the data to database. <br/>
+	 * 7. Response the json data to client if the data is successfully inserted.
+	 * 8. If the data cannot be inserted, response to client with error String: "Error: Cannot insert. Data already exist."<br/>
+	 * 9. If error happened, response to client with error String: "Error when inserting hanzi data."<br/>
 	 */
 	@RequestMapping(value = "/insertHanzi", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanzi(HttpServletRequest httpServletRequest){
+		
+		logger.info("Processing request to insertHanzi. Inserting hanzi now...");
 		
 		//enable "same cross origin", so this controller could response data to ajax
 		HttpHeaders responseHeaders = new HttpHeaders();
@@ -248,7 +261,7 @@ public class HanziController{
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
 		
 		try{
-			logger.info("Processing request to insertHanzi. Inserting hanzi now...");
+			
 			logger.debug("Read the http request body raw byte, because jetty server could not bind the request using Spring @RequestBody annotation.");
 			BufferedReader bufferedReader = httpServletRequest.getReader();
 			
