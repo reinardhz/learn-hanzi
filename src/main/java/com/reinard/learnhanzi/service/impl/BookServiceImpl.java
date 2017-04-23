@@ -111,7 +111,7 @@ public class BookServiceImpl {
 	 * 
 	 * @param inputBookName - The book_name Example: "第一書" (without double quotes).
 	 * @return String result - All hanzi stroke in the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"營業員", "created_date":"1491448282651"},{"hanzi_stroke":"電郵", "created_date":"1491448282652"},{"hanzi_stroke":"發音", "created_date":"1491448282653"}]}
-	 * @return Null, if not data found.
+	 * @return Null, if no data found.
 	 * @throws Exception If error happened when trying to select all hanzi_stroke from database.
 	 */
 	public String getAllHanziStrokeInBook(String inputBookName) throws Exception{
@@ -137,7 +137,7 @@ public class BookServiceImpl {
 		
 		
 		logger.debug("3. Get the \"hanzi_stroke\" and \"created_date\" in the \"BookAndStroke\" then, add it into \"List<Hanzi_stroke_data>\".");
-		List<Hanzi_stroke_data> listOfHanzi_stroke_data = new ArrayList<>();;
+		List<Hanzi_stroke_data> listOfHanzi_stroke_data = new ArrayList<>();
 		for(BookAndStroke bookAndStroke : listOfbookAndStroke){
 			
 			if(bookAndStroke.getHanziStrokeData() == null){
@@ -163,6 +163,7 @@ public class BookServiceImpl {
 		logger.debug("4. Convert \"List<Hanzi_stroke_data>\" into \"Hanzi_stroke_data[]\"");
 		Hanzi_stroke_data[] arrayOfHanziStrokeData = listOfHanzi_stroke_data.toArray(new Hanzi_stroke_data[0]);
 		
+		
 		logger.debug("5. Prepare the \"AllHanziStrokeInBookName\" class to convert to json");
 		AllHanziStrokeInBookName allHanziStrokeInBookName = new AllHanziStrokeInBookName();
 		allHanziStrokeInBookName.setBook_name(inputBookName);
@@ -184,32 +185,37 @@ public class BookServiceImpl {
 	 * 
 	 * @param inputBookNameAndHanziStroke - The book_name and hanzi_stroke to be inserted. Example: "第一書:郵局" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
 	 * @return String result - The successfully inserted hanzi_stroke that is related to the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"郵局", "created_date":"1491448282651"}]}
-	 * @throws Exception If error happened when trying to insert hanzi_stroke into database.
+	 * @throws Exception If the inputted "book_name" is not exist in the database.
+	 * @throws Exception If error happened when trying to insert "hanzi_stroke" into database.
 	 */
-	public String insertHanziStroke(String inputBookNameAndHanziStroke) throws Exception{
+	public String insertHanziStrokeInBook(String inputBookNameAndHanziStroke) throws Exception{
 		
 		String[] splitInput = inputBookNameAndHanziStroke.split(":");
-		logger.info("Inserting hanzi_stroke: "+ splitInput[1] + " that is related to book: " + splitInput[0] + " ...");
+		String inputHanzi_stroke = splitInput[1];
+		String inputBook_name = splitInput[0];
+		logger.info("Inserting hanzi_stroke: "+ inputHanzi_stroke + " that is related to book: " + inputBook_name + " ...");
+		
 		
 		logger.debug("1. Make sure that the \"book_name\" is exist in the database by selecting from table \"book_data\" by inputted \"book_name\".");
-		BookData bookData = bookDaoImpl.selectBy(splitInput[0]);
-		
+		BookData bookData = bookDaoImpl.selectBy(inputBook_name);
 		if(bookData == null){
 			throw new Exception("The inputted book_name is not exist in the database.");
 		}
 		
+		
 		logger.debug("2. Insert the \"hanzi_stroke\" into table \"hanzi_stroke_data\", then get the \"hanzi_stroke_id\".");
 		HanziStrokeData hanziStrokeData = new HanziStrokeData();
-		hanziStrokeData.setHanzi_stroke(splitInput[1]);
+		hanziStrokeData.setHanzi_stroke(inputHanzi_stroke);
 		long created_date = System.currentTimeMillis();
 		hanziStrokeData.setCreated_date(created_date);
 		HanziStrokeData insertedHanziStroke = hanziStrokeDaoImpl.insert(hanziStrokeData);
+		
 		
 		logger.debug("3. Insert the \"book_id\" and \"hanzi_stroke_id\" into table \"book_and_stroke\".");
 		BookAndStroke bookAndStroke = new BookAndStroke();
 		bookAndStroke.setBookData(bookData);
 		bookAndStroke.setHanziStrokeData(insertedHanziStroke);
-		BookAndStroke insertedBookAndStroke = bookAndStrokeDaoImpl.insert(bookAndStroke);
+		bookAndStrokeDaoImpl.insert(bookAndStroke);
 		
 		
 		logger.debug("4. Set the \"book_name\", \"hanzi_stroke\", \"created_date\" inside \"AllHanziStrokeInBookName\" object.");
@@ -219,7 +225,7 @@ public class BookServiceImpl {
 		Hanzi_stroke_data[] arrayOfHanziStrokeData = new Hanzi_stroke_data[1];
 		arrayOfHanziStrokeData[0] = hanzi_stroke_data;
 		AllHanziStrokeInBookName allHanziStrokeInBookName = new AllHanziStrokeInBookName();
-		allHanziStrokeInBookName.setBook_name(splitInput[0]);
+		allHanziStrokeInBookName.setBook_name(inputBook_name);
 		allHanziStrokeInBookName.setHanzi_stroke_data(arrayOfHanziStrokeData);
 		
 		
@@ -229,6 +235,93 @@ public class BookServiceImpl {
 		
 		
 		logger.debug("6. Return the result: ");
+		logger.debug(result);
+		return result;
+	}
+	
+	
+	/**
+	 * A method to search "hanzi_stroke" that is related to the "book_name". (not yet tested).
+	 * 
+	 * @param inputBookNameAndHanziStroke - The "hanzi_stroke" related with "book_name" to be search. Example: "第一書:郵局" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
+	 * @return String result - one hanzi_stroke that is related to the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"郵局", "created_date":"1491448282651"}]}
+	 * @return Null, if no data found.
+	 * @throws Exception If error happened when trying to search from database.
+	 */
+	public String searchHanziStrokeInBook(String inputBookNameAndHanziStroke) throws Exception{
+		//TODO finish this method
+		//TODO test this method
+		
+		String[] splitInput = inputBookNameAndHanziStroke.split(":");
+		String inputHanzi_stroke = splitInput[1];
+		String inputBook_name = splitInput[0];
+		logger.info("Searching hanzi_stroke: "+ inputHanzi_stroke + " that is related to book: " + inputBook_name + " ...");
+		
+		
+		logger.debug("1. Make sure that the \"book_name\" is exist in the database by getting the \"book_id\".");
+		BookData bookData = bookDaoImpl.selectBy(inputBook_name);
+		if(bookData == null){
+			logger.info("inputted \"book_name\" is not exist in the database. Returning null now.");
+			return null;
+		}
+		long book_id = bookData.getBook_id();
+		logger.debug("\"book_name\":" + bookData.getBook_name() + " with \"book_id\": " + book_id + " is exist in the database");
+		
+		
+		logger.debug("2. Select all from \"book_and_stroke\" table that has book_id: " + book_id);
+		List<BookAndStroke> listOfBookAndStroke = bookAndStrokeDaoImpl.selectAllByBookId(book_id);
+		if(listOfBookAndStroke==null || listOfBookAndStroke.isEmpty()){
+			logger.info("\"book_name\":" + bookData.getBook_name() + " with \"book_id\": " + book_id + " does not related with any \"hanzi_stroke\", returning null now.");
+			return null;
+		}
+		
+		
+		logger.debug("3. Filter the list result, to get the \"hanzi_stroke\" that has same inputted \"hanzi_stroke\", then add it into \"List<Hanzi_stroke_data>\".");
+		List<Hanzi_stroke_data> listOfHanzi_stroke_data = new ArrayList<>();
+		for(BookAndStroke bookAndStroke : listOfBookAndStroke){
+			
+			if(bookAndStroke.getHanziStrokeData() == null){
+				logger.info("\"HanziStrokeData\" in the \"BookAndStroke\" is null. Return null.");
+				return null;
+			}
+			
+			if(bookAndStroke.getHanziStrokeData().getHanzi_stroke() == null){
+				logger.info("\"hanzi_stroke\" in the \"HanziStrokeData\" is null. Return null.");
+				return null;
+			}
+			
+			String hanzi_stroke = bookAndStroke.getHanziStrokeData().getHanzi_stroke();
+			long created_date = bookAndStroke.getHanziStrokeData().getCreated_date();
+			
+			if(hanzi_stroke.equals(inputHanzi_stroke)){
+				//add to the result, if the inputted "hanzi_stroke" match
+				Hanzi_stroke_data hanzi_stroke_data = new Hanzi_stroke_data();
+				hanzi_stroke_data.setHanzi_stroke(hanzi_stroke);
+				hanzi_stroke_data.setCreated_date(String.valueOf(created_date));
+				listOfHanzi_stroke_data.add(hanzi_stroke_data);
+			}
+			
+		}
+		if(listOfHanzi_stroke_data==null || listOfHanzi_stroke_data.isEmpty()){
+			logger.info("");
+			//TODO
+		}
+		
+		logger.debug("4. Convert \"List<Hanzi_stroke_data>\" into \"Hanzi_stroke_data[]\"");
+		Hanzi_stroke_data[] arrayOfHanziStrokeData = listOfHanzi_stroke_data.toArray(new Hanzi_stroke_data[0]);
+		
+		
+		logger.debug("5. Prepare the \"AllHanziStrokeInBookName\" class to convert to json");
+		AllHanziStrokeInBookName allHanziStrokeInBookName = new AllHanziStrokeInBookName();
+		allHanziStrokeInBookName.setBook_name(inputBook_name);
+		allHanziStrokeInBookName.setHanzi_stroke_data(arrayOfHanziStrokeData);
+		
+		
+		logger.debug("6. Convert the \"AllHanziStrokeInBookName\" class into json string");
+		ObjectMapper mapper = new ObjectMapper();
+		String result = mapper.writeValueAsString(allHanziStrokeInBookName);
+		
+		logger.debug("7. Return the result: ");
 		logger.debug(result);
 		return result;
 	}

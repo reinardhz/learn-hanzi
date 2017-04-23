@@ -170,8 +170,6 @@ public class BookController {
 	 * <i>or</i> <br/>
 	 * The request body cannot be empty. <br/>
 	 * <i>or</i> <br/>
-	 * Error: Cannot insert. Data already exist. <br/>
-	 * <i>or</i> <br/>
 	 * Error when inserting hanzi stroke. <br/>
 	 * <br/><br/>
 	 * 
@@ -185,8 +183,7 @@ public class BookController {
 	 * 5. Create the date, from current date. <br/>
 	 * 6. Insert the data to database. <br/>
 	 * 7. Response the json data to client if the data is successfully inserted.
-	 * 8. If the data cannot be inserted, response to client with error String: "Error: Cannot insert. Data already exist."<br/>
-	 * 9. If error happened, response to client with error String: "Error when inserting hanzi stroke."<br/>
+	 * 8. If error happened, response to client with error String: "Error when inserting hanzi stroke."<br/>
 	 */
 	@RequestMapping(value = "/insertHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanziStrokeInBook(HttpServletRequest httpServletRequest){
@@ -243,6 +240,7 @@ public class BookController {
 	public ResponseEntity<String> searchHanziStrokeInBook(){
 		//TODO finish this method
 		//the service needed in this method is not yet tested.
+		
 		return null;
 	}
 

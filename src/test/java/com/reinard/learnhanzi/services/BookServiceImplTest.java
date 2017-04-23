@@ -156,7 +156,7 @@ public class BookServiceImplTest {
 		String[] splitInput = inputBookNameAndHanziStroke.split(":");
 		
 		logger.info("Inserting new hanzi_stroke: "+ splitInput[1] + " that is related to book: " + splitInput[0] + " ...");
-		String result = bookServiceImpl.insertHanziStroke(inputBookNameAndHanziStroke);
+		String result = bookServiceImpl.insertHanziStrokeInBook(inputBookNameAndHanziStroke);
 		
 		Assert.assertNotNull(result);
 		
@@ -179,7 +179,7 @@ public class BookServiceImplTest {
 		String[] splitInput = inputBookNameAndHanziStroke.split(":");
 		
 		logger.info("Inserting existing hanzi_stroke: "+ splitInput[1] + " that is related to book: " + splitInput[0] + " ...");
-		String result = bookServiceImpl.insertHanziStroke(inputBookNameAndHanziStroke);
+		String result = bookServiceImpl.insertHanziStrokeInBook(inputBookNameAndHanziStroke);
 		
 		Assert.assertNotNull(result);
 		
@@ -204,7 +204,7 @@ public class BookServiceImplTest {
 		String[] splitInput = inputBookNameAndHanziStroke.split(":");
 		
 		logger.info("Inserting hanzi_stroke: "+ splitInput[1] + " that is related to book: " + splitInput[0] + " ...");
-		String result = bookServiceImpl.insertHanziStroke(inputBookNameAndHanziStroke);
+		String result = bookServiceImpl.insertHanziStrokeInBook(inputBookNameAndHanziStroke);
 	}
 	
 	
