@@ -85,7 +85,7 @@ public class HanziServiceImplTest {
 	}
 	/**
 	 * 
-	 * Case 2: Insert data that is same as previous data. Return String: "Error: Cannot Insert. Data Already Exist".
+	 * Case 2: Insert data that is same as previous data. Must Return String: "Error: Cannot Insert. Data Already Exist".
 	 */
 	@Test
 	public void insertHanzi2() throws Exception{

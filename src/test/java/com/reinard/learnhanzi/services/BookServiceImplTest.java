@@ -40,7 +40,7 @@ public class BookServiceImplTest {
 	/**
 	 * A method to test method "BookServiceImpl.addNewBook()".
 	 * 
-	 * Case 1: Input new book_name, this method must return "Book "+ book_name + " inserted.";
+	 * Case 1: Input new "book_name", this method must return "Book "+ book_name + " inserted.";
 	 */
 	//@Test
 	public void addNewBookTest1() throws Exception{
@@ -57,17 +57,19 @@ public class BookServiceImplTest {
 	/**
 	 * A method to test method "BookServiceImpl.addNewBook()".
 	 * 
-	 * Case 2: Input existing book_name, this method must throw PersistenceException.
+	 * Case 2: Input existing "book_name", this method return String: "Error: Cannot Insert. Data Already Exist".
 	 */
-	@Test(expected=javax.persistence.PersistenceException.class)
+	@Test
 	public void addNewBookTest2() throws Exception{
 		logger.debug("Test insert starting...");
 		logger.debug("Preparing input...");
 		String input = "第三書";
 		logger.debug(input);
 		logger.debug("Inserting same \"book_name\" into database...");
-		String result = bookServiceImpl.addNewBook(input);
-		Assert.assertNull(result);
+		String resultFailed = bookServiceImpl.addNewBook(input);
+		Assert.assertNotNull(resultFailed);
+		Assert.assertEquals("Error: Cannot insert. Data already exist.", resultFailed);
+		
 	}
 	
 	/**
@@ -99,6 +101,7 @@ public class BookServiceImplTest {
 		logger.debug("getting all hanzi stroke in book "+ inputBookName);
 		String result = bookServiceImpl.getAllHanziStrokeInBook(inputBookName);
 		Assert.assertNotNull(result);
+		Assert.assertFalse(result.contains(" "));
 		logger.debug("Test getting all hanzi stroke in book "+ inputBookName + "succeed.");
 		logger.debug(result);
 	}
@@ -159,7 +162,7 @@ public class BookServiceImplTest {
 		String result = bookServiceImpl.insertHanziStrokeInBook(inputBookNameAndHanziStroke);
 		
 		Assert.assertNotNull(result);
-		
+		Assert.assertFalse(result.contains(" "));
 		logger.debug("Test \"insertHanziStroke\" succeed.");
 		logger.debug(result);
 	}
@@ -169,7 +172,7 @@ public class BookServiceImplTest {
 	 * 
 	 * Case 2: The inputted \"book_name\" and \"hanzi_stroke\" is exist in the database this method should return the String.
 	 */
-	@Test
+	//@Test
 	public void insertHanziStroke2() throws Exception{
 		logger.debug("Test insert existing \"hanzi_stroke\" in specified \"book_name\" starting...");
 		logger.debug("preparing the input: ");
@@ -182,7 +185,7 @@ public class BookServiceImplTest {
 		String result = bookServiceImpl.insertHanziStrokeInBook(inputBookNameAndHanziStroke);
 		
 		Assert.assertNotNull(result);
-		
+		Assert.assertFalse(result.contains(" "));
 		logger.debug("Test insert existing \"hanzi_stroke\" in specified \"book_name\" succeed.");
 		logger.debug(result);
 	}
@@ -205,6 +208,64 @@ public class BookServiceImplTest {
 		
 		logger.info("Inserting hanzi_stroke: "+ splitInput[1] + " that is related to book: " + splitInput[0] + " ...");
 		String result = bookServiceImpl.insertHanziStrokeInBook(inputBookNameAndHanziStroke);
+	}
+	
+	/**
+	 * A method to test method "BookServiceImpl.searchHanziStrokeInBook(String inputBookNameAndHanziStroke)".
+	 * 
+	 * Case 1: The inputted "book_name" and "hanzi_stroke" is exist in the database. This method must return String result.
+	 * 
+	 */
+	@Test
+	public void searchHanziStrokeInBookTest1() throws Exception{
+		logger.debug("Test \"searchHanziStrokeInBook\" starting...");
+		logger.debug("preparing the input: ");
+		String inputBookNameAndHanziStroke = "第二書:發音";
+		logger.debug(inputBookNameAndHanziStroke);
+		String[] splitInput = inputBookNameAndHanziStroke.split(":");
+		logger.info("Inserting hanzi_stroke: "+ splitInput[1] + " that is related to book: " + splitInput[0] + " ...");
+		String result = bookServiceImpl.searchHanziStrokeInBook(inputBookNameAndHanziStroke);
+		
+		Assert.assertNotNull(result);
+		Assert.assertFalse(result.contains(" "));
+		logger.debug("Test searching \"hanzi_stroke\" in specified \"book_name\" succeed.");
+		logger.debug(result);
+	}
+	
+	
+	/**
+	 * A method to test method "BookServiceImpl.searchHanziStrokeInBook(String inputBookNameAndHanziStroke)".
+	 * 
+	 * Case 2: The inputted "book_name" is exist in the database, but the inputted "hanzi_stroke" is not in relation with the inputted "book_name". This method must return null.
+	 */
+	@Test
+	public void searchHanziStrokeInBookTest2() throws Exception{
+		logger.debug("Test \"searchHanziStrokeInBook\" starting...");
+		logger.debug("preparing the input: ");
+		String inputBookNameAndHanziStroke = "第三書:在一起";
+		logger.debug(inputBookNameAndHanziStroke);
+		String[] splitInput = inputBookNameAndHanziStroke.split(":");
+		logger.info("Inserting hanzi_stroke: "+ splitInput[1] + " that is related to book: " + splitInput[0] + " ...");
+		String result = bookServiceImpl.searchHanziStrokeInBook(inputBookNameAndHanziStroke);
+		Assert.assertNull(result);
+	}
+	
+	
+	/**
+	 * A method to test method "BookServiceImpl.searchHanziStrokeInBook(String inputBookNameAndHanziStroke)".
+	 * 
+	 * Case 3: The inputted "book_name" is not exist in the database. This method must return null.
+	 */
+	@Test
+	public void searchHanziStrokeInBookTest3() throws Exception{
+		logger.debug("Test \"searchHanziStrokeInBook\" starting...");
+		logger.debug("preparing the input: ");
+		String inputBookNameAndHanziStroke = "第千書:在一起";
+		logger.debug(inputBookNameAndHanziStroke);
+		String[] splitInput = inputBookNameAndHanziStroke.split(":");
+		logger.info("Inserting hanzi_stroke: "+ splitInput[1] + " that is related to book: " + splitInput[0] + " ...");
+		String result = bookServiceImpl.searchHanziStrokeInBook(inputBookNameAndHanziStroke);
+		Assert.assertNull(result);
 	}
 	
 	

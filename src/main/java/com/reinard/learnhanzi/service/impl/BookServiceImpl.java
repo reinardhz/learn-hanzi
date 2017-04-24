@@ -45,17 +45,26 @@ public class BookServiceImpl {
 	 * A method to handle menu "add new book", in "Book.html" page. (tested OK).
 	 * 
 	 * @param input - The new book name that will be added to database. Example: "第一書" (without double quotes).
-	 * @return String - The message indicate the successfull action. Example: "Book 第一書  inserted." (without double quotes).
+	 * @return String - The message indicate the successfull action. Example: "Book 第一書  inserted." (without double quotes), or String: "Error: Cannot insert. Data already exist.", if trying to insert the already inserted data.
 	 * @throws Exception If error happen when trying to insert data to database.
 	 * @throws PersistenceException If error occurred because trying to insert the same "book_name".
 	 */
-	public String addNewBook(String input) throws PersistenceException, Exception{
-		logger.info("binding the input with \"BookData\" object.");
-		BookData model = new BookData();
-		model.setBook_name(input);
-		BookData result = bookDaoImpl.insert(model);
-		logger.info("Book " + result.getBook_name() + " inserted.");
-		return "Book " + result.getBook_name() + " inserted.";
+	public String addNewBook(String input) throws Exception{
+		
+		try{
+			logger.info("binding the input with \"BookData\" object.");
+			BookData model = new BookData();
+			model.setBook_name(input);
+			BookData result = bookDaoImpl.insert(model);
+			logger.info("Book " + result.getBook_name() + " inserted.");
+			return "Book " + result.getBook_name() + " inserted.";
+		}catch(PersistenceException pe){
+			logger.error("Cannot insert. Data already exist.");
+			return "Error: Cannot insert. Data already exist.";
+		}catch(Exception e){
+			logger.error("Unexpected error occurred when inserting hanzi to database.");
+			throw e;
+		}
 	}
 	
 	/**
@@ -241,7 +250,7 @@ public class BookServiceImpl {
 	
 	
 	/**
-	 * A method to search "hanzi_stroke" that is related to the "book_name". (not yet tested).
+	 * A method to search "hanzi_stroke" that is related to the "book_name". (tested OK).
 	 * 
 	 * @param inputBookNameAndHanziStroke - The "hanzi_stroke" related with "book_name" to be search. Example: "第一書:郵局" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
 	 * @return String result - one hanzi_stroke that is related to the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"郵局", "created_date":"1491448282651"}]}
@@ -249,8 +258,6 @@ public class BookServiceImpl {
 	 * @throws Exception If error happened when trying to search from database.
 	 */
 	public String searchHanziStrokeInBook(String inputBookNameAndHanziStroke) throws Exception{
-		//TODO finish this method
-		//TODO test this method
 		
 		String[] splitInput = inputBookNameAndHanziStroke.split(":");
 		String inputHanzi_stroke = splitInput[1];
@@ -272,6 +279,7 @@ public class BookServiceImpl {
 		List<BookAndStroke> listOfBookAndStroke = bookAndStrokeDaoImpl.selectAllByBookId(book_id);
 		if(listOfBookAndStroke==null || listOfBookAndStroke.isEmpty()){
 			logger.info("\"book_name\":" + bookData.getBook_name() + " with \"book_id\": " + book_id + " does not related with any \"hanzi_stroke\", returning null now.");
+			
 			return null;
 		}
 		
@@ -291,10 +299,15 @@ public class BookServiceImpl {
 			}
 			
 			String hanzi_stroke = bookAndStroke.getHanziStrokeData().getHanzi_stroke();
+			if(hanzi_stroke.isEmpty()){
+				logger.info("\"hanzi_stroke\" in the \"HanziStrokeData\" is empty. Return null.");
+				return null;
+			}
 			long created_date = bookAndStroke.getHanziStrokeData().getCreated_date();
 			
+			
+			//add to the result, if the inputted "hanzi_stroke" match
 			if(hanzi_stroke.equals(inputHanzi_stroke)){
-				//add to the result, if the inputted "hanzi_stroke" match
 				Hanzi_stroke_data hanzi_stroke_data = new Hanzi_stroke_data();
 				hanzi_stroke_data.setHanzi_stroke(hanzi_stroke);
 				hanzi_stroke_data.setCreated_date(String.valueOf(created_date));
@@ -302,9 +315,10 @@ public class BookServiceImpl {
 			}
 			
 		}
+		
 		if(listOfHanzi_stroke_data==null || listOfHanzi_stroke_data.isEmpty()){
-			logger.info("");
-			//TODO
+			logger.info("No hanzi_stroke: "+ inputHanzi_stroke + " that is related to book: " + inputBook_name + " ...");
+			return null;
 		}
 		
 		logger.debug("4. Convert \"List<Hanzi_stroke_data>\" into \"Hanzi_stroke_data[]\"");

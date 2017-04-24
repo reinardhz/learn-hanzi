@@ -1,12 +1,21 @@
 package com.reinard.learnhanzi.controllers;
 
+import java.io.BufferedReader;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.WebApplicationContext;
+
+import com.reinard.learnhanzi.helper.utils.StringUtil;
+import com.reinard.learnhanzi.service.impl.BookServiceImpl;
 
 
 /**
@@ -20,6 +29,11 @@ import org.springframework.web.context.WebApplicationContext;
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
 @RequestMapping(value = "/book")
 public class BookController {
+	
+	private final static Logger logger = Logger.getLogger(BookController.class);
+	
+	@Autowired
+	private BookServiceImpl bookServiceImpl;
 	
 	/**
 	 * A method to handle http request to insert new book name into table "book_data". <br/><br/>
@@ -54,14 +68,80 @@ public class BookController {
 	 * 3. If the request body is a String empty, response to client with error String: "The request body cannot be empty." <br/>
 	 * 4. Get the "book name" from http request. <br/>
 	 * 5. Call "BookServiceImpl" to insert the book name into database. <br/>
-	 * 6. Response the json data to client if the data is successfully inserted.
+	 * 6. Response the json String to client if the data is successfully inserted. Example: "Book 第一書  inserted." <br/>
 	 * 7. If the data cannot be inserted because it already existed, response to client with error String: "Error: Cannot insert. Data already exist." <br/>
 	 * 8. If error happened, response to client with error String: "Error when inserting book name." <br/>
 	 * 
 	 */
 	@RequestMapping(value = "/insertBookName", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
-	public ResponseEntity<String> insertBookName(){
+	public ResponseEntity<String> insertBookName(HttpServletRequest httpServletRequest){
+		
 		//TODO finish this method
+		//TODO test this method
+		
+		logger.info("Processing request to \"insertBookName\". Inserting Book Name now...");
+		
+		//enable "same cross origin", so this controller could response data to ajax
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Access-Control-Allow-Origin", "*");
+						
+		//response header: UTF-8 encoding, to tell the browser display it correctly
+		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
+		
+		try{
+			
+			logger.debug("Read the http request body raw byte, because jetty server could not bind the request using Spring @RequestBody annotation.");
+			BufferedReader bufferedReader = httpServletRequest.getReader();
+			
+			int resultInt = 0;
+			char resultChar = (char)0;
+			
+			StringBuilder resultString = new StringBuilder();
+			
+			while ((resultInt = bufferedReader.read()) != -1) {
+				logger.debug("read the characters");
+				// the resultInt, is a decimal number that point to the Unicode Character, using UTF-16 Big Endian. 
+				// Example: int = 24859 point to the chinese traditional character for love.
+				
+				//Cannot cast to char if the int is not in the char data type range.
+				if((resultInt<0) || resultInt>65535){
+					logger.info("Sending response:");
+					logger.info("The request body cannot be read.");
+					return new ResponseEntity<String>("The request body cannot be read.", responseHeaders, HttpStatus.OK);
+				}
+				
+				//Add only the unicode CJK (Chinese Japanese Korean) characters:
+				//the unicode CJK range is from U+4E00 (19968) to U+9FFF (40959)
+				//source: http://www.fileformat.info/info/unicode/block/cjk_unified_ideographs/index.htm
+				if( (resultInt>=19968) && (resultInt<=40959) ){
+					resultChar = (char)resultInt;
+					resultString.append(resultChar);
+				}
+			}
+			
+			
+			logger.debug("The request body: "+ resultString.toString());
+			String input = resultString.toString();
+			
+			if(StringUtil.isEmpty(input)){
+				logger.info("Sending response:");
+				logger.info("The request body cannot be empty.");
+				
+				return new ResponseEntity<String>("The request body cannot be empty.", responseHeaders, HttpStatus.OK);
+			}
+			
+			String resultJson = bookServiceImpl.addNewBook(input);
+			
+			logger.info("Sending response:");
+			logger.info(resultJson);
+			return new ResponseEntity<String>(resultJson,responseHeaders,HttpStatus.OK);
+			
+		}catch(Exception e){
+			
+		}
+		
+		
+		
 		return null;
 	}
 	
@@ -239,7 +319,7 @@ public class BookController {
 	@RequestMapping(value = "/searchHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> searchHanziStrokeInBook(){
 		//TODO finish this method
-		//the service needed in this method is not yet tested.
+		//the service needed in this method is tested ok.
 		
 		return null;
 	}

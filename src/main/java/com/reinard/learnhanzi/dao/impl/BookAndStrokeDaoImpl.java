@@ -101,13 +101,44 @@ public class BookAndStrokeDaoImpl {
 			if(result==null || result.isEmpty()){
 				logger.info("\"book_and_stroke\" not found.");
 				logger.info("Selecting data from \"book_and_stroke\" table by inputted \"book_id\" succeed.");
+				logger.info("Returning null now.");
 				return null;
-			}else{
-				logger.info("\"book_and_stroke\" not found.");
-				logger.debug(result);
-				logger.info("Selecting data from \"book_and_stroke\" table by inputted \"book_id\" succeed.");
-				return result;
 			}
+			//make sure that all object inside List, is contains value
+			for(BookAndStroke bookAndStroke : result){
+			
+				if(bookAndStroke.getBookData() == null){
+					logger.info("\"BookData\" inside \"BookAndStroke\" entity is null.");
+					logger.info("Returning null now.");
+					return null;
+				}
+				
+				if( (bookAndStroke.getBookData().getBook_name() == null) || (bookAndStroke.getBookData().getBook_name().isEmpty()) ){
+					logger.info("\"book_name\" inside \"BookData\" entity is null or empty.");
+					logger.info("Returning null now.");
+					return null;
+				}
+				
+				if(bookAndStroke.getHanziStrokeData() == null){
+					logger.info("\"HanziStrokeData\" inside \"BookAndStroke\" entity is null.");
+					logger.info("Returning null now.");
+					return null;
+				}
+				
+				if(bookAndStroke.getHanziStrokeData().getHanzi_stroke()==null || (bookAndStroke.getHanziStrokeData().getHanzi_stroke().isEmpty() )){
+					logger.info("\"hanzi_stroke\" inside \"HanziStrokeData\" entity is null or empty.");
+					logger.info("Returning null now.");
+					return null;
+				}
+				
+				
+			}
+			
+			logger.info("\"book_and_stroke\" found.");
+			logger.debug(result);
+			logger.info("Selecting data from \"book_and_stroke\" table by inputted \"book_id\" succeed.");
+			return result;
+			
 			
 		}catch(Exception e){
 			if (transaction != null){
