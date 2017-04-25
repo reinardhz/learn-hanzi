@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.stereotype.Controller;
 
 import com.reinard.learnhanzi.helper.utils.StringUtil;
 import com.reinard.learnhanzi.service.impl.BookServiceImpl;
@@ -24,7 +25,7 @@ import com.reinard.learnhanzi.service.impl.BookServiceImpl;
  * @author reinard.santosa
  *
  */
-//@Controller
+@Controller
 //To make this controller is not singleton, to support multithreading.
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
 @RequestMapping(value = "/book")
@@ -75,9 +76,8 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/insertBookName", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertBookName(HttpServletRequest httpServletRequest){
-		
-		//TODO finish this method
-		//TODO test this method
+	
+		//This method is tested OK
 		
 		logger.info("Processing request to \"insertBookName\". Inserting Book Name now...");
 		
@@ -137,12 +137,12 @@ public class BookController {
 			return new ResponseEntity<String>(resultJson,responseHeaders,HttpStatus.OK);
 			
 		}catch(Exception e){
-			
+			logger.error("Unexpected error when inserting Book Name.", e);
+			logger.info("Sending response:");
+			logger.info("Error when inserting book name.");
+			return new ResponseEntity<String>("Error when inserting book name.", responseHeaders, HttpStatus.OK);
 		}
 		
-		
-		
-		return null;
 	}
 	
 	/**
