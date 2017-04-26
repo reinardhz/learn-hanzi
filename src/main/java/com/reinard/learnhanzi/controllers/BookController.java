@@ -364,12 +364,7 @@ public class BookController {
 	@RequestMapping(value = "/insertHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanziStrokeInBook(HttpServletRequest httpServletRequest){
 		//the service needed in this method is tested ok.
-		//TODO test this method:
-		//case 1: http request: space only
-		//case 2: http request: colon only
-		//case 3: http request: without colon
-		//case 4: normal http request, expected to work
-		//case 5: insert book name that not in the database
+		//this method is tested OK
 		
 		logger.info("Processing request to insertHanziStrokeInBook...");
 		
