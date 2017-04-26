@@ -28,7 +28,7 @@ import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
 @RequestMapping(value = "/hanzi")
 public class HanziController{
-	
+	//TODO fix the sending response controller
 	private final static Logger logger = Logger.getLogger(HanziController.class);
 	
 	@Autowired
@@ -76,8 +76,7 @@ public class HanziController{
 			String resultJson = hanziServiceImpl.selectAll();
 			
 			if(resultJson == null){
-				logger.info("Sending response:");
-				logger.info("Not found.");
+				logger.info("Sending response:\"Not found.\"");
 				return new ResponseEntity<String>("Not found.",responseHeaders,HttpStatus.OK);
 			}
 			
@@ -86,9 +85,7 @@ public class HanziController{
 			return new ResponseEntity<String>(resultJson,responseHeaders,HttpStatus.OK);
 		}catch(Exception e){
 			logger.error("Error when getting all hanzi data.", e);
-			logger.info("Sending response:");
-			logger.info("Error when getting all hanzi data.");
-			
+			logger.info("Sending response: \"Error when getting all hanzi data.\"");
 			return new ResponseEntity<String>("Error when getting all hanzi data.", responseHeaders, HttpStatus.OK);
 		}
 	}
@@ -164,8 +161,7 @@ public class HanziController{
 				
 				//Cannot cast to char if the int is not in the char data type range.
 				if((resultInt<0) || resultInt>65535){
-					logger.info("Sending response:");
-					logger.info("The request body cannot be read.");
+					logger.info("Sending response: \"The request body cannot be read.\"");
 					return new ResponseEntity<String>("The request body cannot be read.", responseHeaders, HttpStatus.OK);
 				}
 				
@@ -183,9 +179,7 @@ public class HanziController{
 			String input = resultString.toString();
 			
 			if(StringUtil.isEmpty(input)){
-				logger.info("Sending response:");
-				logger.info("The request body cannot be empty.");
-				
+				logger.info("Sending response: \"The request body cannot be empty.\"");
 				return new ResponseEntity<String>("The request body cannot be empty.", responseHeaders, HttpStatus.OK);
 			}
 			
@@ -193,8 +187,7 @@ public class HanziController{
 			
 			
 			if(resultJson == null){
-				logger.info("Sending response:");
-				logger.info("Not found.");
+				logger.info("Sending response: \"Not found.\"");
 				return new ResponseEntity<String>("Not found.",responseHeaders,HttpStatus.OK);
 			}
 			
@@ -204,9 +197,7 @@ public class HanziController{
 			
 		} catch (Exception e) {
 			logger.error("Error when searching hanzi data", e);
-			logger.info("Sending response:");
-			logger.info("Error when searching hanzi data.");
-			
+			logger.info("Sending response: \"Error when searching hanzi data.\"");
 			return new ResponseEntity<String>("Error when searching hanzi data.", responseHeaders, HttpStatus.OK);
 		}
 		
@@ -277,8 +268,7 @@ public class HanziController{
 				
 				//Cannot cast to char if the int is not in the char data type range.
 				if((resultInt<0) || resultInt>65535){
-					logger.info("Sending response:");
-					logger.info("The request body cannot be read.");
+					logger.info("Sending response: \"The request body cannot be read.\"");
 					return new ResponseEntity<String>("The request body cannot be read.", responseHeaders, HttpStatus.OK);
 				}
 				
@@ -296,9 +286,7 @@ public class HanziController{
 			String input = resultString.toString();
 			
 			if(StringUtil.isEmpty(input)){
-				logger.info("Sending response:");
-				logger.info("The request body cannot be empty.");
-				
+				logger.info("Sending response: \"The request body cannot be empty.\"");
 				return new ResponseEntity<String>("The request body cannot be empty.", responseHeaders, HttpStatus.OK);
 			}
 			
@@ -310,8 +298,7 @@ public class HanziController{
 			
 		}catch(Exception e){
 			logger.error("Unexpected error when inserting hanzi data.", e);
-			logger.info("Sending response:");
-			logger.info("Error when inserting hanzi data.");
+			logger.info("Sending response: \"Error when inserting hanzi data.\"");
 			return new ResponseEntity<String>("Error when inserting hanzi data.", responseHeaders, HttpStatus.OK);
 		}
 		

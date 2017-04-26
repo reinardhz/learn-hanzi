@@ -174,9 +174,35 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/getAllBookName", method = RequestMethod.GET, produces = {"text/plain"})
 	public ResponseEntity<String> getAllBookName(){
-		//TODO finish this method
+		//this method is tested OK
+		
 		//the service needed in this method is tested ok.
-		return null;
+		logger.info("Processing request to getAllBookName. Get all Book Name now...");
+		
+		//enable "same cross origin", so this controller could response data to ajax
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Access-Control-Allow-Origin", "*");
+				
+		//response header: UTF-8 encoding, to tell the browser display it correctly
+		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
+		
+		try{
+			String result = bookServiceImpl.getAllBookName();
+			if(result==null){
+				logger.info("Sending response:");
+				logger.info("Not found.");
+				return new ResponseEntity<String>("Not found.",responseHeaders,HttpStatus.OK);
+			}
+			
+			logger.info("Sending response:");
+			logger.info(result);
+			return new ResponseEntity<String>(result,responseHeaders,HttpStatus.OK);
+		}catch(Exception e){
+			logger.error("Error when getting all book name.", e);
+			logger.info("Sending response: Error when getting all book name.");
+			return new ResponseEntity<String>("Error when getting all book name.", responseHeaders, HttpStatus.OK);
+		}
+		
 	}
 	
 	
@@ -226,9 +252,78 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/getAllHanziStrokeInBookName", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> getAllHanziStrokeInBookName(HttpServletRequest httpServletRequest){
-		//TODO finish this method
+		
+		//this method is tested OK
+		
 		//the service needed in this method is tested ok.
-		return null;
+		logger.info("Processing request to getAllHanziStrokeInBookName. Searching hanzi stroke now...");
+		
+		//enable "same cross origin", so this controller could response data to ajax
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Access-Control-Allow-Origin", "*");
+						
+		//response header: UTF-8 encoding, to tell the browser display it correctly
+		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
+		
+		try{
+			
+			logger.debug("Read the http request body raw byte, because jetty server could not bind the request using Spring @RequestBody annotation.");
+			BufferedReader bufferedReader = httpServletRequest.getReader();
+			
+			int resultInt = 0;
+			char resultChar = (char)0;
+			
+			StringBuilder resultString = new StringBuilder();
+			
+			while ((resultInt = bufferedReader.read()) != -1) {
+				// read the characters:
+				// the resultInt, is a decimal number that point to the Unicode Character, using UTF-16 Big Endian. 
+				// Example: int = 24859 point to the chinese traditional character for love.
+				
+				//Cannot cast to char if the int is not in the char data type range.
+				if((resultInt<0) || resultInt>65535){
+					logger.info("Sending response:");
+					logger.info("The request body cannot be read.");
+					return new ResponseEntity<String>("The request body cannot be read.", responseHeaders, HttpStatus.OK);
+				}
+				
+				//Add only the unicode CJK (Chinese Japanese Korean) characters:
+				//the unicode CJK range is from U+4E00 (19968) to U+9FFF (40959)
+				//source: http://www.fileformat.info/info/unicode/block/cjk_unified_ideographs/index.htm
+				if( (resultInt>=19968) && (resultInt<=40959) ){
+					resultChar = (char)resultInt;
+					resultString.append(resultChar);
+				}
+				
+			}
+			
+			logger.debug("The request body: "+ resultString.toString());
+			String input = resultString.toString();
+			
+			if(StringUtil.isEmpty(input)){
+				logger.info("Sending response:");
+				logger.info("The request body cannot be empty.");
+				return new ResponseEntity<String>("The request body cannot be empty.", responseHeaders, HttpStatus.OK);
+			}
+			
+			String result = bookServiceImpl.getAllHanziStrokeInBook(input);
+			if(result == null){
+				logger.info("Sending response:");
+				logger.info("Not found.");
+				return new ResponseEntity<String>("Not found.",responseHeaders,HttpStatus.OK);
+			}
+			
+			logger.info("Sending response:");
+			logger.info(result);
+			return new ResponseEntity<String>(result,responseHeaders,HttpStatus.OK);
+			
+		}catch(Exception e){
+			logger.error("Error when searching all hanzi stroke in book name.");
+			logger.info("Sending response: \"Error when searching all hanzi stroke in book name.\"");
+			return new ResponseEntity<String>("Error when searching all hanzi stroke in book name.",responseHeaders,HttpStatus.OK);
+		}
+		
+		
 	}
 	
 	/**
@@ -259,6 +354,7 @@ public class BookController {
 	 * 1. Read the data from http request.
 	 * 2. If the data cannot be read, response to client with error String: "The request body cannot be read." <br/>
 	 * 3. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
+	 * 4. If the request body doesn not contain ":", response to client with error String: "The request body must contain colon character."
 	 * 4. Get the book_name and hanzi_stroke from http request.
 	 * 5. Create the date, from current date. <br/>
 	 * 6. Insert the data to database. <br/>
@@ -267,9 +363,78 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/insertHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanziStrokeInBook(HttpServletRequest httpServletRequest){
-		//TODO finish this method
 		//the service needed in this method is tested ok.
-		return null;
+		//TODO test this method:
+		//case 1: http request: space only
+		//case 2: http request: colon only
+		//case 3: http request: without colon
+		//case 4: normal http request, expected to work
+		//case 5: insert book name that not in the database
+		
+		logger.info("Processing request to insertHanziStrokeInBook...");
+		
+		//enable "same cross origin", so this controller could response data to ajax
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Access-Control-Allow-Origin", "*");
+						
+		//response header: UTF-8 encoding, to tell the browser display it correctly
+		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
+		
+		try{
+			logger.debug("Read the http request body raw byte, because jetty server could not bind the request using Spring @RequestBody annotation.");
+			BufferedReader bufferedReader = httpServletRequest.getReader();
+			
+			int resultInt = 0;
+			char resultChar = (char)0;
+			
+			StringBuilder resultString = new StringBuilder();
+			
+			while ((resultInt = bufferedReader.read()) != -1) {
+				logger.debug("read the characters");
+				// the resultInt, is a decimal number that point to the Unicode Character, using UTF-16 Big Endian. 
+				// Example: int = 24859 point to the chinese traditional character for love.
+				
+				//Cannot cast to char if the int is not in the char data type range.
+				if((resultInt<0) || resultInt>65535){
+					logger.info("Sending response:");
+					logger.info("The request body cannot be read.");
+					return new ResponseEntity<String>("The request body cannot be read.", responseHeaders, HttpStatus.OK);
+				}
+				
+				//Add only the unicode CJK (Chinese Japanese Korean) characters and colon character :
+				//* the unicode CJK range is from U+4E00 (19968) to U+9FFF (40959)
+				//* the unicode colon character is U+003A (58)
+				//source: http://www.fileformat.info/info/unicode/block/cjk_unified_ideographs/index.htm
+				if( ((resultInt>=19968) && (resultInt<=40959)) || (resultInt==58) ){
+					resultChar = (char)resultInt;
+					resultString.append(resultChar);
+				}
+			}
+			
+			logger.debug("The request body: "+ resultString.toString());
+			String input = resultString.toString();
+			
+			if(StringUtil.isEmpty(input)){
+				logger.info("Sending response:");
+				logger.info("The request body cannot be empty.");
+				
+				return new ResponseEntity<String>("The request body cannot be empty.", responseHeaders, HttpStatus.OK);
+			}
+			
+			if(!input.contains(":")){
+				logger.info("Sending response: \"The request body must contain colon character.\"");
+				return new ResponseEntity<String>("The request body must contain colon character.", responseHeaders, HttpStatus.OK);
+			}
+			
+			String result = bookServiceImpl.insertHanziStrokeInBook(input);
+			return new ResponseEntity<String>(result,responseHeaders,HttpStatus.OK);
+			
+		}catch(Exception e){
+			logger.error("Error when inserting hanzi stroke.");
+			logger.info("Sending response: \"Error when inserting hanzi stroke.\"");
+			return new ResponseEntity<String>("Error when inserting hanzi stroke.", responseHeaders, HttpStatus.OK);
+		}
+		
 	}
 	
 	/**
