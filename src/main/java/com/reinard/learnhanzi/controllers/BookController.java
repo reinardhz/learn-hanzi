@@ -37,6 +37,8 @@ public class BookController {
 	private BookServiceImpl bookServiceImpl;
 	
 	/**
+	 * This method is tested OK. <br/>
+	 * 
 	 * A method to handle http request to insert new book name into table "book_data". <br/><br/>
 	 *  
 	 * Http Request Example: <br/>
@@ -76,8 +78,6 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/insertBookName", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertBookName(HttpServletRequest httpServletRequest){
-	
-		//This method is tested OK
 		
 		logger.info("Processing request to \"insertBookName\". Inserting Book Name now...");
 		
@@ -144,6 +144,8 @@ public class BookController {
 	}
 	
 	/**
+	 * This method is tested OK. <br/>
+	 * 
 	 * A method to handle http request to get all book name. <br/><br/>
 	 * 
 	 * Http Response Example: <br/>
@@ -172,7 +174,6 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/getAllBookName", method = RequestMethod.GET, produces = {"text/plain"})
 	public ResponseEntity<String> getAllBookName(){
-		//this method is tested OK
 		
 		//the service needed in this method is tested ok.
 		logger.info("Processing request to getAllBookName. Get all Book Name now...");
@@ -204,6 +205,8 @@ public class BookController {
 	
 	
 	/**
+	 * This method is tested OK. <br/>
+	 * 
 	 * A method to handle http request to search all hanzi stroke in the specified book name. <br/>
 	 * 
 	 * Http Request Example: <br/>
@@ -249,8 +252,6 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/getAllHanziStrokeInBookName", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> getAllHanziStrokeInBookName(HttpServletRequest httpServletRequest){
-		
-		//this method is tested OK
 		
 		//the service needed in this method is tested ok.
 		logger.info("Processing request to getAllHanziStrokeInBookName. Searching hanzi stroke now...");
@@ -321,6 +322,8 @@ public class BookController {
 	}
 	
 	/**
+	 * This method is tested OK. <br/>
+	 * 
 	 * A method to insert one hanzi stroke in specified book name. <br/><br/>
 	 * Http Request Example: <br/>
 	 * <b>Request Header:</b> <br/>
@@ -357,8 +360,7 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/insertHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanziStrokeInBook(HttpServletRequest httpServletRequest){
-		//the service needed in this method is tested ok.
-		//this method is tested OK
+		
 		logger.info("Processing request to insertHanziStrokeInBook...");
 		
 		//enable "same cross origin", so this controller could response data to ajax
@@ -423,20 +425,22 @@ public class BookController {
 	}
 	
 	/**
-	 * A method to search one hanzi stroke in specified book name. <br/>
+	 * This method is tested OK. <br/>
+	 * 
+	 * A method to search hanzi stroke in specified book name. <br/>
 	 * 
 	 * Http Request Example: <br/>
 	 * <b>Request Header:</b> <br/>
 	 * Content-Type: text/plain;charset=UTF-8 <br/>
 	 * <b>Request Body:</b> <br/>
-	 * 第一書:郵局 <br/><br/>
+	 * 第二書:發音 <br/><br/>
 	 * 
 	 *  Http Response Example: <br/>
 	 * <b>Response Header:</b> <br/>
 	 * Access-Control-Allow-Origin: * <br/>
 	 * Content-Type: text/plain;charset=UTF-8<br/>
 	 * <b>Response Body:</b> <br/>
-	 * {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"郵局","created_date":"1491448282651"}]} <br/>
+	 * {"book_name":"第二書", "hanzi_stroke_data":[{"hanzi_stroke":"發音","created_date":"1491448282651"}, {"hanzi_stroke":"發音","created_date":"1493045549060"}]} <br/>
 	 * 
 	 * <i>or</i> <br/>
 	 * 
@@ -468,17 +472,15 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/searchHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> searchHanziStrokeInBook(HttpServletRequest httpServletRequest){
-		//TODO finish this method
-		//TODO test this method
-		//the service needed in this method is tested ok.
 		
 		//test this method http request:
-		//case 1: space only
-		//case 2: Non chinese character
-		//case 3: Chinese character without colon
-		//case 4: Chinese character with colon (expected: provide result)
-		//case 5: Book name is not exist in the database, service must return null
-		//case 6: book name is exist, but hanzi_stroke is not exist in database, service must return null
+		//case 1: Space only (ok)
+		//case 2: Non chinese character (ok)
+		//case 3: Colon only (ok)
+		//case 4: Chinese character without colon (ok)
+		//case 5: Chinese character with colon (expected: provide result) (ok)
+		//case 6: book_name is not exist in the database, service must return null (ok)
+		//case 7: book_name is exist, but hanzi_stroke is not exist in database, service must return null (ok)
 		
 		logger.info("Processing request to searchHanziStrokeInBook...");
 		
