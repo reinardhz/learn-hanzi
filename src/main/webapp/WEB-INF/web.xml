@@ -20,13 +20,14 @@
 			rootContext.addListener(new org.springframework.web.context.ContextLoaderListener(springRootContext));
     	} 
     -->
+    <!-- 
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
-	</listener>
+	</listener> -->
 	
 	
 	
@@ -49,6 +50,7 @@
 	    	dispatcher.addMapping("/api/*");
     	} 
     -->
+    <!--  
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -63,7 +65,7 @@
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
-	
+	-->
 
 </web-app>
 
