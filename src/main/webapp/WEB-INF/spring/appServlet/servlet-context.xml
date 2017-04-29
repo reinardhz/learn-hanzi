@@ -13,6 +13,10 @@ xsi:schemaLocation="
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
+	<!-- To get the property: name and value that defined in file "E:\config\postgre.prop" -->
+	<!-- The key in file "postgre.prop" could be get using ${key} in this "servlet-context.xml" file -->
+	<context:property-placeholder location="file:///E:/config/postgre.prop" ignore-unresolvable="false" ignore-resource-not-found="false"/>
+	
 	<!-- Enables Activate Class with @Controller, @Service, @Repository, etc -->
 	<context:component-scan base-package="com.reinard.*" />
 
@@ -33,11 +37,18 @@ xsi:schemaLocation="
 	<!-- oracleDataSource.setUrl("jdbc:postgresql://localhost:5432/learnhanzi_database") -->
 	<!-- oracleDataSource.setUsername("learnhanzi") -->
 	<!-- oracleDataSource.setPassword("xuehanzi") -->
-	<bean id="postgreDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" scope="singleton">
+	<!-- <bean id="postgreDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" scope="singleton">
 		<property name="driverClassName" value="org.postgresql.Driver" />
 		<property name="url" value="jdbc:postgresql://localhost:5432/learnhanzi_database" />
 		<property name="username" value="learnhanzi" />
 		<property name="password" value="xuehanzi" />
+	</bean> -->
+	
+	<bean id="postgreDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" scope="singleton">
+		<property name="driverClassName" value="${driver.class.name}" />
+		<property name="url" value="${url}" />
+		<property name="username" value="${username}" />
+		<property name="password" value="${password}" />
 	</bean>
 	
 	<!-- Use hibernate to manage session -->

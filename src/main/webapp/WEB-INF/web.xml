@@ -4,22 +4,51 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	metadata-complete="false">
 
-	<!-- The definition of the Root Spring Container(WebApplicationContext) shared by all Servlets and Filters -->
-
+	<!-- The definition of the Root Spring Container(org.springframework.web.WebApplicationContext) shared by all Servlets and Filters -->
+	<!-- This web.xml could be defined using java code, please read "com.reinard.learnhanzi.initial.LearnHanziWebApplicationInitializer.java" -->
+	
+	
 	<!-- Equivalent in java: -->
-	<!-- org.springframework.web.context.ContextLoaderListener.CONFIG_LOCATION_PARAM="/WEB-INF/spring/root-context.xml" -->
+	<!-- public void onStartup(ServletContext rootContext) throws ServletException{
+		@Override
+    	public void onStartup(ServletContext container) {
+    		//Create the 'root' Spring web application context, with XML configuration from file "/WEB-INF/spring/servlet-context.xml".
+			XmlWebApplicationContext springRootContext = new XmlWebApplicationContext();
+			springRootContext.setConfigLocation("/WEB-INF/spring/root-context.xml");
+		
+			//Add Listener (ContextLoaderListener) to start up and shut down Spring web application context (variable "springRootContext").
+			rootContext.addListener(new org.springframework.web.context.ContextLoaderListener(springRootContext));
+    	} 
+    -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/root-context.xml</param-value>
 	</context-param>
-	
-	<!-- Listener to start up and shut down Spring's root WebApplicationContext -->
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 	
 	
-	<!-- Add DispactherServlet in ServletContext -->
+	
+	
+	<!-- Equivalent in java: -->
+	<!-- public void onStartup(ServletContext rootContext) throws ServletException{
+    		//Create the 'root' Spring web application context, with XML configuration from file "/WEB-INF/spring/servlet-context.xml".
+			XmlWebApplicationContext springRootContext = new XmlWebApplicationContext();
+			springRootContext.setConfigLocation("/WEB-INF/spring/root-context.xml");
+		
+			//Add Listener (ContextLoaderListener) to start up and shut down Spring web application context (variable "springRootContext").
+			rootContext.addListener(new org.springframework.web.context.ContextLoaderListener(springRootContext));
+			
+			
+			XmlWebApplicationContext dispatcherServletContext = new XmlWebApplicationContext();
+			dispatcherServletContext.setConfigLocation("/WEB-INF/spring/appServlet/servlet-context.xml");
+		
+	    	ServletRegistration.Dynamic dispatcher = rootContext.addServlet("dispatcher", new DispatcherServlet(dispatcherServletContext));
+	    	dispatcher.setLoadOnStartup(1);
+	    	dispatcher.addMapping("/api/*");
+    	} 
+    -->
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -29,15 +58,12 @@
 		</init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
-
-	<!-- Indicate that, all http request that start with '/api' (after context path), will be handle by org.springframework.web.servlet.DispatcherServlet.
-	Example: your web application is running in server that is listening in ip 127.0.98, on port 90, and your Application Context path is "learn-hanzi",
-	then, all http request starting with url: "http://127.0.98:90/learn-hanzi/api" is handled by Spring's DispatcherServlet. -->
-	<!-- Other request that is not start with /api, is not handle by spring's dispatcher servlet. Example: "http://127.0.98:90/learn-hanzi/index.html" is not handle by spring-->
+	
 	<servlet-mapping>
 		<servlet-name>appServlet</servlet-name>
 		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
+	
 
 </web-app>
 
