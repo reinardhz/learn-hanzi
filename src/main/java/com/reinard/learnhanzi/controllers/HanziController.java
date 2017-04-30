@@ -28,7 +28,6 @@ import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 @Scope(value = WebApplicationContext.SCOPE_REQUEST)
 @RequestMapping(value = "/hanzi")
 public class HanziController{
-	//TODO fix the sending response controller
 	private final static Logger logger = Logger.getLogger(HanziController.class);
 	
 	@Autowired

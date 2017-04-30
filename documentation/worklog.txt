@@ -41,10 +41,7 @@ create table query for:
 Solving bug, why the message in browser page not show up, when trying inserting ascii character into the database.
 
 todo:
-* create entity mapping for table hanzi_stroke_data, book_data, book_and_stroke
-* create service and dao for insert book
-* create service and dao for select book
-* create service and dao for select book
+* add the function in "book.js" to make "book.html" running properly.
 
 
 
