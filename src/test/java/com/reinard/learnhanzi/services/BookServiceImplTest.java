@@ -150,6 +150,8 @@ public class BookServiceImplTest {
 	 */
 	//@Test
 	public void insertHanziStroke1() throws Exception{
+		//TODO fix this method
+		//TODO execute this method
 		
 		logger.debug("Test insert new \"hanzi_stroke\" in specified \"book_name\" starting...");
 		logger.debug("preparing the input: ");
@@ -174,6 +176,10 @@ public class BookServiceImplTest {
 	 */
 	//@Test
 	public void insertHanziStroke2() throws Exception{
+		
+		//TODO fix this method
+		//TODO execute this method
+		
 		logger.debug("Test insert existing \"hanzi_stroke\" in specified \"book_name\" starting...");
 		logger.debug("preparing the input: ");
 		String inputBookNameAndHanziStroke = "第二書:學習";
@@ -198,6 +204,9 @@ public class BookServiceImplTest {
 	 */
 	@Test(expected=java.lang.Exception.class)
 	public void insertHanziStroke3() throws Exception{
+		
+		//TODO fix this method
+		//TODO execute this method
 		
 		logger.debug("Test \"insertHanziStroke\" starting...");
 		logger.debug("preparing the input: ");

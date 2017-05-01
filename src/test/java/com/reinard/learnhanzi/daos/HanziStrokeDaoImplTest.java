@@ -42,9 +42,10 @@ public class HanziStrokeDaoImplTest {
 	public void insertTest() throws Exception{
 		logger.debug("Test Insert starting...");
 		logger.debug("Preparing HanziStroke...");
-		HanziStrokeData faYin = new HanziStrokeData();
-		faYin.setHanzi_stroke("發音");
-		faYin.setCreated_date(System.currentTimeMillis());
+		HanziStrokeData yinNiDun = new HanziStrokeData();
+		yinNiDun.setHanzi_stroke("印尼盾");
+		yinNiDun.setPage_number("五");
+		yinNiDun.setCreated_date(System.currentTimeMillis());
 		
 		logger.debug("Preparing Child...");
 		
@@ -53,26 +54,27 @@ public class HanziStrokeDaoImplTest {
 		BookAndStroke child = new BookAndStroke();
 		
 		BookData firstBook = new BookData();
-		//setting the primary key
+		//setting the primary key, refer to the book_name: "第一書"
 		firstBook.setBook_id(1L);
 		
-		//set the data to insert to the "book_and_stroke.hanzi_stroke_id". The "hanzi_stroke_id" number is inside the "faYin" new instance, which is an auto-generated number.
-		child.setHanziStrokeData(faYin);
+		//set the data to insert to the "book_and_stroke.hanzi_stroke_id". The "hanzi_stroke_id" number is inside the "yinNiDun" new instance, which is an auto-generated number.
+		child.setHanziStrokeData(yinNiDun);
 		
 		//set the data to insert to the "book_and_stroke.book_id", book_id is taken from the "firstBook" new instance.
 		child.setBookData(firstBook);
 		
 		//add the child to parent
 		childSet.add(child);
-		faYin.setBookAndStroke(childSet);
+		yinNiDun.setBookAndStroke(childSet);
 		
 		logger.debug("HanziStrokeData: ");
-		logger.debug(faYin.toString());
+		logger.debug(yinNiDun.toString());
 		
 		logger.debug("Inserting \"HanziStrokeData\" to database...");
-		HanziStrokeData result = hanziStrokeDaoImpl.insert(faYin);
+		HanziStrokeData result = hanziStrokeDaoImpl.insert(yinNiDun);
 		Assert.assertNotNull(result);
-		Assert.assertEquals("發音",faYin.getHanzi_stroke());
+		Assert.assertEquals("印尼盾", result.getHanzi_stroke());
+		Assert.assertEquals("五", result.getPage_number());
 		logger.debug("Testing Inserting \"HanziStrokeData\" to succeed.");
 		logger.debug("Result: ");
 		logger.debug(result.toString());
@@ -103,6 +105,7 @@ public class HanziStrokeDaoImplTest {
 		HanziStrokeData result =  hanziStrokeDaoImpl.selectBy(inputHanziStrokeId);
 		Assert.assertNotNull(result);
 		Assert.assertEquals("營業員", result.getHanzi_stroke());
+		Assert.assertEquals("一", result.getPage_number());
 		logger.debug("Test Select \"hanzi_stroke_data\" by \"hanzi_stroke_id\" succeed.");
 		logger.debug("Result: ");
 		logger.debug(result);

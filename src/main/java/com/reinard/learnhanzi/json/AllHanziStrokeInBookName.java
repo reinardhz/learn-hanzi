@@ -7,11 +7,14 @@ package com.reinard.learnhanzi.json;
  * 
  * One book_name, has many hanzi_stroke in it.
  * 
+ * This is the json this class represent: 
+ * {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"營業員", "page_number":"一", "created_date":"1491448282654"},{"hanzi_stroke":"電子郵件", "page_number":"二", "created_date":"1491448282654"},{"hanzi_stroke":"發音", "page_number":"三", "created_date":"1492339814022"}]}
+ * 
  * @author reinard.santosa
  *
  */
 public class AllHanziStrokeInBookName {
-	
+	//TODO change this json
 	private String book_name;
 
 	private Hanzi_stroke_data[] hanzi_stroke_data;

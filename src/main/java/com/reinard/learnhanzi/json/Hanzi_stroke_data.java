@@ -7,12 +7,14 @@ package com.reinard.learnhanzi.json;
  *
  */
 public class Hanzi_stroke_data {
-
+	
 	private String created_date;
 
-	private String hanzi_stroke;
+	private String page_number;
 
-	public Hanzi_stroke_data() {
+	private String hanzi_stroke;
+	
+	public Hanzi_stroke_data(){
 		super();
 	}
 
@@ -22,6 +24,14 @@ public class Hanzi_stroke_data {
 
 	public void setCreated_date(String created_date) {
 		this.created_date = created_date;
+	}
+
+	public String getPage_number() {
+		return page_number;
+	}
+
+	public void setPage_number(String page_number) {
+		this.page_number = page_number;
 	}
 
 	public String getHanzi_stroke() {
@@ -34,6 +44,7 @@ public class Hanzi_stroke_data {
 
 	@Override
 	public String toString() {
-		return "ClassPojo [created_date = " + created_date + ", hanzi_stroke = " + hanzi_stroke + "]";
+		return "ClassPojo [created_date = " + created_date + ", page_number = " + page_number + ", hanzi_stroke = "
+				+ hanzi_stroke + "]";
 	}
 }

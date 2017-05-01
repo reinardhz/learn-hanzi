@@ -35,6 +35,9 @@ public class HanziStrokeData implements Serializable{
 	@Column(name = "hanzi_stroke")
 	private String hanzi_stroke;
 	
+	@Column(name = "page_number")
+	private String page_number;
+	
 	@Column(name = "created_date")
 	private long created_date;
 	
@@ -65,6 +68,14 @@ public class HanziStrokeData implements Serializable{
 	public void setHanzi_stroke(String hanzi_stroke) {
 		this.hanzi_stroke = hanzi_stroke;
 	}
+	
+	public String getPage_number(){
+		return page_number;
+	}
+	
+	public void setPage_number(String page_number){
+		this.page_number = page_number;
+	}
 
 	public long getCreated_date() {
 		return created_date;
@@ -87,6 +98,7 @@ public class HanziStrokeData implements Serializable{
 		StringBuilder resultString = new StringBuilder();
 		resultString.append("hanzi_stroke_id: " + this.getHanzi_stroke_id() + "\n");
 		resultString.append("hanzi_stroke: " + this.getHanzi_stroke() + "\n");
+		resultString.append("page_number: " + this.getPage_number() + "\n");
 		resultString.append("created_date: " + this.getCreated_date() + "\n\n");
 		
 		//comment this, because it could cause "java.lang.StackOverflowError"

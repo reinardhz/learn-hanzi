@@ -205,7 +205,7 @@ public class BookController {
 	
 	
 	/**
-	 * This method is tested OK. <br/>
+	 * This method is not yet tested. <br/>
 	 * 
 	 * A method to handle http request to search all hanzi stroke in the specified book name. <br/>
 	 * 
@@ -220,7 +220,7 @@ public class BookController {
 	 * Access-Control-Allow-Origin: * <br/>
 	 * Content-Type: text/plain;charset=UTF-8<br/>
 	 * <b>Response Body:</b> <br/>
-	 * {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"營業員", "created_date":"1491448282651"},{"hanzi_stroke":"電郵", "created_date":"1491448282652"},{"hanzi_stroke":"發音", "created_date":"1491448282653"}]} <br/>
+	 * {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"營業員", "page_number":"一", "created_date":"1491448282654"},{"hanzi_stroke":"電子郵件", "page_number":"二", "created_date":"1492249841461"},{"hanzi_stroke":"發音", "page_number":"三", "created_date":"1492339814022"}]} <br/>
 	 * 
 	 * <i>or</i> <br/>
 	 * 
@@ -247,13 +247,16 @@ public class BookController {
 	 * 4. Get the "book_name" from http request. <br/>
 	 * 5. Search all "hanzi_stroke" in book_name. <br/>
 	 * 6. Response the json data to client if the data found, or string "Not found.", if the data is not found. <br/>
-	 * 7. If error happened, response to server with error String: "Error when searching all hanzi stroke in book name." <br/>
+	 * 7. If error happened, response to server with error String: "Error when searching all hanzi stroke in inputted book name." <br/>
 	 * 
 	 */
 	@RequestMapping(value = "/getAllHanziStrokeInBookName", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> getAllHanziStrokeInBookName(HttpServletRequest httpServletRequest){
 		
-		//the service needed in this method is tested ok.
+		//TODO fix this method
+		//TODO test this method
+		
+		//the service needed in this method is not yet tested.
 		logger.info("Processing request to getAllHanziStrokeInBookName. Searching hanzi stroke now...");
 		
 		//enable "same cross origin", so this controller could response data to ajax
@@ -322,25 +325,27 @@ public class BookController {
 	}
 	
 	/**
-	 * This method is tested OK. <br/>
+	 * This method is not yet tested. <br/>
 	 * 
 	 * A method to insert one hanzi stroke in specified book name. <br/><br/>
 	 * Http Request Example: <br/>
 	 * <b>Request Header:</b> <br/>
 	 * Content-Type: text/plain;charset=UTF-8 <br/>
 	 * <b>Request Body:</b> <br/>
-	 * 第一書:郵局 <br/><br/>
+	 * 第一書:電子郵件;二 <br/><br/>
 	 * 
 	 * Http Response Example: <br/>
 	 * <b>Response Header:</b> <br/>
 	 * Access-Control-Allow-Origin: * <br/>
 	 * Content-Type: text/plain;charset=UTF-8<br/>
 	 * <b>Response Body:</b> <br/>
-	 * {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"郵局", "created_date":"1491448282651"}]} <br/>
+	 * {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"電子郵件", "page_number":"二", "created_date":"1492249841461"}]} <br/>
 	 * <i>or</i> <br/>
 	 * The request body cannot be read. <br/>
 	 * <i>or</i> <br/>
 	 * The request body cannot be empty. <br/>
+	 * <i>or</i> <br/>
+	 * The request body must contain colon and semicolon character. <br/>
 	 * <i>or</i> <br/>
 	 * Error when inserting hanzi stroke. <br/>
 	 * <br/><br/>
@@ -348,18 +353,22 @@ public class BookController {
 	 * If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected.<br/><br/>
 	 * 
 	 * This controller will: <br/>
-	 * 1. Read the data from http request.
+	 * 1. Read the data from http request. <br/>
 	 * 2. If the data cannot be read, response to client with error String: "The request body cannot be read." <br/>
-	 * 3. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
-	 * 4. If the request body doesn not contain ":", response to client with error String: "The request body must contain colon character."
-	 * 4. Get the book_name and hanzi_stroke from http request.
+	 * 3. If the request body is a String empty, response to client with error String: "The request body cannot be empty." <br/>
+	 * 4. If the request body does not contain ":" and ";" character, response to client with error String: "The request body must contain colon and semicolon character." <br/>
+	 * 4. Get the "book_name", "hanzi_stroke" and "page_number" from http request. <br/>
 	 * 5. Create the date, from current date. <br/>
 	 * 6. Insert the data to database. <br/>
-	 * 7. Response the json data to client if the data is successfully inserted.
+	 * 7. Response the json data to client if the data is successfully inserted. <br/>
 	 * 8. If error happened, response to client with error String: "Error when inserting hanzi stroke."<br/>
 	 */
 	@RequestMapping(value = "/insertHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanziStrokeInBook(HttpServletRequest httpServletRequest){
+		//TODO fix this method
+		//TODO test this method
+		
+		//the service needed in this method is not yet tested.
 		
 		logger.info("Processing request to insertHanziStrokeInBook...");
 		
@@ -425,22 +434,22 @@ public class BookController {
 	}
 	
 	/**
-	 * This method is tested OK. <br/>
+	 * This method is not yet tested. <br/>
 	 * 
-	 * A method to search hanzi stroke in specified book name. <br/>
+	 * A method to search hanzi stroke in specified book name. <br/><br/>
 	 * 
 	 * Http Request Example: <br/>
 	 * <b>Request Header:</b> <br/>
 	 * Content-Type: text/plain;charset=UTF-8 <br/>
 	 * <b>Request Body:</b> <br/>
-	 * 第二書:發音 <br/><br/>
+	 * 第二書:消防局 <br/><br/>
 	 * 
 	 *  Http Response Example: <br/>
 	 * <b>Response Header:</b> <br/>
 	 * Access-Control-Allow-Origin: * <br/>
 	 * Content-Type: text/plain;charset=UTF-8<br/>
 	 * <b>Response Body:</b> <br/>
-	 * {"book_name":"第二書", "hanzi_stroke_data":[{"hanzi_stroke":"發音","created_date":"1491448282651"}, {"hanzi_stroke":"發音","created_date":"1493045549060"}]} <br/>
+	 * {"book_name":"第二書", "hanzi_stroke_data":[{"hanzi_stroke":"消防局", "page_number":"一", "created_date":"1492318783895"}]} <br/>
 	 * 
 	 * <i>or</i> <br/>
 	 * 
@@ -461,10 +470,10 @@ public class BookController {
 	 * Note: If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected. <br/><br/>
 	 * 
 	 * This controller will: <br/>
-	 * 1. Read the data from http request.
+	 * 1. Read the data from http request. <br/>
 	 * 2. If the data cannot be read, response to client with error String: "The request body cannot be read." <br/>
 	 * 3. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
-	 * 4. Get the "book_name" and "hanzi_stroke" from http request.
+	 * 4. Get the "book_name", "hanzi_stroke" from http request. <br/>
 	 * 5. Select the data from database. <br/>
 	 * 6. Response the json data to client if the data found, or string "Not found.", if the data is not found. <br/>
 	 * 7. If error happened, response to client with error String: "Error when searching one hanzi stroke in specified book name."<br/>
@@ -472,6 +481,10 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/searchHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> searchHanziStrokeInBook(HttpServletRequest httpServletRequest){
+		//TODO fix this method
+		//TODO test this method
+		
+		//the service needed in this method is not yet tested.
 		
 		//test this method http request:
 		//case 1: Space only (ok)

@@ -119,12 +119,12 @@ public class BookServiceImpl {
 	 * A method to response all hanzi_stroke written in specified book_name. (tested OK).
 	 * 
 	 * @param inputBookName - The book_name Example: "第一書" (without double quotes).
-	 * @return String result - All hanzi stroke in the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"營業員", "created_date":"1491448282651"},{"hanzi_stroke":"電郵", "created_date":"1491448282652"},{"hanzi_stroke":"發音", "created_date":"1491448282653"}]}
+	 * @return String result - All hanzi stroke in the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"營業員", "page_number":"一", "created_date":"1491448282654"},{"hanzi_stroke":"電子郵件", "page_number":"二", "created_date":"1491448282654"},{"hanzi_stroke":"發音", "page_number":"三", "created_date":"1492339814022"}]}
 	 * @return Null, if no data found.
 	 * @throws Exception If error happened when trying to select all hanzi_stroke from database.
 	 */
 	public String getAllHanziStrokeInBook(String inputBookName) throws Exception{
-		
+		//TODO fix this method
 		logger.info("Getting all hanzi stroke in book " + inputBookName + " ...");
 		
 		
@@ -159,12 +159,19 @@ public class BookServiceImpl {
 				return null;
 			}
 			
+			if(bookAndStroke.getHanziStrokeData().getPage_number() == null){
+				logger.info("\"page_number\" in the \"HanziStrokeData\" is null. Return null.");
+				return null;
+			}
+			
 			String hanzi_stroke = bookAndStroke.getHanziStrokeData().getHanzi_stroke();
 			long created_date = bookAndStroke.getHanziStrokeData().getCreated_date();
+			String page_number = bookAndStroke.getHanziStrokeData().getPage_number();
 			
 			Hanzi_stroke_data hanzi_stroke_data = new Hanzi_stroke_data();
 			hanzi_stroke_data.setHanzi_stroke(hanzi_stroke);
 			hanzi_stroke_data.setCreated_date(String.valueOf(created_date));
+			hanzi_stroke_data.setPage_number(page_number);
 			listOfHanzi_stroke_data.add(hanzi_stroke_data);
 		}
 		
@@ -190,14 +197,16 @@ public class BookServiceImpl {
 	}
 	
 	/**
-	 * A method to insert hanzi_stroke that is related to the book_name. (tested OK).
+	 * A method to insert hanzi_stroke that is related to the book_name. (not yet tested).
 	 * 
-	 * @param inputBookNameAndHanziStroke - The book_name and hanzi_stroke to be inserted. Example: "第一書:郵局" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
-	 * @return String result - The successfully inserted hanzi_stroke that is related to the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"郵局", "created_date":"1491448282651"}]}
+	 * @param inputBookNameAndHanziStroke - The book_name and hanzi_stroke to be inserted. Example: "第一書:電子郵件;二" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
+	 * @return String result - The successfully inserted hanzi_stroke that is related to the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"電子郵件", "page_number":"二", "created_date":"1491448282651"}]}
 	 * @throws Exception If the inputted "book_name" is not exist in the database.
 	 * @throws Exception If error happened when trying to insert "hanzi_stroke" into database.
 	 */
 	public String insertHanziStrokeInBook(String inputBookNameAndHanziStroke) throws Exception{
+		//TODO fix this method
+		//TODO test this method
 		
 		String[] splitInput = inputBookNameAndHanziStroke.split(":");
 		String inputHanzi_stroke = splitInput[1];
@@ -250,14 +259,16 @@ public class BookServiceImpl {
 	
 	
 	/**
-	 * A method to search "hanzi_stroke" that is related to the "book_name". (tested OK).
+	 * A method to search "hanzi_stroke" that is related to the "book_name". (not yet tested).
 	 * 
-	 * @param inputBookNameAndHanziStroke - The "hanzi_stroke" related with "book_name" to be search. Example: "第一書:郵局" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
-	 * @return String result - one hanzi_stroke that is related to the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"郵局", "created_date":"1491448282651"}]}
+	 * @param inputBookNameAndHanziStroke - The "hanzi_stroke" related with "book_name" to be search. Example: "第一書:電子郵件" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
+	 * @return String result - all inputted "hanzi_stroke" that is related to the "book_name". Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"電子郵件", "page_number":"二", "created_date":"1491448282651"}]}
 	 * @return Null, if no data found.
 	 * @throws Exception If error happened when trying to search from database.
 	 */
 	public String searchHanziStrokeInBook(String inputBookNameAndHanziStroke) throws Exception{
+		//TODO fix this method
+		//TODO test this method
 		
 		String[] splitInput = inputBookNameAndHanziStroke.split(":");
 		String inputHanzi_stroke = splitInput[1];

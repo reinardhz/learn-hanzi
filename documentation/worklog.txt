@@ -55,16 +55,18 @@ Solving bug, why the message in browser page not show up, when trying inserting 
 
 current progress:
 * could add page number when adding hanzi_stroke inside selected book_name
-1. change the data model design.
-2. change the database (add column "page_number" in table "hanzi_stroke_data")
-3. change the dao.
-4. test the dao.
-5. change the service.
-6. test the service.
-7. change the controller.
-8. test the controller.
-9. change the html + javascript.
-10. test the  html + javascript.
+1. change the UI. (done)
+2. change the data model design (done)
+3. change the database (add column "page_number" in table "hanzi_stroke_data") (done)
+4. change the entity (done)
+5. test the dao. (done)
+
+7. change the service.
+8. test the service.
+9. change the controller.
+10. test the controller.
+11. change the html + javascript.
+12. test the  html + javascript.
 ===================
 
 

@@ -66,16 +66,18 @@ CREATE SEQUENCE learnhanzi_schema.sequence_hanzi_stroke_data INCREMENT BY 1 CACH
 CREATE TABLE learnhanzi_schema.hanzi_stroke_data(
 hanzi_stroke_id BIGINT PRIMARY KEY DEFAULT  nextval('learnhanzi_schema.sequence_hanzi_stroke_data'),
 hanzi_stroke TEXT,
+page_number TEXT,
 created_date BIGINT
 ) TABLESPACE learnhanzi_tablespace;
 
 COMMENT ON TABLE learnhanzi_schema.hanzi_stroke_data IS 'This is a table to store infomation about Chinese character store orders that was written in the book. All Chinese stroke that was written, should be put in here.';
 COMMENT ON COLUMN learnhanzi_schema.hanzi_stroke_data.hanzi_stroke IS 'A Chinese Character that was written in the book, that has stroke order. Example: 愛';
-COMMENT ON COLUMN learnhanzi_schema.hanzi_stroke_data.created_date IS 'A column to store the time and date when this record is inserted. This data using epoch time or unix time, to make it easier to determine the timezone and converting this time to another timezone.';
+COMMENT ON COLUMN learnhanzi_schema.hanzi_stroke_data.page_number IS 'The page number in related book where this hanzi stroke exist. Example: 二十五';
+COMMENT ON COLUMN learnhanzi_schema.hanzi_stroke_data.created_date IS 'A column to store the time and date when this record is inserted. This data using epoch time or unix time, to make it easier to determine the timezone and converting this time to another timezone. Example: 1491448282654';
 
 ALTER SEQUENCE learnhanzi_schema.sequence_hanzi_stroke_data OWNED BY learnhanzi_schema.hanzi_stroke_data.hanzi_stroke_id;
 
-INSERT INTO learnhanzi_schema.hanzi_stroke_data(hanzi_stroke, created_date) VALUES ('營業員',1491448282654);
+INSERT INTO learnhanzi_schema.hanzi_stroke_data(hanzi_stroke_id, hanzi_stroke, page_number, created_date) VALUES (1, '營業員','一',1491448282654);
 
 COMMIT;
 
