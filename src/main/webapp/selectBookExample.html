@@ -5,7 +5,7 @@
 </head>
 <body>
 
-Choose Book: <select id="bookList" onchange="detect()">
+Choose Book: <select id="bookList" onChange="detect()">
 <option id ="initial" value="initial">---Choose Book---</option>
 </select>
 
@@ -21,8 +21,7 @@ function getBookList(){
 	//get the <select> element DOM object.
 	var bookList = document.getElementById("bookList");
 	
-	//clear the <option> tag from <select> element DOM object:
-	
+	//===clear the <option> tag from <select> element DOM object===
 	//get the number of how many <option> element this object has.
     var size = bookList.length;
     //lopping as many number of the <option> element. 
@@ -30,16 +29,31 @@ function getBookList(){
     	//remove the <option> element, in index 0, to ensure all tag is removed.
     	bookList.remove(0);
 	}
+	//================================
 	
 	//prepare the data from http response
-	var dataBook = "第一書,第二書,第三書";
+	var dataBook = '第一書,第二書,第三書';
 	
 	//splits a string into an array of strings using the comma separator
-	var dataBookArray = dataBook.split(",");
+	var dataBookArray = dataBook.split(',');
+	//var dataBookArray now contains array: ["第一書", "第二書", "第三書"]; 
 	
-	//var dataBook = ["Book 1", "Book 2", "Book 3", "Book 4", "Book 5"]; 
+	//=====Display the dropdown list from array====
 	
-	//Display the dropdown list from array.
+	//===set the initial content===
+	//create new <option> tag.
+    var newOptionTag = document.createElement("option");
+        
+    //set the content of the created <option> tag.
+    newOptionTag.textContent = '---Choose Book---';
+    
+    //set the attribut "value" in created <option> tag.
+    newOptionTag.value = 'initial';
+    
+    //add the created <option> tag inside <select> element.
+    bookList.add(newOptionTag);
+    //===========================
+    
 	for(var i = 0; i < dataBookArray.length; ++i) {
     	var bookName = dataBookArray[i];
         
@@ -55,6 +69,7 @@ function getBookList(){
         //add the created <option> tag inside <select> element.
         bookList.add(newOptionTag);
 	}
+	//===========================
 }
 
 //this function executed when user select the option from dropdown list.
@@ -63,7 +78,19 @@ function detect(){
 //get the value of the selected <option> tag in "bookList" drop-down list.
 var selectedValue = document.getElementById("bookList").value;
 
-document.getElementById("result").innerHTML = selectedValue; 
+//===remove this code after testing===
+var bookName = '{"book_name":"第二書", "hanzi_stroke":[{"hanzi_stroke":"營業員", "created_date":"1491448282651"},{"hanzi_stroke":"電郵", "created_date":"1491448282652"},{"hanzi_stroke":"發音", "created_date":"1491448282653"}]}';
+
+var object = JSON.parse(bookName);
+
+if(selectedValue !== object.book_name){
+	document.getElementById("result").innerHTML = "not same"; 
+}else{
+	document.getElementById("result").innerHTML = "same"; 
+}
+//=========================
+
+//document.getElementById("result").innerHTML = selectedValue; 
 
 //put in global variable to be accessed by another function.
 window.selectedOption=selectedValue;  

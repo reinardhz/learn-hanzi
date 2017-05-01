@@ -220,7 +220,7 @@ public class BookController {
 	 * Access-Control-Allow-Origin: * <br/>
 	 * Content-Type: text/plain;charset=UTF-8<br/>
 	 * <b>Response Body:</b> <br/>
-	 * {"book_name":"第一書", "hanzi_stroke":[{"hanzi_stroke":"營業員", "created_date":"1491448282651"},{"hanzi_stroke":"電郵", "created_date":"1491448282652"},{"hanzi_stroke":"發音", "created_date":"1491448282653"}]} <br/>
+	 * {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"營業員", "created_date":"1491448282651"},{"hanzi_stroke":"電郵", "created_date":"1491448282652"},{"hanzi_stroke":"發音", "created_date":"1491448282653"}]} <br/>
 	 * 
 	 * <i>or</i> <br/>
 	 * 

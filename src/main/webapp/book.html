@@ -37,7 +37,7 @@
 		<tr>
 			<td><b>Add new Book:</b></td>
 			<td><input id="inputBook" type="text" /></td>
-			<td><button id="addBookButton" type="button" onclick="?">Add</button></td>
+			<td><button id="addBookButton" type="button" onclick="insertBookName()">Add</button></td>
 		</tr>
 		</table>
 		<br/>
@@ -45,7 +45,8 @@
 		<br/>
 		<br/>
 		<br/>
-		<b>Choose Book:</b> &nbsp;<select id="bookList">
+		<!-- Browser will execute method "getAllHanziStrokeInBookName()", if user choose the option in this drop-down list-->
+		<b>Choose Book:</b> &nbsp;<select id="bookList" onChange="getAllHanziStrokeInBookName()">
 			<option id ="initial" value="initial">---Choose Book---</option>
 		</select>
 	</center>
@@ -57,12 +58,12 @@
 		<tr>
 			<td>Search:</td>
 			<td><input id="search" type="text" /></td>
-			<td><button id="searchHanziButton" type="button" onclick="searchHanzi()">Search</button></td>
+			<td><button id="searchHanziInBookButton" type="button" onclick="?">Search</button></td>
 		</tr>
 		<tr>
 			<td>Add:</td>
 			<td><input id="input" type="text" /></td>
-			<td><button id="addHanziButton" type="button" onclick="addHanzi()">Add</button></td>
+			<td><button id="addHanziInBookButton" type="button" onclick="?">Add</button></td>
 		</tr>
 	
 	</table>
@@ -73,13 +74,13 @@
 	<br/><br/>
 	<center>
 		<h2 id="titleData">
-			Hanzi Stroke Written in 
+			All Hanzi Stroke Written in 
+		<span id="bookName"><!-- Display the selected book name here--></span>
 		</h2>
-		<div id="bookName"><!-- Display the selected book name here--></div>
 	</center>
 
 	<center>
-		<div id="data" class="data"></div>
+		<div id="dataHanziStroke" class="data"></div>
 	</center>
 	<br/>
 	
@@ -88,10 +89,10 @@
 	Reinard Hizkia Santosa. 2017
 
 	<script>
-		//Execute a "displayTime()" and "getAllHanzi()" method immediately after a page has been loaded:
+		//Execute a "displayTime()" and "getAllBookName()" method immediately after this page has been loaded:
 		document.body.onload = function() {
 			displayTime();
-			getAllHanzi();
+			getAllBookName();
 		}
 	</script>
 </body>
