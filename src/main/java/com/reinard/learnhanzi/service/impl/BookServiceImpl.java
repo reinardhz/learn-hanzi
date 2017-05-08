@@ -119,12 +119,12 @@ public class BookServiceImpl {
 	 * A method to response all hanzi_stroke written in specified book_name. (tested OK).
 	 * 
 	 * @param inputBookName - The book_name Example: "第一書" (without double quotes).
-	 * @return String result - All hanzi stroke in the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"營業員", "page_number":"一", "created_date":"1491448282654"},{"hanzi_stroke":"電子郵件", "page_number":"二", "created_date":"1491448282654"},{"hanzi_stroke":"發音", "page_number":"三", "created_date":"1492339814022"}]}
+	 * @return String result - All hanzi stroke in the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"營業員", "page_number":"一", "created_date":"1491448282654"},{"hanzi_stroke":"電子郵件", "page_number":"二", "created_date":"1492249841461"},{"hanzi_stroke":"發音", "page_number":"三", "created_date":"1492339814022"}]}
 	 * @return Null, if no data found.
 	 * @throws Exception If error happened when trying to select all hanzi_stroke from database.
 	 */
 	public String getAllHanziStrokeInBook(String inputBookName) throws Exception{
-		//TODO fix this method
+		
 		logger.info("Getting all hanzi stroke in book " + inputBookName + " ...");
 		
 		
@@ -145,7 +145,7 @@ public class BookServiceImpl {
 		}
 		
 		
-		logger.debug("3. Get the \"hanzi_stroke\" and \"created_date\" in the \"BookAndStroke\" then, add it into \"List<Hanzi_stroke_data>\".");
+		logger.debug("3. Get the \"hanzi_stroke\", \"page_number\" and \"created_date\" in the \"BookAndStroke\" then, add it into \"List<Hanzi_stroke_data>\".");
 		List<Hanzi_stroke_data> listOfHanzi_stroke_data = new ArrayList<>();
 		for(BookAndStroke bookAndStroke : listOfbookAndStroke){
 			
@@ -197,21 +197,27 @@ public class BookServiceImpl {
 	}
 	
 	/**
-	 * A method to insert hanzi_stroke that is related to the book_name. (not yet tested).
+	 * A method to insert hanzi_stroke that is related to the book_name. (tested OK).
 	 * 
-	 * @param inputBookNameAndHanziStroke - The book_name and hanzi_stroke to be inserted. Example: "第一書:電子郵件;二" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
+	 * @param inputBookNameAndHanziStroke - The book_name and hanzi_stroke to be inserted. Example: "第一書:電子郵件:二" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
 	 * @return String result - The successfully inserted hanzi_stroke that is related to the book_name. Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"電子郵件", "page_number":"二", "created_date":"1491448282651"}]}
 	 * @throws Exception If the inputted "book_name" is not exist in the database.
 	 * @throws Exception If error happened when trying to insert "hanzi_stroke" into database.
 	 */
 	public String insertHanziStrokeInBook(String inputBookNameAndHanziStroke) throws Exception{
-		//TODO fix this method
-		//TODO test this method
+		
+		logger.info("Inserting hanzi stroke and page number in specified book name.");
 		
 		String[] splitInput = inputBookNameAndHanziStroke.split(":");
-		String inputHanzi_stroke = splitInput[1];
+		if(splitInput.length != 3){
+			logger.error("The inputted String is not match the requirement.");
+			throw new Exception("The inputted String is not match the requirement.");
+		}
+		
 		String inputBook_name = splitInput[0];
-		logger.info("Inserting hanzi_stroke: "+ inputHanzi_stroke + " that is related to book: " + inputBook_name + " ...");
+		String inputHanzi_stroke = splitInput[1];
+		String inputPage_number = splitInput[2];
+		logger.info("Inserting hanzi_stroke: "+ inputHanzi_stroke + " and page number: "+ inputPage_number + " that is related to book: " + inputBook_name + " ...");
 		
 		
 		logger.debug("1. Make sure that the \"book_name\" is exist in the database by selecting from table \"book_data\" by inputted \"book_name\".");
@@ -221,9 +227,10 @@ public class BookServiceImpl {
 		}
 		
 		
-		logger.debug("2. Insert the \"hanzi_stroke\" into table \"hanzi_stroke_data\", then get the \"hanzi_stroke_id\".");
+		logger.debug("2. Insert the \"hanzi_stroke\" and \"page_number\" into table \"hanzi_stroke_data\", then get the \"hanzi_stroke_id\".");
 		HanziStrokeData hanziStrokeData = new HanziStrokeData();
 		hanziStrokeData.setHanzi_stroke(inputHanzi_stroke);
+		hanziStrokeData.setPage_number(inputPage_number);
 		long created_date = System.currentTimeMillis();
 		hanziStrokeData.setCreated_date(created_date);
 		HanziStrokeData insertedHanziStroke = hanziStrokeDaoImpl.insert(hanziStrokeData);
@@ -236,9 +243,10 @@ public class BookServiceImpl {
 		bookAndStrokeDaoImpl.insert(bookAndStroke);
 		
 		
-		logger.debug("4. Set the \"book_name\", \"hanzi_stroke\", \"created_date\" inside \"AllHanziStrokeInBookName\" object.");
+		logger.debug("4. Set the \"book_name\", \"hanzi_stroke\", \"page_number\", \"created_date\" inside \"AllHanziStrokeInBookName\" object.");
 		Hanzi_stroke_data hanzi_stroke_data = new Hanzi_stroke_data();
 		hanzi_stroke_data.setHanzi_stroke(insertedHanziStroke.getHanzi_stroke());
+		hanzi_stroke_data.setPage_number(insertedHanziStroke.getPage_number());
 		hanzi_stroke_data.setCreated_date(String.valueOf(created_date));
 		Hanzi_stroke_data[] arrayOfHanziStrokeData = new Hanzi_stroke_data[1];
 		arrayOfHanziStrokeData[0] = hanzi_stroke_data;

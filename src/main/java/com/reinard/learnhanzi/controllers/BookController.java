@@ -84,7 +84,7 @@ public class BookController {
 		//enable "same cross origin", so this controller could response data to ajax
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Access-Control-Allow-Origin", "*");
-						
+		
 		//response header: UTF-8 encoding, to tell the browser display it correctly
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
 		
@@ -205,7 +205,7 @@ public class BookController {
 	
 	
 	/**
-	 * This method is not yet tested. <br/>
+	 * This method is tested ok. <br/>
 	 * 
 	 * A method to handle http request to search all hanzi stroke in the specified book name. <br/>
 	 * 
@@ -253,10 +253,15 @@ public class BookController {
 	@RequestMapping(value = "/getAllHanziStrokeInBookName", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> getAllHanziStrokeInBookName(HttpServletRequest httpServletRequest){
 		
-		//TODO fix this method
-		//TODO test this method
+		//Case 1: Space only, controller must return String "The request body cannot be empty." (ok)
+		//Case 2: Non chinese character without space, controller must return String "The request body cannot be empty." (ok)
+		//Case 3: Non chinese character with space, controller must return String "The request body cannot be empty." (ok)
+		//Case 3: Chinese character (book_name) that exist in the database with space between characters, must return result. (ok)
+		//Case 4: Chinese character (book_name) that exist in the database with no space between characters, must return result. (ok)
+		//case 5: Chinese character (book_name) that not exist in the database with space between characters, must return String "Not found." (ok)
+		//case 6: Chinese character (book_name) that not exist in the database with no space between characters, must return String "Not found." (ok)
+		//the service needed in this method is tested ok..
 		
-		//the service needed in this method is not yet tested.
 		logger.info("Processing request to getAllHanziStrokeInBookName. Searching hanzi stroke now...");
 		
 		//enable "same cross origin", so this controller could response data to ajax
@@ -327,12 +332,12 @@ public class BookController {
 	/**
 	 * This method is not yet tested. <br/>
 	 * 
-	 * A method to insert one hanzi stroke in specified book name. <br/><br/>
+	 * A method to insert one hanzi stroke and page number in specified book name. <br/><br/>
 	 * Http Request Example: <br/>
 	 * <b>Request Header:</b> <br/>
 	 * Content-Type: text/plain;charset=UTF-8 <br/>
 	 * <b>Request Body:</b> <br/>
-	 * 第一書:電子郵件;二 <br/><br/>
+	 * 第一書:電子郵件:二 <br/><br/>
 	 * 
 	 * Http Response Example: <br/>
 	 * <b>Response Header:</b> <br/>
@@ -345,23 +350,26 @@ public class BookController {
 	 * <i>or</i> <br/>
 	 * The request body cannot be empty. <br/>
 	 * <i>or</i> <br/>
-	 * The request body must contain colon and semicolon character. <br/>
+	 * The request body must contain colon character. <br/>
+	 * <i>or</i> <br/>
+	 * The request body is not complete. <br/>
 	 * <i>or</i> <br/>
 	 * Error when inserting hanzi stroke. <br/>
 	 * <br/><br/>
 	 * 
-	 * If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected.<br/><br/>
+	 * If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected. <br/><br/>
 	 * 
 	 * This controller will: <br/>
 	 * 1. Read the data from http request. <br/>
 	 * 2. If the data cannot be read, response to client with error String: "The request body cannot be read." <br/>
 	 * 3. If the request body is a String empty, response to client with error String: "The request body cannot be empty." <br/>
-	 * 4. If the request body does not contain ":" and ";" character, response to client with error String: "The request body must contain colon and semicolon character." <br/>
-	 * 4. Get the "book_name", "hanzi_stroke" and "page_number" from http request. <br/>
-	 * 5. Create the date, from current date. <br/>
-	 * 6. Insert the data to database. <br/>
-	 * 7. Response the json data to client if the data is successfully inserted. <br/>
-	 * 8. If error happened, response to client with error String: "Error when inserting hanzi stroke."<br/>
+	 * 4. If the request body does not contain ":" character, response to client with error String: "The request body must contain colon." <br/>
+	 * 5. If there is no 3 words of chinese character separated by colon (:) character, response to client with error String: "The request body is not complete." <br/>
+	 * 6. Get the "book_name", "hanzi_stroke" and "page_number" from http request. <br/>
+	 * 7. Create the date, from current date. <br/>
+	 * 8. Insert the "hanzi_stroke" and "page_number" to the database (related with "book_name"). <br/>
+	 * 9. Response the json data to client if the data is successfully inserted. <br/>
+	 * 10. If error happened, response to client with error String: "Error when inserting hanzi stroke." <br/>
 	 */
 	@RequestMapping(value = "/insertHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanziStrokeInBook(HttpServletRequest httpServletRequest){
@@ -375,7 +383,7 @@ public class BookController {
 		//enable "same cross origin", so this controller could response data to ajax
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add("Access-Control-Allow-Origin", "*");
-						
+		
 		//response header: UTF-8 encoding, to tell the browser display it correctly
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
 		
@@ -391,7 +399,7 @@ public class BookController {
 			while ((resultInt = bufferedReader.read()) != -1) {
 				logger.debug("read the characters");
 				// the resultInt, is a decimal number that point to the Unicode Character, using UTF-16 Big Endian. 
-				// Example: int = 24859 point to the chinese traditional character for love.
+				// Example: int = 24859 point to the chinese traditional character for love (愛).
 				
 				//Cannot cast to char if the int is not in the char data type range.
 				if((resultInt<0) || resultInt>65535){
@@ -399,7 +407,7 @@ public class BookController {
 					return new ResponseEntity<String>("The request body cannot be read.", responseHeaders, HttpStatus.OK);
 				}
 				
-				//Add only the unicode CJK (Chinese Japanese Korean) characters and colon character :
+				//Add only the unicode CJK (Chinese Japanese Korean) characters, colon character and semicolon character :
 				//* the unicode CJK range is from U+4E00 (19968) to U+9FFF (40959)
 				//* the unicode colon character is U+003A (58)
 				//source: http://www.fileformat.info/info/unicode/block/cjk_unified_ideographs/index.htm
@@ -407,6 +415,7 @@ public class BookController {
 					resultChar = (char)resultInt;
 					resultString.append(resultChar);
 				}
+				
 			}
 			
 			logger.debug("The request body: "+ resultString.toString());

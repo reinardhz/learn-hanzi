@@ -14,6 +14,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,9 +35,9 @@ import com.reinard.learnhanzi.models.HanziData;
  * @author reinard.santosa
  *
  */
-//@Controller
-//@Scope(value = WebApplicationContext.SCOPE_REQUEST)
-//@RequestMapping(value = "/test")
+@Controller
+@Scope(value = WebApplicationContext.SCOPE_REQUEST)
+@RequestMapping(value = "/test")
 public class TestController {
 
 		//@Autowired
@@ -46,15 +49,32 @@ public class TestController {
 		//@Autowired
 		private HanziDaoImpl hanziDaoImpl;
 		
+		/**
+		 * To test connection to this controller.
+		 */
+		@RequestMapping(value="/conn", method = RequestMethod.GET)
+		public ResponseEntity<String> testConnection(){
+			HttpHeaders responseHeaders = new HttpHeaders();
+			responseHeaders.add("Content-Type", "text/html;charset=UTF-8");
+			return new ResponseEntity<String>("Connection OK", responseHeaders, HttpStatus.OK);
+		}
 		
 		/**
-		 * Test for method HanziDaoImpl.selectBy();
+		 * Test for method shutdown the computer;
 		 */
-		//@RequestMapping(value="/testSelectBy", method = RequestMethod.GET)
-		//@ResponseBody
-		public String testSelectBy() throws Exception{
-			HanziData result = hanziDaoImpl.selectBy("我");
-			return result.toString();
+		@RequestMapping(value="/shutdown", method = RequestMethod.GET)
+		public void testSelectBy() throws Exception{
+			
+			Runtime runtime = Runtime.getRuntime();
+			
+			//===force shutdown the computer===
+			//equivalent execute command in cmd: shutdown.exe -s -t 5
+			//force shutdown is automatically invoke if t>0 (read the help on cmd)
+		    Process proc = runtime.exec("shutdown -s -t 5");
+		    //==============
+		    
+		    System.exit(0);
+			
 		}
 		
 		//@RequestMapping(value = "/getAllHanzi", method = RequestMethod.GET)

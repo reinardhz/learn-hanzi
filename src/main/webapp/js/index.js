@@ -53,7 +53,7 @@ function getAllHanzi() {
 	}
 
 	//setting the http request.
-	ajax.open("GET", "http://localhost:9097/learn-hanzi/api/hanzi/getAllHanzi",
+	ajax.open("GET", "http://192.168.173.1:9097/learn-hanzi/api/hanzi/getAllHanzi",
 			true);
 
 	//send the http request.
