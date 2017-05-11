@@ -79,11 +79,17 @@ Solving bug, why the message in browser page not show up, when trying inserting 
 
 * fixing method (tested OK): "BookController.searchHanziStrokeInBook(HttpServletRequest httpServletRequest)"
 * fixing method (tested OK): "BookServiceImpl.searchHanziStrokeInBook(String inputBookNameAndHanziStroke)"
+
+* correcting the book.html and book.js for "Choose Book" module (finished)
+* testing the book.html and book.js for "Choose Book" module (finished)
+
+* correcting the book.html and book.js for "Search Hanzi Stroke" module (finished)
+* testing the book.html and book.js for "Search Hanzi Stroke" module (finished)
+
+* correcting the book.html and book.js for "Add Hanzi Stroke" module (finished)
+* testing the book.html and book.js for "Add Hanzi Stroke" module (finished)
 =================
 
-todo: 
-11. change the html + javascript.
-12. test the  html + javascript.
 ===================
 
 

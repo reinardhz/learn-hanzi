@@ -45,7 +45,7 @@ function getAllHanzi() {
 				var created_date_epoch_int = parseInt(created_date_epoch_string);
 				var created_date = new Date(created_date_epoch_int);
 
-				result = result + hanzi + " " + created_date + "<br/>";
+				result = result + hanzi + "， " + created_date + "<br/>";
 				document.getElementById("data").innerHTML = result;
 			}
 
@@ -122,7 +122,7 @@ function searchHanzi() {
 				var created_date_epoch_string = responseObject.hanzi_data[i].created_date;
 				var created_date_epoch_int = parseInt(created_date_epoch_string);
 				var created_date = new Date(created_date_epoch_int);
-				result = result + hanzi + " " + created_date + "<br/>";
+				result = result + hanzi + "， " + created_date + "<br/>";
 				document.getElementById("result").innerHTML = result;
 			}
 
@@ -199,7 +199,7 @@ function addHanzi() {
 				var created_date_epoch_string = responseObject.hanzi_data[i].created_date;
 				var created_date_epoch_int = parseInt(created_date_epoch_string);
 				var created_date = new Date(created_date_epoch_int);
-				result = result + hanzi + " " + created_date + " Inserted !"
+				result = result + hanzi + "， " + created_date + " Added !"
 						+ "<br/>";
 				document.getElementById("result").innerHTML = result;
 			}
