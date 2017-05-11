@@ -59,7 +59,7 @@ public class BookServiceImplTest {
 	/**
 	 * A method to test method "BookServiceImpl.addNewBook()".
 	 * 
-	 * Case 2: Input existing "book_name", this method return String: "Error: Cannot Insert. Data Already Exist".
+	 * Case 2: Input existing "book_name", this method must return String: "Error: Cannot Insert. Data Already Exist".
 	 */
 	@Test
 	public void addNewBookTest2() throws Exception{
