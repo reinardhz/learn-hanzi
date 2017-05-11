@@ -14,7 +14,7 @@ package com.reinard.learnhanzi.json;
  *
  */
 public class AllHanziStrokeInBookName {
-	//TODO change this json
+	
 	private String book_name;
 
 	private Hanzi_stroke_data[] hanzi_stroke_data;

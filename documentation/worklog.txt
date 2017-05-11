@@ -74,13 +74,14 @@ Solving bug, why the message in browser page not show up, when trying inserting 
 * test method (OK): BookServiceImpl.insertHanziStrokeInBook(String inputBookNameAndHanziStroke)
 ===================
 
+===11 May 2017===
+* test method "BookController.insertHanziStrokeInBook(HttpServletRequest httpServletRequest)" (tested ok)
+
+* fixing method (tested OK): "BookController.searchHanziStrokeInBook(HttpServletRequest httpServletRequest)"
+* fixing method (tested OK): "BookServiceImpl.searchHanziStrokeInBook(String inputBookNameAndHanziStroke)"
+=================
 
 todo: 
-
-7. change the service. (
-8. test the service.
-9. change the controller.
-10. test the controller.
 11. change the html + javascript.
 12. test the  html + javascript.
 ===================

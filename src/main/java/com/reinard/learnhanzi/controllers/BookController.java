@@ -252,15 +252,17 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/getAllHanziStrokeInBookName", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> getAllHanziStrokeInBookName(HttpServletRequest httpServletRequest){
+		//the service needed in this method is tested ok..
 		
+		//These are the case to test this controller:
 		//Case 1: Space only, controller must return String "The request body cannot be empty." (ok)
 		//Case 2: Non chinese character without space, controller must return String "The request body cannot be empty." (ok)
 		//Case 3: Non chinese character with space, controller must return String "The request body cannot be empty." (ok)
 		//Case 3: Chinese character (book_name) that exist in the database with space between characters, must return result. (ok)
 		//Case 4: Chinese character (book_name) that exist in the database with no space between characters, must return result. (ok)
-		//case 5: Chinese character (book_name) that not exist in the database with space between characters, must return String "Not found." (ok)
-		//case 6: Chinese character (book_name) that not exist in the database with no space between characters, must return String "Not found." (ok)
-		//the service needed in this method is tested ok..
+		//case 5: Chinese character (book_name) that is not exist in the database with space between characters, must return String "Not found." (ok)
+		//case 6: Chinese character (book_name) that is not exist in the database with no space between characters, must return String "Not found." (ok)
+		
 		
 		logger.info("Processing request to getAllHanziStrokeInBookName. Searching hanzi stroke now...");
 		
@@ -330,7 +332,7 @@ public class BookController {
 	}
 	
 	/**
-	 * This method is not yet tested. <br/>
+	 * This method is tested ok. <br/>
 	 * 
 	 * A method to insert one hanzi stroke and page number in specified book name. <br/><br/>
 	 * Http Request Example: <br/>
@@ -352,7 +354,7 @@ public class BookController {
 	 * <i>or</i> <br/>
 	 * The request body must contain colon character. <br/>
 	 * <i>or</i> <br/>
-	 * The request body is not complete. <br/>
+	 * The inputted String is not match the requirement. <br/>
 	 * <i>or</i> <br/>
 	 * Error when inserting hanzi stroke. <br/>
 	 * <br/><br/>
@@ -364,7 +366,7 @@ public class BookController {
 	 * 2. If the data cannot be read, response to client with error String: "The request body cannot be read." <br/>
 	 * 3. If the request body is a String empty, response to client with error String: "The request body cannot be empty." <br/>
 	 * 4. If the request body does not contain ":" character, response to client with error String: "The request body must contain colon." <br/>
-	 * 5. If there is no 3 words of chinese character separated by colon (:) character, response to client with error String: "The request body is not complete." <br/>
+	 * 5. If there are no 3 words of chinese character separated by colon (:) character, response to client with error String: "The inputted String is not match the requirement." <br/>
 	 * 6. Get the "book_name", "hanzi_stroke" and "page_number" from http request. <br/>
 	 * 7. Create the date, from current date. <br/>
 	 * 8. Insert the "hanzi_stroke" and "page_number" to the database (related with "book_name"). <br/>
@@ -373,10 +375,22 @@ public class BookController {
 	 */
 	@RequestMapping(value = "/insertHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> insertHanziStrokeInBook(HttpServletRequest httpServletRequest){
-		//TODO fix this method
-		//TODO test this method
+		//the service needed in this method is tested OK.
 		
-		//the service needed in this method is not yet tested.
+		//These are the case to test this controller:
+		//Case 1: Http request body: Space only, controller must return String "The request body cannot be empty." (ok)
+		//Case 2: Http request body: Non chinese characters, without space between them, controller must return String "The request body cannot be empty.". (ok)
+		//Case 3: Http request body: Non chinese characters with space between them, controller must return String "The request body cannot be empty.". (ok)
+		
+		//Case 4: Http request body: Colon only, must return String "The inputted String is not match the requirement." (ok)
+		//Case 5: Http request body: Chinese words without colon, without space, must return String "The request body must contain colon character." (ok)
+		
+		//Case 6: Http request body: 3 Chinese words separated by the colon with no space between characters, Chinese character (book_name) is exist in the database, this controller must return result. (ok)
+		//Case 7: Http request body: 3 Chinese words separated by the colon with space between characters, Chinese character (book_name) is exist in the database, this controller must return result. (ok)
+		
+		//Case 8: Http request body: 3 Chinese words separated by the colon with no space between characters, Chinese character (book_name) is not exist in the database, this controller must return String: "Error when inserting hanzi stroke.". (ok)
+		//Case 9: Http request body: 3 Chinese words separated by the colon with space between characters, Chinese character (book_name) is not exist in the database, this controller must return String: "Error when inserting hanzi stroke.". (ok)
+		
 		
 		logger.info("Processing request to insertHanziStrokeInBook...");
 		
@@ -431,6 +445,12 @@ public class BookController {
 				return new ResponseEntity<String>("The request body must contain colon character.", responseHeaders, HttpStatus.OK);
 			}
 			
+			String[] splitInput = input.split(":");
+			if(splitInput.length != 3){
+				logger.error("The inputted String is not match the requirement.");
+				return new ResponseEntity<String>("The inputted String is not match the requirement.", responseHeaders, HttpStatus.OK);
+			}
+			
 			String result = bookServiceImpl.insertHanziStrokeInBook(input);
 			return new ResponseEntity<String>(result,responseHeaders,HttpStatus.OK);
 			
@@ -443,9 +463,9 @@ public class BookController {
 	}
 	
 	/**
-	 * This method is not yet tested. <br/>
+	 * This method is tested ok. <br/>
 	 * 
-	 * A method to search hanzi stroke in specified book name. <br/><br/>
+	 * A method to search hanzi strokes in specified book name. <br/><br/>
 	 * 
 	 * Http Request Example: <br/>
 	 * <b>Request Header:</b> <br/>
@@ -458,7 +478,7 @@ public class BookController {
 	 * Access-Control-Allow-Origin: * <br/>
 	 * Content-Type: text/plain;charset=UTF-8<br/>
 	 * <b>Response Body:</b> <br/>
-	 * {"book_name":"第二書", "hanzi_stroke_data":[{"hanzi_stroke":"消防局", "page_number":"一", "created_date":"1492318783895"}]} <br/>
+	 * {"book_name":"第二書", "hanzi_stroke_data":[{"hanzi_stroke":"消防局", "page_number":"一", "created_date":"1492318783895"},{"hanzi_stroke":"消防局", "page_number":"三十", "created_date":"1502318783895"}]} <br/>
 	 * 
 	 * <i>or</i> <br/>
 	 * 
@@ -470,11 +490,19 @@ public class BookController {
 	 * 
 	 * <i>or</i> <br/>
 	 * 
+	 * The request body must contain colon character. <br/>
+	 * 
+	 * <i>or</i> <br/>
+	 * 
+	 * The inputted String is not match the requirement. <br/>
+	 * 
+	 * <i>or</i> <br/>
+	 * 
 	 * Not found. <br/>
 	 * 
 	 * <i>or</i> <br/>
 	 * 
-	 * Error when searching one hanzi stroke in specified book name. <br/><br/>
+	 * Error when searching hanzi strokes in specified book name. <br/><br/>
 	 * 
 	 * Note: If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected. <br/><br/>
 	 * 
@@ -482,27 +510,38 @@ public class BookController {
 	 * 1. Read the data from http request. <br/>
 	 * 2. If the data cannot be read, response to client with error String: "The request body cannot be read." <br/>
 	 * 3. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
-	 * 4. Get the "book_name", "hanzi_stroke" from http request. <br/>
-	 * 5. Select the data from database. <br/>
-	 * 6. Response the json data to client if the data found, or string "Not found.", if the data is not found. <br/>
-	 * 7. If error happened, response to client with error String: "Error when searching one hanzi stroke in specified book name."<br/>
+	 * 4. If the request body does not contain ":" character, response to client with error String: "The request body must contain colon." <br/>
+	 * 5. If there are no 3 words of chinese character separated by colon (:) character, response to client with error String: "The inputted String is not match the requirement." <br/>
+	 * 6. Get the "book_name", "hanzi_stroke" from http request. <br/>
+	 * 7. Select the data from database. <br/>
+	 * 8. Response the json data to client if the data found, or string "Not found.", if the data is not found. <br/>
+	 * 9. If error happened, response to client with error String: "Error when searching hanzi strokes in specified book name."<br/>
 	 * 
 	 */
 	@RequestMapping(value = "/searchHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
 	public ResponseEntity<String> searchHanziStrokeInBook(HttpServletRequest httpServletRequest){
-		//TODO fix this method
-		//TODO test this method
 		
-		//the service needed in this method is not yet tested.
+		//the service needed in this method is tested ok.
 		
-		//test this method http request:
-		//case 1: Space only (ok)
-		//case 2: Non chinese character (ok)
-		//case 3: Colon only (ok)
-		//case 4: Chinese character without colon (ok)
-		//case 5: Chinese character with colon (expected: provide result) (ok)
-		//case 6: book_name is not exist in the database, service must return null (ok)
-		//case 7: book_name is exist, but hanzi_stroke is not exist in database, service must return null (ok)
+		//These are the case to test this controller:
+		//Case 1: Http request body: Space only, controller must return String "The request body cannot be empty." (ok)
+		//Case 2: Http request body: Non chinese characters, without space between them, controller must return String "The request body cannot be empty.". (ok)
+		//Case 3: Http request body: Non chinese characters with space between them, controller must return String "The request body cannot be empty.". (ok)
+		
+		//case 4: Http request body: Colon only, must return String "The inputted String is not match the requirement.". (ok)
+		//case 5: Http request body: Chinese words without colon, without space, must return String "The request body must contain colon character.". (ok)
+		
+		//Case 6: Http request body: 2 Chinese words separated by the colon with no space between characters, Chinese character (book_name) and Chinese character (hanzi_stroke) are exist in the database, this controller must return result. (ok)
+		//Case 7: Http request body: 2 Chinese words separated by the colon with space between characters, Chinese character (book_name) and Chinese character (hanzi_stroke) are exist in the database, this controller must return result. (ok)
+		
+		//Case 8: Http request body: 2 Chinese words separated by the colon with no space between characters, Chinese character (book_name) is exist in the database, but Chinese character (hanzi_stroke) is not exist in the database, this controller must return String: "Not found.". (ok)
+		//Case 9: Http request body: 2 Chinese words separated by the colon with no space between characters, Chinese character (book_name) is not exist in the database, but Chinese character (hanzi_stroke) is exist in the database, this controller must return String: "Not found.". (ok)
+		//Case 10: Http request body: 2 Chinese words separated by the colon with no space between characters, Chinese character (book_name) and Chinese character (hanzi_stroke) are not exist in the database, this controller must return String: "Not found.". (ok)
+		
+		//Case 11: Http request body: 2 Chinese words separated by the colon with space between characters, Chinese character (book_name) is exist in the database, but Chinese character (hanzi_stroke) is not exist in the database, this controller must return String: "Not found.". (ok)
+		//Case 12: Http request body: 2 Chinese words separated by the colon with space between characters, Chinese character (book_name) is not exist in the database, but Chinese character (hanzi_stroke) is exist in the database, this controller must return String: "Not found.". (ok)
+		//Case 13: Http request body: 2 Chinese words separated by the colon with space between characters, Chinese character (book_name) and Chinese character (hanzi_stroke) are not exist in the database, this controller must return error String: "Error when searching hanzi strokes in specified book name.". (ok)
+		
 		
 		logger.info("Processing request to searchHanziStrokeInBook...");
 		
@@ -556,6 +595,12 @@ public class BookController {
 				return new ResponseEntity<String>("The request body must contain colon character.", responseHeaders, HttpStatus.OK);
 			}
 			
+			String[] splitInput = input.split(":");
+			if(splitInput.length != 2){
+				logger.error("The inputted String is not match the requirement.");
+				return new ResponseEntity<String>("The inputted String is not match the requirement.", responseHeaders, HttpStatus.OK);
+			}
+			
 			String result = bookServiceImpl.searchHanziStrokeInBook(input);
 			if(result == null){
 				logger.info("Sending response: \"Not found.\"");
@@ -566,9 +611,9 @@ public class BookController {
 			logger.info(result);
 			return new ResponseEntity<String>(result,responseHeaders,HttpStatus.OK);
 		}catch(Exception e){
-			logger.error("Error when searching hanzi stroke in specified book.");
-			logger.info("Sending response: \"Error when searching one hanzi stroke in specified book name.\"");
-			return new ResponseEntity<String>("Error when searching one hanzi stroke in specified book name.", responseHeaders, HttpStatus.OK);
+			logger.error("Error when searching hanzi strokes in specified book name.");
+			logger.info("Sending response: \"Error when searching hanzi strokes in specified book name.\"");
+			return new ResponseEntity<String>("Error when searching hanzi strokes in specified book name.", responseHeaders, HttpStatus.OK);
 		}
 		
 	}

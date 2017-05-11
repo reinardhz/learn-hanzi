@@ -209,11 +209,6 @@ public class BookServiceImpl {
 		logger.info("Inserting hanzi stroke and page number in specified book name.");
 		
 		String[] splitInput = inputBookNameAndHanziStroke.split(":");
-		if(splitInput.length != 3){
-			logger.error("The inputted String is not match the requirement.");
-			throw new Exception("The inputted String is not match the requirement.");
-		}
-		
 		String inputBook_name = splitInput[0];
 		String inputHanzi_stroke = splitInput[1];
 		String inputPage_number = splitInput[2];
@@ -223,7 +218,7 @@ public class BookServiceImpl {
 		logger.debug("1. Make sure that the \"book_name\" is exist in the database by selecting from table \"book_data\" by inputted \"book_name\".");
 		BookData bookData = bookDaoImpl.selectBy(inputBook_name);
 		if(bookData == null){
-			throw new Exception("The inputted book_name is not exist in the database.");
+			throw new Exception("The inputted \"book_name\" is not exist in the database.");
 		}
 		
 		
@@ -267,20 +262,18 @@ public class BookServiceImpl {
 	
 	
 	/**
-	 * A method to search "hanzi_stroke" that is related to the "book_name". (not yet tested).
+	 * A method to search "hanzi_stroke" that is related to the "book_name". (tested OK).
 	 * 
-	 * @param inputBookNameAndHanziStroke - The "hanzi_stroke" related with "book_name" to be search. Example: "第一書:電子郵件" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
-	 * @return String result - all inputted "hanzi_stroke" that is related to the "book_name". Example: {"book_name":"第一書", "hanzi_stroke_data":[{"hanzi_stroke":"電子郵件", "page_number":"二", "created_date":"1491448282651"}]}
+	 * @param inputBookNameAndHanziStroke - The "hanzi_stroke" related with "book_name" to be search. Example: "第二書:消防局" (without double quotes). Do not change the order, as this could cause system behaviour is not working as expected.
+	 * @return String result - all inputted "hanzi_stroke" that is related to the "book_name". Example: {"book_name":"第二書", "hanzi_stroke_data":[{"hanzi_stroke":"消防局", "page_number":"一", "created_date":"1492318783895"},{"hanzi_stroke":"消防局", "page_number":"三十", "created_date":"1502318783895"}]}
 	 * @return Null, if no data found.
 	 * @throws Exception If error happened when trying to search from database.
 	 */
 	public String searchHanziStrokeInBook(String inputBookNameAndHanziStroke) throws Exception{
-		//TODO fix this method
-		//TODO test this method
 		
 		String[] splitInput = inputBookNameAndHanziStroke.split(":");
-		String inputHanzi_stroke = splitInput[1];
 		String inputBook_name = splitInput[0];
+		String inputHanzi_stroke = splitInput[1];
 		logger.info("Searching hanzi_stroke: "+ inputHanzi_stroke + " that is related to book: " + inputBook_name + " ...");
 		
 		
@@ -298,7 +291,6 @@ public class BookServiceImpl {
 		List<BookAndStroke> listOfBookAndStroke = bookAndStrokeDaoImpl.selectAllByBookId(book_id);
 		if(listOfBookAndStroke==null || listOfBookAndStroke.isEmpty()){
 			logger.info("\"book_name\":" + bookData.getBook_name() + " with \"book_id\": " + book_id + " does not related with any \"hanzi_stroke\", returning null now.");
-			
 			return null;
 		}
 		
@@ -322,6 +314,13 @@ public class BookServiceImpl {
 				logger.info("\"hanzi_stroke\" in the \"HanziStrokeData\" is empty. Return null.");
 				return null;
 			}
+			
+			String page_number = bookAndStroke.getHanziStrokeData().getPage_number();
+			if(page_number.isEmpty()){
+				logger.info("\"page_number\" in the \"HanziStrokeData\" is empty. Return null.");
+				return null;
+			}
+			
 			long created_date = bookAndStroke.getHanziStrokeData().getCreated_date();
 			
 			
@@ -329,6 +328,7 @@ public class BookServiceImpl {
 			if(hanzi_stroke.equals(inputHanzi_stroke)){
 				Hanzi_stroke_data hanzi_stroke_data = new Hanzi_stroke_data();
 				hanzi_stroke_data.setHanzi_stroke(hanzi_stroke);
+				hanzi_stroke_data.setPage_number(page_number);
 				hanzi_stroke_data.setCreated_date(String.valueOf(created_date));
 				listOfHanzi_stroke_data.add(hanzi_stroke_data);
 			}
