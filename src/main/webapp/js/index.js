@@ -159,6 +159,11 @@ function addHanzi() {
 		document.getElementById("result").innerHTML = "Please insert Hanzi.";
 		return;
 	}
+	
+	if (input.length != 1){
+		document.getElementById("result").innerHTML = "Please insert only one Hanzi.";
+		return;
+	}
 
 	//make request to server using ajax.
 	//ajax programming use XMLHttpRequest()
