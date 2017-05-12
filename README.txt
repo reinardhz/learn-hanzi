@@ -70,31 +70,34 @@ e. Click "Apply" button to save the changes
 
 
 ===This are steps to backup the database===
-1. Open cmd, and go to the directory that contains file "pg_dump.exe".
+1. Make sure that the database is running.
+
+2. Open cmd, and go to the directory that contains file "pg_dump.exe".
 Example syntax: cd "C:\Program Files\PostgreSQL\9.5\bin"
 
-2. Type: "pg_dump -h [hostname] -p [listening port number] -U [username] -d [database name] > [filename]"
+3. Type: "pg_dump -h [hostname] -p [listening port number] -U [username] -d [database name] > [filename]"
 Example syntax: "pg_dump -h localhost -p 5432 -U learnhanzi -d learnhanzi_database > E:\backup.sql"
-
-3. Press enter, then type the password, then press enter again.
-
-4. System will create new file name "backup.sql" in E drive, that contains backup in learnhanzi_database.
-
-
-===This are steps to restore the database from backup file===
-1. Create username and database name that same as the previous backup file from.
-
-2. Open cmd, and go to the directory that contains file "psql.exe".
-
-3. Type: "psql -h [hostname] -p [listening port number] -U [username] -d [database name] < [backup filename]"
-Example: "psql -h localhost -p 5432 -U learnhanzi - d learnhanzi_database < E:\backup.sql"
 
 4. Press enter, then type the password, then press enter again.
 
-5. System will execute the backup file to create all database object for backup file.
+5. System will create new file name "backup.sql" in E drive, that contains backup in learnhanzi_database.
+
+
+===This are steps to restore the database from backup file===
+1. Make sure that the database is running.
+
+2. Create username and database name that same as the previous backup file from.
+
+3. Open cmd, and go to the directory that contains file "psql.exe".
+
+4. Type: "psql -h [hostname] -p [listening port number] -U [username] -d [database name] < [backup filename]"
+Example: "psql -h localhost -p 5432 -U learnhanzi - d learnhanzi_database < E:\backup.sql"
+
+5. Press enter, then type the password, then press enter again.
+
+6. System will execute the backup file to create all database object for backup file.
 ===============================================================
 
 Note:
 * PostgreSql data type mapping to JDBC type, read: https://documentation.progress.com/output/DataDirect/DataDirectCloud/index.html#page/queries/postgresql-data-types.html
 * JDBC data type mapping to Java data type, read: https://www.cis.upenn.edu/~bcpierce/courses/629/jdkdocs/guide/jdbc/getstart/mapping.doc.html
-
