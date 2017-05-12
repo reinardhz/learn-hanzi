@@ -70,6 +70,12 @@ public class HanziController{
 		//response header: UTF-8 encoding, to tell the browser display it correctly
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
 		
+		//do not let the browser store cache.
+		//read "http://stackoverflow.com/questions/49547/how-to-control-web-page-caching-across-all-browsers".
+		responseHeaders.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		responseHeaders.add("Pragma", "no-cache");
+		responseHeaders.add("Expires", "0");
+		
 		try{
 			
 			String resultJson = hanziServiceImpl.selectAll();
@@ -142,6 +148,12 @@ public class HanziController{
 				
 		//response header: UTF-8 encoding, to tell the browser display it correctly
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
+		
+		//do not let the browser store cache.
+		//read "http://stackoverflow.com/questions/49547/how-to-control-web-page-caching-across-all-browsers".
+		responseHeaders.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		responseHeaders.add("Pragma", "no-cache");
+		responseHeaders.add("Expires", "0");
 		
 		try {
 			
@@ -249,6 +261,12 @@ public class HanziController{
 				
 		//response header: UTF-8 encoding, to tell the browser display it correctly
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
+		
+		//do not let the browser store cache.
+		//read "http://stackoverflow.com/questions/49547/how-to-control-web-page-caching-across-all-browsers".
+		responseHeaders.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		responseHeaders.add("Pragma", "no-cache");
+		responseHeaders.add("Expires", "0");
 		
 		try{
 			

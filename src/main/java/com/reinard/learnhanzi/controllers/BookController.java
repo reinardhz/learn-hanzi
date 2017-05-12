@@ -88,6 +88,12 @@ public class BookController {
 		//response header: UTF-8 encoding, to tell the browser display it correctly
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
 		
+		//do not let the browser store cache.
+		//read "http://stackoverflow.com/questions/49547/how-to-control-web-page-caching-across-all-browsers".
+		responseHeaders.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		responseHeaders.add("Pragma", "no-cache");
+		responseHeaders.add("Expires", "0");
+		
 		try{
 			
 			logger.debug("Read the http request body raw byte, because jetty server could not bind the request using Spring @RequestBody annotation.");
@@ -185,6 +191,12 @@ public class BookController {
 		//response header: UTF-8 encoding, to tell the browser display it correctly
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
 		
+		//do not let the browser store cache.
+		//read "http://stackoverflow.com/questions/49547/how-to-control-web-page-caching-across-all-browsers".
+		responseHeaders.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		responseHeaders.add("Pragma", "no-cache");
+		responseHeaders.add("Expires", "0");
+		
 		try{
 			String result = bookServiceImpl.getAllBookName();
 			if(result==null){
@@ -272,6 +284,12 @@ public class BookController {
 						
 		//response header: UTF-8 encoding, to tell the browser display it correctly
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
+		
+		//do not let the browser store cache.
+		//read "http://stackoverflow.com/questions/49547/how-to-control-web-page-caching-across-all-browsers".
+		responseHeaders.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		responseHeaders.add("Pragma", "no-cache");
+		responseHeaders.add("Expires", "0");
 		
 		try{
 			
@@ -400,6 +418,12 @@ public class BookController {
 		
 		//response header: UTF-8 encoding, to tell the browser display it correctly
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
+		
+		//do not let the browser store cache.
+		//read "http://stackoverflow.com/questions/49547/how-to-control-web-page-caching-across-all-browsers".
+		responseHeaders.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		responseHeaders.add("Pragma", "no-cache");
+		responseHeaders.add("Expires", "0");
 		
 		try{
 			logger.debug("Read the http request body raw byte, because jetty server could not bind the request using Spring @RequestBody annotation.");
@@ -551,6 +575,12 @@ public class BookController {
 								
 		//response header: UTF-8 encoding, to tell the browser display it correctly
 		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
+		
+		//do not let the browser store cache.
+		//read "http://stackoverflow.com/questions/49547/how-to-control-web-page-caching-across-all-browsers".
+		responseHeaders.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		responseHeaders.add("Pragma", "no-cache");
+		responseHeaders.add("Expires", "0");
 		
 		try{
 			logger.debug("Read the http request body raw byte, because jetty server could not bind the request using Spring @RequestBody annotation.");
