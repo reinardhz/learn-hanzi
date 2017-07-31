@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -23,6 +24,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.beans.factory.annotation.Value;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.ServletContext;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reinard.learnhanzi.dao.impl.HanziDaoImpl;
@@ -48,6 +53,72 @@ public class TestController {
 		
 		//@Autowired
 		private HanziDaoImpl hanziDaoImpl;
+		
+		//@Value("${text.helloWorld}")
+		private String helloWorld;
+		
+		
+		/**
+		 * To see the root ServletContext.
+		 */
+		@RequestMapping(value = "/seeServletContextAttributeNames", method = RequestMethod.GET)
+		@ResponseBody
+		public String seeServletContext(HttpServletRequest httpServletRequest){
+			ServletContext rootContext = httpServletRequest.getServletContext();
+			Enumeration<?> attributesName = null;
+			StringBuilder resultString = new StringBuilder();
+			for(attributesName = rootContext.getAttributeNames(); attributesName.hasMoreElements();){
+				resultString.append(attributesName.nextElement() + ";\n");
+			}
+			return resultString.toString();
+		}
+		
+		/**
+		 * To see the root ServletContext's name.
+		 */
+		@RequestMapping(value = "/seeServletContextName", method = RequestMethod.GET)
+		@ResponseBody
+		public String seeServletContextName(HttpServletRequest httpServletRequest){
+			ServletContext rootContext = httpServletRequest.getServletContext();
+			return rootContext.getServletContextName();
+		}
+		
+		/**
+		 * To see ServletContext init parameter names.
+		 */
+		@RequestMapping(value = "/seeInitParameterNames", method = RequestMethod.GET)
+		@ResponseBody
+		public String seeInitParameterNames(HttpServletRequest httpServletRequest){
+			ServletContext rootContext = httpServletRequest.getServletContext();
+			Enumeration<?> initParameterNames = null;
+			StringBuilder resultString = new StringBuilder();
+			for(initParameterNames = rootContext.getInitParameterNames(); initParameterNames.hasMoreElements();){
+				resultString.append(initParameterNames.nextElement() + ";\n");
+			}
+			return resultString.toString();
+		}
+		
+		/**
+		 * Get parameter defined in ServletContext (web.xml)
+		 */
+		@RequestMapping(value = "/getInitParameterNames", method = RequestMethod.GET)
+		@ResponseBody
+		public String getInitParameterNames(HttpServletRequest httpServletRequest){
+			ServletContext rootContext = httpServletRequest.getServletContext();
+			return rootContext.getInitParameter("test");
+			
+		}
+		
+		
+		/**
+		 * To test get value in properties file.
+		 */
+		@RequestMapping(value = "/hello", method = RequestMethod.GET)
+		@ResponseBody
+		public String helloWorld(){
+			return helloWorld;
+		}
+		
 		
 		/**
 		 * To test connection to this controller.

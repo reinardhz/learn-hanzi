@@ -17,12 +17,12 @@ import org.springframework.web.context.ContextLoaderListener;
  * @author reinard.santosa
  *
  */
-public class LearnHanziWebApplicationInitializer implements WebApplicationInitializer{
+public class LearnHanziWebApplicationInitializer /*implements WebApplicationInitializer*/{
 	
 	/**
 	 * 
 	 */
-	@Override
+	//@Override
 	public void onStartup(ServletContext rootContext) throws ServletException {
 		
 		//Create the 'root' Spring web application context, with XML configuration from file "/WEB-INF/spring/servlet-context.xml".
@@ -31,7 +31,6 @@ public class LearnHanziWebApplicationInitializer implements WebApplicationInitia
 		
 		//Add Listener (ContextLoaderListener) to start up and shut down Spring web application context (variable "springRootContext").
 		rootContext.addListener(new ContextLoaderListener(springRootContext));
-		
 		
 		
 		//Create the Spring's DispatcherServlet application context, with XML configuration from file "/WEB-INF/spring/appServlet/servlet-context.xml".

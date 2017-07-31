@@ -1,10 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:mvc="http://www.springframework.org/schema/mvc" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="
+    http://www.springframework.org/schema/beans     
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
-	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- Define the location of the properties file.-->
+	<!-- The value in file "E:\config\postgre.prop" could be get using ${key} in this "servlet-context.xml" file -->
+	<!-- <context:property-placeholder location="classpath:hello.properties, file:///E:/config/postgre.prop" ignore-unresolvable="false" ignore-resource-not-found="false" /> -->
 	
+	<!-- Driver to connect to Oracle database-->
+	<!-- Equivalent in java: -->
+	<!-- org.springframework.jdbc.datasource.DriverManagerDataSource oracleDataSource = new org.springframework.jdbc.datasource.DriverManagerDataSource(); -->
+	<!-- oracleDataSource.setDriverClassName("org.springframework.jdbc.datasource.DriverManagerDataSource") -->
+	<!-- oracleDataSource.setUrl("jdbc:postgresql://localhost:5432/learnhanzi_database") -->
+	<!-- oracleDataSource.setUsername("learnhanzi") -->
+	<!-- oracleDataSource.setPassword("xuehanzi") -->
+	<!-- <bean id="postgreDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" scope="singleton">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/learnhanzi_database" />
+		<property name="username" value="learnhanzi" />
+		<property name="password" value="xuehanzi" />
+	</bean> -->
 	
+	<bean id="postgreDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" scope="singleton">
+		<property name="driverClassName" value="org.postgresql.Driver" />
+		<property name="url" value="jdbc:postgresql://localhost:5432/learnhanzi_database" />
+		<property name="username" value="learnhanzi" />
+		<property name="password" value="xuehanzi" />
+	</bean>
+	
+	<!-- Use hibernate to manage session -->
+	<!-- This bean should be singleton, read: https://docs.jboss.org/hibernate/orm/3.6/reference/en-US/html/transactions.html#transactions-basics -->
+	<!-- Equivalent in java: -->
+	<!-- org.springframework.orm.hibernate4.LocalSessionFactoryBean localSessionFactoryBean = new org.springframework.orm.hibernate4.LocalSessionFactoryBean(); -->
+	<bean id= "hibernateSessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean" scope="singleton">
+		<!-- Equivalent in java: -->
+		<!-- localSessionFactoryBean.setDatasource(postgreDataSource) -->
+		<property name="dataSource" ref="postgreDataSource"/>
+		
+		<!-- Equivalent in java: -->
+		<!-- Properties hibernateProperties = new Properties(); -->
+		<!-- hibernateProperties.setProperty("hibernate.dialect","org.hibernate.dialect.Oracle10gDialect"); -->
+		<!-- hibernateProperties.setProperty("hibernate.connection.autocommit","false"); -->
+		<!-- hibernateProperties.setProperty("hibernate.connection.isolation","2"); -->
+		<!-- hibernateProperties.setProperty("hibernate.show_sql","true"); -->
+		<!-- localSessionFactoryBean.setHibernateProperties(hibernateProperties); -->
+    	<property name="hibernateProperties">
+    		<value>
+    			hibernate.dialect=org.hibernate.dialect.PostgreSQL95Dialect
+    			hibernate.connection.autocommit=false
+    			hibernate.connection.isolation=2
+    			hibernate.show_sql=true
+    		</value>
+    	</property>
+    	
+    	<!-- Scan The @Entity class -->
+    	<!-- Equivalent in java: -->
+    	<!-- localSessionFactoryBean.setPackagesToScan("com.pji.astralife.*"); -->
+    	<property name="packagesToScan">
+    		<list>
+    			<value>com.reinard.*</value>
+    		</list>
+    	</property>
+    </bean>
 	
 </beans>
