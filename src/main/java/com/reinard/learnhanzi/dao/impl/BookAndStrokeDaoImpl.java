@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.reinard.learnhanzi.models.BookAndStroke;
@@ -22,6 +23,7 @@ import org.hibernate.criterion.Restrictions;
  *
  */
 @Repository(value="bookAndStrokeDaoImpl")
+@Scope(value = "singleton")
 public class BookAndStrokeDaoImpl {
 	
 	private static final Logger logger = Logger.getLogger(BookAndStrokeDaoImpl.class);

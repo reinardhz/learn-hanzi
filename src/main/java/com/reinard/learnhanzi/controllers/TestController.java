@@ -41,7 +41,7 @@ import com.reinard.learnhanzi.models.HanziData;
  *
  */
 @Controller
-@Scope(value = WebApplicationContext.SCOPE_REQUEST)
+@Scope(value = "singleton")
 @RequestMapping(value = "/test")
 public class TestController {
 

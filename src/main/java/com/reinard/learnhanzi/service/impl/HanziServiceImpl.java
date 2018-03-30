@@ -9,6 +9,7 @@ import javax.persistence.PersistenceException;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,6 +21,7 @@ import com.reinard.learnhanzi.models.UserAndHanzi;
 import com.reinard.learnhanzi.models.UserData;
 
 @Service("hanziServiceImpl")
+@Scope(value = "singleton")
 public class HanziServiceImpl {
 	
 	private static final Logger logger = Logger.getLogger(HanziServiceImpl.class);

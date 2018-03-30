@@ -13,11 +13,13 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.criterion.Order;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.reinard.learnhanzi.models.HanziData;
 
 @Repository(value="hanziDaoImpl")
+@Scope(value = "singleton")
 public class HanziDaoImpl {
 	
 	private static final Logger logger = Logger.getLogger(HanziDaoImpl.class);

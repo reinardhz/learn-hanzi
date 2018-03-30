@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.WebApplicationContext;
 import org.springframework.stereotype.Controller;
 
 import com.reinard.learnhanzi.helper.utils.StringUtil;
@@ -26,8 +25,7 @@ import com.reinard.learnhanzi.service.impl.BookServiceImpl;
  *
  */
 @Controller
-//To make this controller is not singleton, to support multithreading.
-@Scope(value = WebApplicationContext.SCOPE_REQUEST)
+@Scope(value = "singleton")
 @RequestMapping(value = "/book")
 public class BookController {
 	
@@ -96,7 +94,7 @@ public class BookController {
 		
 		try{
 			
-			logger.debug("Read the http request body raw byte, because jetty server could not bind the request using Spring @RequestBody annotation.");
+			logger.debug("Read the http request body raw byte, because jetty server could not get the request body using Spring @RequestBody annotation.");
 			BufferedReader bufferedReader = httpServletRequest.getReader();
 			
 			int resultInt = 0;

@@ -19,6 +19,7 @@ import com.reinard.learnhanzi.models.HanziStrokeData;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 
 /**
  * A class to provide service related with "Book.html" page.
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  *
  */
 @Service("bookServiceImpl")
+@Scope(value = "singleton")
 public class BookServiceImpl {
 	
 	private static final Logger logger = Logger.getLogger(BookServiceImpl.class);

@@ -24,8 +24,7 @@ import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
  *
  */
 @Controller
-//To make this controller is not singleton, to support multithreading.
-@Scope(value = WebApplicationContext.SCOPE_REQUEST)
+@Scope(value = "singleton")
 @RequestMapping(value = "/hanzi")
 public class HanziController{
 	private final static Logger logger = Logger.getLogger(HanziController.class);

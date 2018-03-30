@@ -10,6 +10,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
 import com.reinard.learnhanzi.models.BookData;
@@ -22,6 +23,7 @@ import com.reinard.learnhanzi.models.HanziStrokeData;
  *
  */
 @Repository(value="hanziStrokeDaoImpl")
+@Scope(value = "singleton")
 public class HanziStrokeDaoImpl {
 
 	private static final Logger logger = Logger.getLogger(HanziStrokeDaoImpl.class);
