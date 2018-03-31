@@ -14,26 +14,26 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- Compatible with Jetty 9.3.17.v20170317 -->
-		<!-- http://www.eclipse.org/jetty/documentation/9.3.17.v20170317/-->
+		<!-- http://www.eclipse.org/jetty/documentation/9.3.17.v20170317/ -->
 		<jetty.version>9.3.17.RC0</jetty.version>
 		<java.version>1.8</java.version>
 		<jsp.version>2.3</jsp.version>
 		<servlet.version>3.1</servlet.version>
-		
+
 		<!-- Compatible with java 1.8 -->
 		<org.springframework-version>4.3.7.RELEASE</org.springframework-version>
-		
+
 		<!-- Compatible with spring 4.3.7.RELEASE -->
 		<!-- Look the dependecy in maven: https://mvnrepository.com/artifact/org.springframework/spring-webmvc/4.3.7.RELEASE -->
 		<!-- Look the dependecy in maven: https://mvnrepository.com/artifact/org.springframework/spring-orm/4.3.7.RELEASE -->
 		<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
 		<jstl.version>1.2.1</jstl.version>
 		<jsp-api>2.2.1</jsp-api>
-    	<jackson-databind.version>2.8.7</jackson-databind.version>
-    	<junit.version>4.12</junit.version>
-    	<!-- hibernate 5.2.9.Final is an implementation of Java Persistance API 2.1 (Java EE 7) -->
+		<jackson-databind.version>2.8.7</jackson-databind.version>
+		<junit.version>4.12</junit.version>
+		<!-- hibernate 5.2.9.Final is an implementation of Java Persistance API 2.1 (Java EE 7) -->
 		<hibernate.version>5.2.9.Final</hibernate.version>
-		
+
 		<!-- Other -->
 		<log4j.version>1.2.17</log4j.version>
 	</properties>
@@ -50,11 +50,11 @@
 				<version>${jetty.version}</version>
 				<configuration>
 					<webApp>
-      					<contextPath>/learn-hanzi</contextPath>
-      					<descriptor>${project.basedir}/src/main/webapp/WEB-INF/web.xml</descriptor>
-      					<!-- Source of .war file -->
-    					<war>${project.basedir}/target/${project.build.finalName}.war</war>
-    				</webApp>
+						<contextPath>/learn-hanzi</contextPath>
+						<descriptor>${project.basedir}/src/main/webapp/WEB-INF/web.xml</descriptor>
+						<!-- Source of .war file -->
+						<war>${project.basedir}/target/${project.build.finalName}.war</war>
+					</webApp>
 				</configuration>
 			</plugin>
 
@@ -100,35 +100,35 @@
 		</dependency>
 		<!-- To let Spring run test class -->
 		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>${org.springframework-version}</version>
-            <scope>test</scope>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework-version}</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-   			<groupId>javax.servlet</groupId>
-    		<artifactId>javax.servlet-api</artifactId>
-    		<version>${javax.servlet-api.version}</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>${javax.servlet-api.version}</version>
 		</dependency>
 		<dependency>
-    		<groupId>javax.servlet.jsp</groupId>
-    		<artifactId>javax.servlet.jsp-api</artifactId>
-    		<version>${jsp-api}</version>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>${jsp-api}</version>
 		</dependency>
 		<dependency>
-    		<groupId>javax.servlet.jsp.jstl</groupId>
-    		<artifactId>javax.servlet.jsp.jstl-api</artifactId>
-    		<version>${jstl.version}</version>
+			<groupId>javax.servlet.jsp.jstl</groupId>
+			<artifactId>javax.servlet.jsp.jstl-api</artifactId>
+			<version>${jstl.version}</version>
 		</dependency>
-		<!-- To bind json http request with controller's method parameter (@RequestBody)-->
+		<!-- To bind json http request with controller's method parameter (@RequestBody) -->
 		<dependency>
-    		<groupId>com.fasterxml.jackson.core</groupId>
-    		<artifactId>jackson-databind</artifactId>
-    		<version>${jackson-databind.version}</version>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson-databind.version}</version>
 		</dependency>
 		<!-- ================================== -->
-		
-		
+
+
 		<!-- ===Integrate Spring with Hibernate=== -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -148,30 +148,30 @@
 			<version>${org.springframework-version}</version>
 		</dependency>
 		<!-- ================================== -->
-		
+
 		<!-- ===Integrate Spring with JUnit=== -->
 		<dependency>
-    		<groupId>junit</groupId>
-   			<artifactId>junit</artifactId>
-    		<version>${junit.version}</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
 		</dependency>
 		<!-- ================================== -->
-		
+
 		<!-- To use Postgresql JDBC Driver -->
 		<dependency>
-    		<groupId>postgresql</groupId>
-    		<artifactId>postgresql</artifactId>
-    		<version>9.1-901-1.jdbc4</version>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901-1.jdbc4</version>
 		</dependency>
-		
+
 		<!-- To use log4j (logger) -->
-		<!-- Please configure this, in file "src/main/resources/log4j.properties"-->
+		<!-- Please configure this, in file "src/main/resources/log4j.properties" -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-		
+
 	</dependencies>
 
 </project>
