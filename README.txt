@@ -11,6 +11,7 @@ The General Requirements:
 
 
 Technology:
+* Java 1.8
 * Eclipse Neon.
 * Embedded Jetty Server 9.3.17.v20170317
 * Spring MVC 4.3.7.RELEASE
@@ -18,7 +19,6 @@ Technology:
 * PostgreSQL 9.5.1
 * HTML 5
 * Javascript
-* Bootstrap (make it mobile safe)
 
 Note: 
 1. Client request all hanzi data.
