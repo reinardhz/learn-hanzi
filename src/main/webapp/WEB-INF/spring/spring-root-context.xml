@@ -11,25 +11,7 @@ xsi:schemaLocation="
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
-	
-	<!-- Define the location of the properties file.-->
-	<!-- The value in file "E:\config\postgre.prop" could be get using ${key} in this "servlet-context.xml" file -->
-	<!-- <context:property-placeholder location="classpath:hello.properties, file:///E:/config/postgre.prop" ignore-unresolvable="false" ignore-resource-not-found="false" /> -->
-	
-	<!-- Driver to connect to Oracle database-->
-	<!-- Equivalent in java: -->
-	<!-- org.springframework.jdbc.datasource.DriverManagerDataSource oracleDataSource = new org.springframework.jdbc.datasource.DriverManagerDataSource(); -->
-	<!-- oracleDataSource.setDriverClassName("org.springframework.jdbc.datasource.DriverManagerDataSource") -->
-	<!-- oracleDataSource.setUrl("jdbc:postgresql://localhost:5432/learnhanzi_database") -->
-	<!-- oracleDataSource.setUsername("learnhanzi") -->
-	<!-- oracleDataSource.setPassword("xuehanzi") -->
-	<!-- <bean id="postgreDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" scope="singleton">
-		<property name="driverClassName" value="org.postgresql.Driver" />
-		<property name="url" value="jdbc:postgresql://localhost:5432/learnhanzi_database" />
-		<property name="username" value="learnhanzi" />
-		<property name="password" value="xuehanzi" />
-	</bean> -->
+	<!-- Spring Root Context: defines shared resources here, visible to all other web components -->
 	
 	<bean id="postgreDataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource" scope="singleton">
 		<property name="driverClassName" value="org.postgresql.Driver" />
@@ -65,7 +47,7 @@ xsi:schemaLocation="
     	
     	<!-- Scan The @Entity class -->
     	<!-- Equivalent in java: -->
-    	<!-- localSessionFactoryBean.setPackagesToScan("com.pji.astralife.*"); -->
+    	<!-- localSessionFactoryBean.setPackagesToScan("com.reinard.*"); -->
     	<property name="packagesToScan">
     		<list>
     			<value>com.reinard.*</value>
