@@ -677,7 +677,7 @@ public class BookController {
 	 * 
 	 * <i>or</i> <br/>
 	 * 
-	 * The request body must only contain Chinese characters, with no space.
+	 * The request body must only contain Chinese characters, with no space. <br/>
 	 * 
 	 * <i>or</i> <br/>
 	 * 
@@ -696,7 +696,7 @@ public class BookController {
 	 * This controller will: <br/>
 	 * 1. Read the data from http request. <br/>
 	 * 2. If the data cannot be read, response to client with error String: "The request body cannot be read." <br/>
-	 * 3. If the data contains space or other non Chinese characters, respond: "The request body must only contain Chinese characters, with no space."
+	 * 3. If the data contains space or other non Chinese characters, respond: "The request body must only contain Chinese characters, with no space." <br/>
 	 * 4. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
 	 * 5. Search the data from database. <br/>
 	 * 6. Response the json data to client if the data found, or string "Not found.", if the data is not found. <br/>

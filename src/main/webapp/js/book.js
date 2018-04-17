@@ -312,6 +312,32 @@ function searchHanziStrokeInAllBook(){
 			//example responseString: {"hanzi_stroke_data_all_book":[{"hanzi_stroke":"生詞","book_name":"第三書","page_number":"六"}, {"hanzi_stroke":"生詞","book_name":"第三書","page_number":"六十三"}]}
 			var responseString = ajax.responseText;
 			
+			if(responseString === 'Not found.'){
+				document.getElementById("result").innerHTML = 'Not found.'
+				return;
+			}
+			
+			if(responseString === 'The request body must only contain Chinese characters, with no space.'){
+				document.getElementById("result").innerHTML = 'The request body must only contain Chinese characters, with no space.';
+				return;
+			}
+			
+			if(responseString === 'The request body cannot be empty.'){
+				document.getElementById("result").innerHTML = 'The request body cannot be empty.';
+				return;
+			}
+			
+			if(responseString === 'The request body cannot be read.'){
+				document.getElementById("result").innerHTML = 'The request body cannot be read.';
+				return;
+			}
+			
+			if(responseString === 'Error when searching hanzi strokes in all book name.'){
+				document.getElementById("result").innerHTML = 'Error when searching hanzi strokes in all book name.';
+				return;
+			}
+			
+			
 			//convert from string into javasript object:
 			var responseObject = JSON.parse(responseString);
 			
