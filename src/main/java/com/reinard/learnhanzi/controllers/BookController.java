@@ -32,7 +32,7 @@ public class BookController {
 	private final static Logger logger = Logger.getLogger(BookController.class);
 	
 	@Autowired
-	private BookServiceImpl bookServiceImpl;
+	private BookServiceImpl bookServiceImpl; 
 	
 	/**
 	 * This method is tested OK. <br/>
@@ -495,7 +495,7 @@ public class BookController {
 	 * <b>Request Body:</b> <br/>
 	 * 第二書:消防局 <br/><br/>
 	 * 
-	 *  Http Response Example: <br/>
+	 * Http Response Example: <br/>
 	 * <b>Response Header:</b> <br/>
 	 * Access-Control-Allow-Origin: * <br/>
 	 * Content-Type: text/plain;charset=UTF-8<br/>
@@ -537,7 +537,7 @@ public class BookController {
 	 * 6. Get the "book_name", "hanzi_stroke" from http request. <br/>
 	 * 7. Select the data from database. <br/>
 	 * 8. Response the json data to client if the data found, or string "Not found.", if the data is not found. <br/>
-	 * 9. If error happened, response to client with error String: "Error when searching hanzi strokes in specified book name."<br/>
+	 * 9. If error happened, response to client with error String: "Error when searching hanzi strokes in specified book name." <br/>
 	 * 
 	 */
 	@RequestMapping(value = "/searchHanziStrokeInBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
@@ -580,9 +580,10 @@ public class BookController {
 		responseHeaders.add("Pragma", "no-cache");
 		responseHeaders.add("Expires", "0");
 		
+		BufferedReader bufferedReader = null;
 		try{
 			logger.debug("Read the http request body raw byte, because jetty server could not bind the request using Spring @RequestBody annotation.");
-			BufferedReader bufferedReader = httpServletRequest.getReader();
+			bufferedReader = httpServletRequest.getReader();
 			
 			int resultInt = 0;
 			char resultChar = (char)0;
@@ -609,6 +610,8 @@ public class BookController {
 					resultString.append(resultChar);
 				}
 			}
+			
+			bufferedReader.close();
 			
 			logger.debug("The request body: "+ resultString.toString());
 			String input = resultString.toString();
@@ -642,8 +645,150 @@ public class BookController {
 			logger.error("Error when searching hanzi strokes in specified book name.");
 			logger.info("Sending response: \"Error when searching hanzi strokes in specified book name.\"");
 			return new ResponseEntity<String>("Error when searching hanzi strokes in specified book name.", responseHeaders, HttpStatus.OK);
+		}finally {
+			if(bufferedReader!=null)bufferedReader=null;
 		}
 		
+	}
+	
+	
+	/**
+	 * This method is tested ok. <br/>
+	 * 
+	 * A method to search hanzi strokes in all book name. <br/><br/>
+	 * 
+	 * Http Request Example: <br/>
+	 * <b>Request Header:</b> <br/>
+	 * POST <br/>
+	 * Content-Type: text/plain;charset=UTF-8 <br/>
+	 * <b>Request Body:</b> <br/>
+	 * 學習<br/><br/>
+	 * 
+	 * Http Response Example: <br/>
+	 * <b>Response Header:</b> <br/>
+	 * Access-Control-Allow-Origin: * <br/>
+	 * Content-Type: text/plain;charset=UTF-8<br/>
+	 * <b>Response Body:</b> <br/>
+	 * {"hanzi_stroke_data_all_book":[{"hanzi_stroke":"學習","book_name":"第二書","page_number":"七十三"}]}
+	 * 
+	 * <i>or</i> <br/>
+	 * 
+	 * The request body cannot be read. <br/>
+	 * 
+	 * <i>or</i> <br/>
+	 * 
+	 * The request body must only contain Chinese characters, with no space.
+	 * 
+	 * <i>or</i> <br/>
+	 * 
+	 * The request body cannot be empty. <br/>
+	 * 
+	 * <i>or</i> <br/>
+	 * 
+	 * Not found. <br/>
+	 * 
+	 * <i>or</i> <br/>
+	 * 
+	 * Error when searching hanzi strokes in all book name. <br/><br/>
+	 * 
+	 * Note: If the http request is not specified the content encoding (charset=UTF-8) in the http header request, then this controller will read the byte with wrong encoding, and finally make the system behavior not as expected. <br/><br/>
+	 * 
+	 * This controller will: <br/>
+	 * 1. Read the data from http request. <br/>
+	 * 2. If the data cannot be read, response to client with error String: "The request body cannot be read." <br/>
+	 * 3. If the data contains space or other non Chinese characters, respond: "The request body must only contain Chinese characters, with no space."
+	 * 4. If the request body is a String empty, response to client with error String: "The request body cannot be empty."<br/>
+	 * 5. Search the data from database. <br/>
+	 * 6. Response the json data to client if the data found, or string "Not found.", if the data is not found. <br/>
+	 * 7. If error happened, response to client with error String: "Error when searching hanzi strokes in all book name." <br/>
+	 * 
+	 * @param httpServletRequest
+	 * @return
+	 */
+	@RequestMapping(value = "/searchHanziStrokeInAllBook", method = RequestMethod.POST, consumes = {"text/plain"}, produces = {"text/plain"})
+	public ResponseEntity<String> searchHanziStrokeInAllBook(HttpServletRequest httpServletRequest){
+		//TODO test this method
+		
+		//These are the case to test this controller:
+		//Case 1: Http request body: Space only or empty String, controller must return String "The request body cannot be empty." (ok)
+		//Case 2: Http request body: Non chinese characters, controller must return String "The request body must only contain Chinese characters, with no space.". (ok)
+		//Case 3: Http request body: Chinese characters with space, controller must return String "The request body must only contain Chinese characters, with no space." (ok)
+		//Case 4: Http request body: Chinese characters (hanzi_stroke) that is exist in "hanzi_stroke_data" table, controller must return String result. (ok)
+		
+		logger.info("Processing request to searchHanziStrokeInAllBook...");
+		
+		//enable "same cross origin", so this controller could response data to ajax
+		HttpHeaders responseHeaders = new HttpHeaders();
+		responseHeaders.add("Access-Control-Allow-Origin", "*");
+		
+		//response header: UTF-8 encoding, to tell the browser display it correctly
+		responseHeaders.add("Content-Type", "text/plain;charset=UTF-8");
+	
+		//do not let the browser store cache.
+		//read "http://stackoverflow.com/questions/49547/how-to-control-web-page-caching-across-all-browsers".
+		responseHeaders.add("Cache-Control", "no-cache, no-store, must-revalidate");
+		responseHeaders.add("Pragma", "no-cache");
+		responseHeaders.add("Expires", "0");
+		
+		BufferedReader bufferedReader = null;
+		try {
+			logger.debug("Read the http request body raw byte, because jetty server could not bind the request using Spring @RequestBody annotation.");
+			bufferedReader = httpServletRequest.getReader();
+			
+			int resultInt = 0;
+			char resultChar = (char)0;
+			
+			StringBuilder resultString = new StringBuilder();
+			
+			while ((resultInt = bufferedReader.read()) != -1) {
+				logger.debug("read the characters");
+				// the resultInt, is a decimal number that point to the Unicode Character, using UTF-16 Big Endian. 
+				// Example: int = 24859 point to the chinese traditional character for love.
+				
+				//Cannot cast to char if the int is not in the char data type range.
+				if((resultInt<0) || resultInt>65535){
+					logger.info("Sending response: \"The request body cannot be read.\"");
+					return new ResponseEntity<String>("The request body cannot be read.", responseHeaders, HttpStatus.OK);
+				}
+				
+				//Add only the unicode CJK (Chinese Japanese Korean) characters and colon character :
+				//* the unicode CJK range is from U+4E00 (19968) to U+9FFF (40959)
+				//source: http://www.fileformat.info/info/unicode/block/cjk_unified_ideographs/index.htm
+				if( ((resultInt>=19968) && (resultInt<=40959)) ){
+					resultChar = (char)resultInt;
+					resultString.append(resultChar);
+				}else {
+					logger.info("Sending response: \"The request body must only contain Chinese characters, with no space.\"");
+					return new ResponseEntity<String>("The request body must only contain Chinese characters, with no space.", responseHeaders, HttpStatus.OK);
+				}
+			}
+			
+			bufferedReader.close();
+			
+			logger.debug("The request body: "+ resultString.toString());
+			String input = resultString.toString();
+			
+			if(StringUtil.isEmpty(input)){
+				logger.info("Sending response: \"The request body cannot be empty.");
+				return new ResponseEntity<String>("The request body cannot be empty.", responseHeaders, HttpStatus.OK);
+			}
+			
+			String result = bookServiceImpl.searchHanziStrokeInAllBook(input);
+			if(result == null){
+				logger.info("Sending response: \"Not found.\"");
+				return new ResponseEntity<String>("Not found.",responseHeaders,HttpStatus.OK);
+			}
+			
+			logger.info("Sending response:");
+			logger.info(result);
+			return new ResponseEntity<String>(result,responseHeaders,HttpStatus.OK);
+		}catch(Exception e) {
+			logger.error("Error when searching hanzi strokes in all book name.");
+			logger.info("Sending response: \"Error when searching hanzi strokes in all book name.\"");
+			return new ResponseEntity<String>("Error when searching hanzi strokes in all book name.", responseHeaders, HttpStatus.OK);
+		}finally {
+			if(bufferedReader!=null)bufferedReader=null;
+		}
 	}
 
 }

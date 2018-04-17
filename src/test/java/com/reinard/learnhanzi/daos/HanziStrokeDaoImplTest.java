@@ -38,7 +38,7 @@ public class HanziStrokeDaoImplTest {
 	@Autowired
 	private HanziStrokeDaoImpl hanziStrokeDaoImpl;
 	
-	//@Test
+	@Test
 	public void insertTest() throws Exception{
 		logger.debug("Test Insert starting...");
 		logger.debug("Preparing HanziStroke...");
@@ -137,5 +137,60 @@ public class HanziStrokeDaoImplTest {
 	public void selectByHanziStrokeId3() throws Exception{
 		
 	}
+	
+	/**
+	 * Test for method "HanziStrokeDaoImpl.selectBy(String inputHanziStroke)"
+	 * 
+	 * Case 1: The inputted hanzi_stroke exist in table "hanzi_stroke_data" and "book_and_stroke", so this method must produce result.
+	 */
+	@SuppressWarnings("deprecation")
+	@Test
+	public void selectByHanziStrokeTest1() throws Exception{
+		logger.info("Test Select \"hanzi_stroke_data\" by \"hanzi_stroke_data\" starting...");
+		String inputHanziStroke = "生詞";
+		logger.info("Selecting \"hanzi_stroke_data\" by \"hanzi_stroke\": " +inputHanziStroke+ "...");
+		List<HanziStrokeData> result = hanziStrokeDaoImpl.selectBy(inputHanziStroke);
+		Assert.assertNotNull(result);
+		Assert.assertFalse(result.isEmpty());
+		
+		for(HanziStrokeData current : result) {
+			logger.info(current);
+			Set<BookAndStroke> setOfBookAndStroke = current.getBookAndStroke();
+			
+			Assert.assertNotNull(setOfBookAndStroke);
+			Assert.assertFalse(setOfBookAndStroke.isEmpty());
+			logger.info("child:");
+			for(BookAndStroke current2 : setOfBookAndStroke) {
+				BookData bookData = current2.getBookData();
+				Assert.assertNotNull(bookData);
+				String bookName = bookData.getBook_name();
+				Assert.assertNotNull(bookData);
+				Assert.assertFalse(bookName.isEmpty());
+				logger.info(bookData);
+				logger.info("");
+			}
+			logger.info("");
+		}
+		
+		logger.info("Test Select \"hanzi_stroke_data\" by \"hanzi_stroke\" succeed.");
+		logger.info("Result: ");
+		logger.info(result);
+	}
+	
+	/**
+	 * Test for method "HanziStrokeDaoImpl.selectBy(String inputHanziStroke)".
+	 * 
+	 * Case 2: The inputted hanzi_stroke not exist in table "hanzi_stroke_data", so this method must produce null result.
+	 */
+	@SuppressWarnings("deprecation")
+	@Test
+	public void selectByHanziStrokeTest2() throws Exception{
+		logger.info("Test Select \"hanzi_stroke_data\" by \"hanzi_stroke_data\" starting...");
+		String inputHanziStroke = "舊";
+		logger.info("Selecting \"hanzi_stroke_data\" by \"hanzi_stroke\": " +inputHanziStroke+ "...");
+		List<HanziStrokeData> result = hanziStrokeDaoImpl.selectBy(inputHanziStroke);
+		Assert.assertNull(result);
+	}
+	
 	
 }

@@ -35,7 +35,7 @@ public class StringUtil {
 	}
 	
 	/**
-	 * To check whether the input String is an empty String.
+	 * To check whether the input String is an empty String or not.
 	 * 
 	 * @param input - The input String.
 	 * @return True if the input String is empty, otherwise return false.
@@ -49,7 +49,7 @@ public class StringUtil {
 	/**
 	 * To convert String to lower case String.
 	 * 
-	 * @param input - The input String, could be aplhanumeric.
+	 * @param input - The input String, could be alphanumeric.
 	 * @return String - The new String, converted to lower case String.
 	 */
 	public static String toLowerCase(String input){

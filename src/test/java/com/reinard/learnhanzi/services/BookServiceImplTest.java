@@ -1,9 +1,5 @@
 package com.reinard.learnhanzi.services;
 
-import java.util.Arrays;
-
-import javax.persistence.PersistenceException;
-
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,10 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.reinard.learnhanzi.dao.impl.BookDaoImpl;
-import com.reinard.learnhanzi.dao.impl.HanziDaoImpl;
+import com.reinard.learnhanzi.helper.utils.StringUtil;
 import com.reinard.learnhanzi.service.impl.BookServiceImpl;
-import com.reinard.learnhanzi.service.impl.HanziServiceImpl;
 
 import junit.framework.Assert;
 
@@ -113,7 +107,7 @@ public class BookServiceImplTest {
 	 * 
 	 * Case 2: There is a book name in the database, but no "hanzi_stroke" related with the inputted book name, this method must return null.
 	 */
-	@Test
+	//@Test
 	public void getAllHanziStrokeInBookTest2() throws Exception{
 		logger.debug("Test \"getAllHanziStrokeInBook\" starting...");
 		logger.debug("preparing the input: ");
@@ -176,7 +170,7 @@ public class BookServiceImplTest {
 	 * 
 	 * Case 2: The inputted \"book_name\", \"hanzi_stroke\", \"page_number\" is exist in the database this method should return the String.
 	 */
-	//@Test
+	@Test
 	public void insertHanziStrokeInBook2() throws Exception{
 		
 		logger.debug("Test insert existing \"hanzi_stroke\" and existing \"page_number\" in specified \"book_name\" starting...");
@@ -309,5 +303,39 @@ public class BookServiceImplTest {
 		String result = bookServiceImpl.searchHanziStrokeInBook(inputBookNameAndHanziStroke);
 		Assert.assertNull(result);
 	}
-
+	
+	
+	/**
+	 * A method to test method "BookServiceImpl.searchHanziStrokeInAllBook(String inputHanziStroke)".
+	 * 
+	 * Case 1: The inputted "hanzi_stroke" exist in table "hanzi_stroke_data", so this method must produce result.
+	 */
+	@Test
+	public void searchHanziStrokeInAllBookTest1() throws Exception{
+		logger.info("Test \"searchHanziStrokeInAllBookTest1\" starting...");
+		
+		String inputHanziStroke = "學習";
+		logger.debug("preparing the input: "+inputHanziStroke);
+		String result = bookServiceImpl.searchHanziStrokeInAllBook(inputHanziStroke);
+		Assert.assertNotNull(result);
+		Assert.assertFalse(StringUtil.isEmpty(result));
+		logger.info(result);
+	}
+	
+	
+	/**
+	 * A method to test method "BookServiceImpl.searchHanziStrokeInAllBook(String inputHanziStroke)".
+	 * 
+	 * Case 2: The inputted "hanzi_stroke" not exist in table "hanzi_stroke_data", so this method must produce null.
+	 */
+	@Test
+	public void searchHanziStrokeInAllBookTest2() throws Exception{
+		logger.info("Test \"searchHanziStrokeInAllBookTest2\" starting...");
+		
+		String inputHanziStroke = "舊";
+		logger.debug("preparing the input: "+inputHanziStroke);
+		String result = bookServiceImpl.searchHanziStrokeInAllBook(inputHanziStroke);
+		Assert.assertNull(result);
+		logger.info("result");
+	}
 }

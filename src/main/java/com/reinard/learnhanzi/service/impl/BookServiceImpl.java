@@ -3,6 +3,7 @@ package com.reinard.learnhanzi.service.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.PersistenceException;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.reinard.learnhanzi.dao.impl.BookAndStrokeDaoImpl;
 import com.reinard.learnhanzi.dao.impl.BookDaoImpl;
 import com.reinard.learnhanzi.dao.impl.HanziStrokeDaoImpl;
+import com.reinard.learnhanzi.helper.utils.StringUtil;
+import com.reinard.learnhanzi.json.AllHanziStrokeInAllBookName;
 import com.reinard.learnhanzi.json.AllHanziStrokeInBookName;
 import com.reinard.learnhanzi.json.Hanzi_stroke_data;
+import com.reinard.learnhanzi.json.Hanzi_stroke_data_all_book;
 import com.reinard.learnhanzi.models.BookAndStroke;
 import com.reinard.learnhanzi.models.BookData;
 import com.reinard.learnhanzi.models.HanziStrokeData;
@@ -357,6 +361,63 @@ public class BookServiceImpl {
 		String result = mapper.writeValueAsString(allHanziStrokeInBookName);
 		
 		logger.debug("7. Return the result: ");
+		logger.debug(result);
+		return result;
+	}
+	
+	/**
+	 * A method to search "hanzi_stroke" in all "book_name". (tested OK)
+	 * 
+	 * @param inputHanziStroke - The "hanzi_stroke" to be search. Example: "生詞" (without double quotes).
+	 * @return String result. -  all inputted "hanzi_stroke" that is related to the "book_name". Example: {"hanzi_stroke_data_all_book":[{"hanzi_stroke":"生詞","book_name":"第三書","page_number":"六"},{"hanzi_stroke":"生詞","book_name":"第三書","page_number":"六十三"}]} or Null, if no data found.
+	 * @throws Exception If error happened when trying to search from database.
+	 */
+	public String searchHanziStrokeInAllBook(String inputHanziStroke) throws Exception{
+		logger.info("1. Searching hanzi_stroke: "+ inputHanziStroke + " in all book_name");
+		
+		if(inputHanziStroke==null || StringUtil.isEmpty(inputHanziStroke)) {
+			return null;
+		}
+		
+		List<HanziStrokeData> listOfHanziStrokeData = hanziStrokeDaoImpl.selectBy(inputHanziStroke);
+		
+		if(listOfHanziStrokeData==null || listOfHanziStrokeData.isEmpty()) {
+			logger.info("No hanzi_stroke: "+inputHanziStroke+" found in all book_name");
+			return null;
+		}
+		
+		List<Hanzi_stroke_data_all_book> listOfHanziStrokeInAllBook = new ArrayList<>();
+		
+		for(HanziStrokeData current : listOfHanziStrokeData) {
+			logger.debug(current);
+			Set<BookAndStroke> child = current.getBookAndStroke();
+			logger.info("child:");
+			for(BookAndStroke current2 : child) {
+				BookData bookData = current2.getBookData();
+				logger.info(bookData);
+				
+				Hanzi_stroke_data_all_book hanziStrokeDataAllBook = new Hanzi_stroke_data_all_book();
+				hanziStrokeDataAllBook.setHanzi_stroke(current.getHanzi_stroke());
+				hanziStrokeDataAllBook.setPage_number(current.getPage_number());
+				hanziStrokeDataAllBook.setBook_name(bookData.getBook_name());
+				listOfHanziStrokeInAllBook.add(hanziStrokeDataAllBook);
+				logger.info("");
+			}
+			logger.info("");
+		}
+		
+		logger.debug("2. Convert \"List<Hanzi_stroke_data_all_book>\" into \"Hanzi_stroke_data_all_book[]\"");
+		Hanzi_stroke_data_all_book[] arrayOfHanziStrokeDataAllBook = listOfHanziStrokeInAllBook.toArray(new Hanzi_stroke_data_all_book[0]);
+		
+		logger.debug("3. Prepare the \"AllHanziStrokeInAllBookName\" class to convert to json");
+		AllHanziStrokeInAllBookName allHanziStrokeInAllBookName = new AllHanziStrokeInAllBookName();
+		allHanziStrokeInAllBookName.setHanzi_stroke_data_all_book(arrayOfHanziStrokeDataAllBook);
+		
+		logger.debug("4. Convert the \"AllHanziStrokeInAllBookName\" class into json string");
+		ObjectMapper mapper = new ObjectMapper();
+		String result = mapper.writeValueAsString(allHanziStrokeInAllBookName);
+		
+		logger.debug("5. Return the result: ");
 		logger.debug(result);
 		return result;
 	}

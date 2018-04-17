@@ -2,8 +2,7 @@ package com.reinard.learnhanzi.json;
 
 /**
  * 
- * A class to save data from "book_data" and "hanzi_stroke_data" table, then it
- * will be converted into json.
+ * A class to save data from "book_data" and "hanzi_stroke_data" table, then it will be converted into json.
  * 
  * One book_name, has many hanzi_stroke in it.
  * 

@@ -157,7 +157,8 @@ function getAllBookName(){
 	ajax.send();
 }
 
-//A funtion to get all hanzi stroke on selected book name from drop-down list, by requesting to server.
+
+//A function to get all hanzi stroke on selected book name from drop-down list, by requesting to server.
 //This function is executed when user select the option from dropdown list.
 function getAllHanziStrokeInBookName(){
 	
@@ -190,8 +191,6 @@ function getAllHanziStrokeInBookName(){
 			//===Get the response from server and validate it===
 			var responseString = ajax.responseText;
 			
-			console.log(responseString);
-			
 			if (responseString === "The request body cannot be read.") {
 				document.getElementById("dataHanziStroke").innerHTML = "Error: Server cannot procees the request.";
 				return;
@@ -213,8 +212,6 @@ function getAllHanziStrokeInBookName(){
 			
 			//convert from string into javasript object:
 			var responseObject = JSON.parse(responseString);
-			
-			console.log(responseObject);
 			
 			//===Get the "hanzi_stroke" and "created_date" from json, and display it===
 			
@@ -246,8 +243,6 @@ function getAllHanziStrokeInBookName(){
 				//prepare the data
 				result = result + hanzi_stroke + "， " + page_number + "頁， " + created_date + "<br/>";
 				
-				console.log(result);
-				
 				//display it inside tag <div id="dataHanziStroke"></div>
 				document.getElementById("dataHanziStroke").innerHTML = result;
 			}
@@ -273,10 +268,84 @@ function getAllHanziStrokeInBookName(){
 }
 
 
+//A function to search the hanzi stroke in all book name.
+//This function is executed when the "searchHanziStrokeInAllBook" button is clicked.
+//input: Hanzi
+//output: Hanzi Stroke,book name, page or "Not found."
+function searchHanziStrokeInAllBook(){
+	
+	//clear the error message, if there is error message.
+	document.getElementById("result").innerHTML = "";
+
+	//clear the book_name, if there is book name
+	document.getElementById("bookName").innerHTML = "";
+	
+	//clear the dataHanziStroke, if there is.
+	document.getElementById("dataHanziStroke").innerHTML = "";
+	
+	//get the inputted hanzi stroke from input box.
+	var input = document.getElementById("searchHanziStrokeInAllBook").value;
+	if(input==null){
+		document.getElementById("result").innerHTML = "Not found.";
+		return;
+	}
+	if(isEmpty(input)){
+		document.getElementById("result").innerHTML = "Not found.";
+		return;
+	}
+	
+	//prepare the request body.
+	var requestBody = input;
+	
+	//===Send request to BookController.searchHanziStrokeInAllBook()===
+	
+	//make request to server using ajax.
+	//ajax programming use XMLHttpRequest()
+	var ajax = new XMLHttpRequest();
+	
+	//must use this block code, to read the http response body:
+	ajax.onreadystatechange = function() {
+		//When readyState property is 4 and the status property is 200, the response is ready:
+		if (this.readyState == 4 && this.status == 200) {
+			
+			//===Get the response from server and parse it===
+			//example responseString: {"hanzi_stroke_data_all_book":[{"hanzi_stroke":"生詞","book_name":"第三書","page_number":"六"}, {"hanzi_stroke":"生詞","book_name":"第三書","page_number":"六十三"}]}
+			var responseString = ajax.responseText;
+			
+			//convert from string into javasript object:
+			var responseObject = JSON.parse(responseString);
+			
+			//===Get the "hanzi_stroke", "book_name" and "page_number" from json, and display it===
+			
+			var result = '';
+			
+			//iterate over the "hanzi_stroke_data_all_book" array
+			for (i in responseObject.hanzi_stroke_data_all_book){
+				var hanzi_stroke = responseObject.hanzi_stroke_data_all_book[i].hanzi_stroke;
+				var book_name = responseObject.hanzi_stroke_data_all_book[i].book_name;
+				var page_number = responseObject.hanzi_stroke_data_all_book[i].page_number;
+				result = result + 'hanzi_stroke:' + hanzi_stroke + ', book_name:' + book_name + ', page_number:' + page_number + '<br/>';
+				
+				//display it inside tag <div id="result"></div>
+				document.getElementById("result").innerHTML = result;
+			}	
+		}
+	}
+	
+	//setting the http request.
+	ajax.open("POST", "http://localhost:9097/learn-hanzi/api/book/searchHanziStrokeInAllBook", true);
+	
+	//You must call setRequestHeader()after open(), but before send().
+	ajax.setRequestHeader("Content-type", "text/plain;charset=UTF-8");
+	
+	//send the http request, with request body specified
+	ajax.send(requestBody);
+}
+
+
 //A function to search the hanzi stroke related with the book name. 
 //This function is executed when the "searchHanziInBookButton" button is clicked.
 //The hanzi_stroke to be search is from inputted textbox. The book_name is from the current selected drop-down list.
-
 function searchHanziStrokeInBook(){
 	
 	//clear the error message, if there is error message.
@@ -288,8 +357,6 @@ function searchHanziStrokeInBook(){
 		document.getElementById("result").innerHTML = "Please select the book before searching hanzi stroke.";
 		return;
 	}
-	
-	console.log(selectedBookName);
 	
 	//2. Get the hanzi_stroke from input box
 	var searchHanziStroke = document.getElementById("searchHanziStroke").value;
@@ -317,9 +384,8 @@ function searchHanziStrokeInBook(){
 		if (this.readyState == 4 && this.status == 200) {
 			
 			//===Get the response from server and validate it===
+			//Example responseString: {"book_name":"第二書", "hanzi_stroke_data":[{"hanzi_stroke":"消防局", "page_number":"一", "created_date":"1492318783895"},{"hanzi_stroke":"消防局", "page_number":"三十", "created_date":"1502318783895"}]}
 			var responseString = ajax.responseText;
-			
-			console.log(responseString);
 			
 			if (responseString === "The request body cannot be read.") {
 				document.getElementById("result").innerHTML = "Error: Server cannot procees the request.";
@@ -351,8 +417,6 @@ function searchHanziStrokeInBook(){
 			//convert from string into javasript object:
 			var responseObject = JSON.parse(responseString);
 			
-			console.log(responseObject);
-			
 			//===Get the "hanzi_stroke", "page_number" and "created_date" from json, and display it===
 			
 			//make sure the book_name response is same as book_name selected from drop-down list.
@@ -383,7 +447,6 @@ function searchHanziStrokeInBook(){
 				//prepare the data
 				result = result + hanzi_stroke + "， " + page_number + "頁， " + created_date + "<br/>";
 				
-				console.log(result);
 				
 				//display it inside tag <div id="result"></div>
 				document.getElementById("result").innerHTML = result;
@@ -466,8 +529,6 @@ function insertHanziStrokeInBook(){
 			//===Get the response from server and validate it===
 			var responseString = ajax.responseText;
 			
-			console.log(responseString);
-			
 			if (responseString === "The request body cannot be read.") {
 				document.getElementById("result").innerHTML = "Error: Server cannot procees the request.";
 				return;
@@ -493,8 +554,6 @@ function insertHanziStrokeInBook(){
 			
 			//convert from string into javasript object:
 			var responseObject = JSON.parse(responseString);
-			
-			console.log(responseObject);
 			
 			//===Get the "hanzi_stroke", "page_number" and "created_date" from json, and display the success message===
 			
@@ -526,7 +585,6 @@ function insertHanziStrokeInBook(){
 				//prepare the data
 				result = result + hanzi_stroke + "， " + page_number + "頁， " + created_date + " Added !" + "<br/>";
 				
-				console.log(result);
 				
 				//display it inside tag <div id="result"></div>
 				document.getElementById("result").innerHTML = result;

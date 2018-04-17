@@ -4,61 +4,16 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
 	metadata-complete="false">
 
-	<!-- The definition of the ServletContext (javax.servlet.ServletContext) shared by all Servlets and Filters in this web application -->
-	<!-- This web.xml could be defined using java code, please read "com.reinard.learnhanzi.initial.LearnHanziWebApplicationInitializer.java" -->
-	
-	
-	<!-- Equivalent in java: -->
-	<!-- public void onStartup(ServletContext rootContext) throws ServletException{
-		@Override
-    	public void onStartup(ServletContext container) {
-    		//Create the 'root' Spring web application context, with XML configuration from file "/WEB-INF/spring/servlet-context.xml".
-			XmlWebApplicationContext springRootContext = new XmlWebApplicationContext();
-			springRootContext.setConfigLocation("/WEB-INF/spring/root-context.xml");
-		
-			//Add Listener (ContextLoaderListener) to start up and shut down Spring web application context (variable "springRootContext").
-			rootContext.addListener(new org.springframework.web.context.ContextLoaderListener(springRootContext));
-    	} 
-    -->
-    <display-name></display-name>
+    <display-name>Learn Hanzi Fast</display-name>
     <icon></icon>
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/spring-root-context.xml</param-value>
 	</context-param>
 	
-	<!--  -->
-	<context-param>
-		<param-name>tes</param-name>
-		<param-value>tes123</param-value>
-	</context-param>
-	
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-	
-	
-	
-	
-	<!-- Equivalent in java: -->
-	<!-- public void onStartup(ServletContext rootContext) throws ServletException{
-    		//Create the 'root' Spring web application context, with XML configuration from file "/WEB-INF/spring/servlet-context.xml".
-			XmlWebApplicationContext springRootContext = new XmlWebApplicationContext();
-			springRootContext.setConfigLocation("/WEB-INF/spring/root-context.xml");
-		
-			//Add Listener (ContextLoaderListener) to start up and shut down Spring web application context (variable "springRootContext").
-			rootContext.addListener(new org.springframework.web.context.ContextLoaderListener(springRootContext));
-			
-			
-			XmlWebApplicationContext dispatcherServletContext = new XmlWebApplicationContext();
-			dispatcherServletContext.setConfigLocation("/WEB-INF/spring/appServlet/servlet-context.xml");
-		
-	    	ServletRegistration.Dynamic dispatcher = rootContext.addServlet("dispatcher", new DispatcherServlet(dispatcherServletContext));
-	    	dispatcher.setLoadOnStartup(1);
-	    	dispatcher.addMapping("/api/*");
-    	} 
-    -->
-    
     
 	<servlet>
 		<servlet-name>appServlet</servlet-name>
